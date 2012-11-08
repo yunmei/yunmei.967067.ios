@@ -1,26 +1,26 @@
 //
-//  IndexViewController.m
+//  MyViewController.m
 //  yunmei.967067
 //
-//  Created by bevin chen on 12-11-2.
+//  Created by bevin chen on 12-11-7.
 //  Copyright (c) 2012年 bevin chen. All rights reserved.
 //
 
-#import "IndexViewController.h"
+#import "MyViewController.h"
 
-@interface IndexViewController ()
+@interface MyViewController ()
 
 @end
 
-@implementation IndexViewController
+@implementation MyViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"首页", @"首页");
+        self.title = NSLocalizedString(@"我的商城", @"我的商城");
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
-        self.tabBarItem.title = @"齐鲁直销商城";
+        self.navigationItem.title = @"齐鲁直销商城";
     }
     return self;
 }
