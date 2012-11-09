@@ -14,6 +14,14 @@
 #import "MyViewController.h"
 #import "MoreViewController.h"
 
+@implementation UINavigationBar (CustomNavigationBarImage)
+- (void)drawRect:(CGRect)rect
+{
+    UIImage *image = [UIImage imageNamed: @"navigation_bar_bg"];
+    [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+}
+@end
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -28,15 +36,31 @@
     UINavigationController *moreNavController = [[UINavigationController alloc] initWithRootViewController:[[MoreViewController alloc] initWithNibName:@"MoreViewController" bundle:nil]];
     
     // 给每个NavigationController增加背景色
-    [indexNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
-    [categoryNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
-    [cartNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
-    [myNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
-    [moreNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
+    [indexNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+    if ([indexNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [indexNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+    }
+    [categoryNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+    if ([categoryNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [categoryNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+    }
+    [cartNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+    if ([cartNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [cartNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+    }
+    [myNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+    if ([myNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [myNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+    }
+    [moreNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+    if ([moreNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [moreNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+    }
     
     // 初始化UITabBarController
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = @[indexNavController, categoryNavController, cartNavController, myNavController, moreNavController];
+
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     return YES;

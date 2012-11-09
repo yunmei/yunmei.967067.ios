@@ -1,26 +1,24 @@
 //
-//  MoreViewController.m
+//  GoodsListViewController.m
 //  yunmei.967067
 //
-//  Created by bevin chen on 12-11-7.
+//  Created by bevin chen on 12-11-8.
 //  Copyright (c) 2012年 bevin chen. All rights reserved.
 //
 
-#import "MoreViewController.h"
+#import "GoodsListViewController.h"
 
-@interface MoreViewController ()
+@interface GoodsListViewController ()
 
 @end
 
-@implementation MoreViewController
+@implementation GoodsListViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"更多", @"更多");
-        self.tabBarItem.image = [UIImage imageNamed:@"tabbar_more"];
-        self.navigationItem.title = @"齐鲁直销商城";
+        // Custom initialization
     }
     return self;
 }
