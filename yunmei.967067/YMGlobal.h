@@ -1,0 +1,15 @@
+//
+//  YMGlobal.h
+//  yunmei.967067
+//
+//  Created by bevin chen on 12-11-13.
+//  Copyright (c) 2012年 bevin chen. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface YMGlobal : NSObject
+
+// 获取MKNetworkOperation
++ (MKNetworkOperation *)getOperation:(NSMutableDictionary *)params;
+@end

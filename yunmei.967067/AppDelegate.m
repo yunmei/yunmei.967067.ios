@@ -13,6 +13,7 @@
 #import "CartViewController.h"
 #import "MyViewController.h"
 #import "MoreViewController.h"
+#import "Constants.h"
 
 @implementation UINavigationBar (CustomNavigationBarImage)
 - (void)drawRect:(CGRect)rect
@@ -24,8 +25,13 @@
 
 @implementation AppDelegate
 
+@synthesize appEngine;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.appEngine= [[MKNetworkEngine alloc] initWithHostName:API_HOSTNAME customHeaderFields:nil];
+    [self.appEngine useCache];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     // 创建5个NavigationController
