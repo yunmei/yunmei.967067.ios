@@ -10,4 +10,6 @@
 
 @interface IndexViewController : UIViewController
 
+@property (strong, nonatomic) IBOutlet UIScrollView *adScrollView;
+
 @end
