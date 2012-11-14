@@ -16,6 +16,7 @@
 		4630057B16533ED00046C903 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4630057416533ED00046C903 /* Icon.png */; };
 		4630057C16533ED00046C903 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4630057516533ED00046C903 /* Icon@2x.png */; };
 		4630057D16533ED00046C903 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 4630057616533ED00046C903 /* iTunesArtwork.png */; };
+		4630058A165366BE0046C903 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 46300589165366BD0046C903 /* MBProgressHUD.m */; };
 		4635DF821643A39000C7B445 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4635DF811643A39000C7B445 /* UIKit.framework */; };
 		4635DF841643A39000C7B445 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4635DF831643A39000C7B445 /* Foundation.framework */; };
 		4635DF861643A39000C7B445 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4635DF851643A39000C7B445 /* CoreGraphics.framework */; };
@@ -99,6 +100,8 @@
 		4630057416533ED00046C903 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		4630057516533ED00046C903 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		4630057616533ED00046C903 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
+		46300588165366BD0046C903 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		46300589165366BD0046C903 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		4635DF7D1643A39000C7B445 /* yunmei.967067.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = yunmei.967067.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4635DF811643A39000C7B445 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4635DF831643A39000C7B445 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -226,6 +229,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4630057F1653487D0046C903 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Custom;
+			sourceTree = "<group>";
+		};
 		4635DF721643A39000C7B445 = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +288,7 @@
 				466C69AD164B949E003ECB2F /* CartViewController.xib */,
 				464E0650164BC4580090162A /* Goods */,
 				464E064F164BC37C0090162A /* Category */,
+				4630057F1653487D0046C903 /* Custom */,
 				4635DF881643A39000C7B445 /* Supporting Files */,
 			);
 			path = yunmei.967067;
@@ -373,6 +384,8 @@
 				466C69C1164B97D0003ECB2F /* YMUIButton.m */,
 				46CC0C9E1652214500210CFE /* YMGlobal.h */,
 				46CC0C9F1652214500210CFE /* YMGlobal.m */,
+				46300588165366BD0046C903 /* MBProgressHUD.h */,
+				46300589165366BD0046C903 /* MBProgressHUD.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -623,6 +636,7 @@
 				46CC0CE71652375100210CFE /* SBJsonTokeniser.m in Sources */,
 				46CC0CE81652375100210CFE /* SBJsonUTF8Stream.m in Sources */,
 				46CC0CE91652375100210CFE /* SBJsonWriter.m in Sources */,
+				4630058A165366BE0046C903 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
