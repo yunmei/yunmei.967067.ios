@@ -41,11 +41,10 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"ad_getAdList" forKey:@"act"];
     MKNetworkOperation* op = [YMGlobal getOperation:params];
     [op onCompletion:^(MKNetworkOperation *completedOperation) {
-        //NSLog(@"Data:%@", [op responseString]);
+        NSLog(@"Data:%@", [op responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[op responseData]];
-        
-        NSLog(@"act:%@", [[object objectForKey:@"post"] objectForKey:@"act"]);
+        NSLog(@"act:%@", object);
     } onError:^(NSError *error) {
         NSLog(@"Error:%@", error);
     }];

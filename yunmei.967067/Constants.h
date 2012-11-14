@@ -7,8 +7,7 @@
 //
 
 #define API_KEY         @"6c1145af6d808835b2ce5b95c89ada67"
-//#define API_HOSTNAME    @"newpage.demo2.test.com:888"
-#define API_HOSTNAME    @"192.168.1.70"
+#define API_HOSTNAME    @"wapapi.xunmall.com"
 #define API_BASEURL     @"wapapi.php"
 #define API_METHOD      @"POST"
 

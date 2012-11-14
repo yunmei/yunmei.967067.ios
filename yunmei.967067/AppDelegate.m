@@ -29,8 +29,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // 创建MKNetworkEngine
     self.appEngine= [[MKNetworkEngine alloc] initWithHostName:API_HOSTNAME customHeaderFields:nil];
     [self.appEngine useCache];
+    
+    // 应用启动时停留时间
+    //[NSThread sleepForTimeInterval:5];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
