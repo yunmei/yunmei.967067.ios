@@ -12,4 +12,7 @@
 
 // 获取MKNetworkOperation
 + (MKNetworkOperation *)getOperation:(NSMutableDictionary *)params;
+
+// 加载图片
++ (void)loadImage:(NSString *)imageUrl andView:(UIView *)imageView;
 @end

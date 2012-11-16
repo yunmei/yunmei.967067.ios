@@ -17,4 +17,11 @@
     [params setObject:@"2.0" forKey:@"api_version"];
     return [ApplicationDelegate.appEngine operationWithPath:API_BASEURL params:params httpMethod:API_METHOD ssl:NO];
 }
+
++ (void)loadImage:(NSString *)imageUrl andView:(UIImageView *)imageView
+{
+    [ApplicationDelegate.appEngine imageAtURL:[NSURL URLWithString:imageUrl] onCompletion:^(UIImage *fetchedImage, NSURL *url, BOOL isInCache) {
+        [imageView setImage:fetchedImage];
+    }];
+}
 @end
