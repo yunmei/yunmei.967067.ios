@@ -12,7 +12,8 @@
 
 @synthesize adid;
 @synthesize image;
-@synthesize imageurl;
-@synthesize goodsids;
+@synthesize imageUrl;
+@synthesize goodsIds;
+@synthesize desc;
 
 @end

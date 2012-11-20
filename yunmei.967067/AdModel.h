@@ -10,9 +10,9 @@
 
 @interface AdModel : NSObject
 
-@property(strong,nonatomic)NSString *adid;
-@property(strong,nonatomic)NSString *imageurl;
-@property(strong,nonatomic)NSString *goodsids;
+@property NSUInteger adid;
+@property(strong,nonatomic)NSString *imageUrl;
+@property(strong,nonatomic)NSString *goodsIds;
 @property(strong,nonatomic)UIImage *image;
-
+@property(strong,nonatomic)NSString *desc;
 @end

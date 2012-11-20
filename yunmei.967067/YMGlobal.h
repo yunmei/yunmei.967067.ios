@@ -14,5 +14,6 @@
 + (MKNetworkOperation *)getOperation:(NSMutableDictionary *)params;
 
 // 加载图片
-+ (void)loadImage:(NSString *)imageUrl andView:(UIView *)imageView;
++ (void)loadImage:(NSString *)imageUrl andImageView:(UIImageView *)imageView;
++ (void)loadImage:(NSString *)imageUrl andButton:(UIButton *)button andControlState:(UIControlState)buttonState;
 @end

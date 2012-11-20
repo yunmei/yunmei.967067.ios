@@ -18,10 +18,16 @@
     return [ApplicationDelegate.appEngine operationWithPath:API_BASEURL params:params httpMethod:API_METHOD ssl:NO];
 }
 
-+ (void)loadImage:(NSString *)imageUrl andView:(UIImageView *)imageView
++ (void)loadImage:(NSString *)imageUrl andImageView:(UIImageView *)imageView
 {
     [ApplicationDelegate.appEngine imageAtURL:[NSURL URLWithString:imageUrl] onCompletion:^(UIImage *fetchedImage, NSURL *url, BOOL isInCache) {
         [imageView setImage:fetchedImage];
+    }];
+}
++ (void)loadImage:(NSString *)imageUrl andButton:(UIButton *)button andControlState:(UIControlState)buttonState
+{
+    [ApplicationDelegate.appEngine imageAtURL:[NSURL URLWithString:imageUrl] onCompletion:^(UIImage *fetchedImage, NSURL *url, BOOL isInCache) {
+        [button setBackgroundImage:fetchedImage forState:buttonState];
     }];
 }
 @end

@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AdModel.h"
 
 @interface IndexViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UIScrollView *adScrollView;
+@property (strong, nonatomic) NSMutableArray *adList;
+@property (strong, nonatomic) UIView *adPageView;
+@property (strong, nonatomic) UIView *adPageProgressView;
 
+// 展示广告列表
+- (void)showAdList;
+// 设置广告分页
+- (void)setAdPage:(float)page countPage:(float)countPage;
 @end
