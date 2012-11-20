@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AdModel.h"
 
-@interface IndexViewController : UIViewController
+@interface IndexViewController : UIViewController <UIScrollViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIScrollView *adScrollView;
 @property (strong, nonatomic) NSMutableArray *adList;

@@ -30,8 +30,6 @@
         self.title = NSLocalizedString(@"首页", @"首页");
         self.tabBarItem.image = [UIImage imageNamed:@"tabbar_index"];
         self.navigationItem.title = @"齐鲁直销商城";
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"搜索" style:UIBarButtonItemStyleBordered target:self action:@selector(testFunction)];
-        self.navigationItem.rightBarButtonItem = item;
     }
     return self;
 }
@@ -44,6 +42,8 @@
     // 初始化广告
     self.adScrollView.contentSize = CGSizeMake(320, 129);
     self.adScrollView.pagingEnabled = TRUE;
+    self.adScrollView.tag = 1;
+    [self.adScrollView setDelegate:self];
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 129)];
     [imageView setImage:[UIImage imageNamed:@"ad_default"]];
     [self.adScrollView addSubview:imageView];
@@ -51,14 +51,12 @@
     [self.view addSubview:self.adPageView];
     [self.adPageView addSubview:self.adPageProgressView];
     
-    [self setAdPage:1.0 countPage:3.0];
-    
     // 获取广告
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"ad_getAdList" forKey:@"act"];
     MKNetworkOperation* op = [YMGlobal getOperation:params];
 
     [op onCompletion:^(MKNetworkOperation *completedOperation) {
-        NSLog(@"Data:%@", [op responseString]);
+        //NSLog(@"Data:%@", [op responseString]);
         NSMutableDictionary *object = [op responseJSON];
         if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
             int i = 1;
@@ -72,6 +70,7 @@
                 [self.adList addObject:adModel];
             }
             [self showAdList];
+            [self setAdPage:1.0 countPage:(i-1)];
         }
         [HUD hide:YES];
     } onError:^(NSError *error) {
@@ -91,21 +90,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)testFunction
+// ScrollView
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-//    UIButton *backButton = [YMUIButton navigationButton:@"搜索"];
-//    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-//    
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"
-                                                                 style:UIBarButtonItemStyleBordered
-                                                                target:nil
-                                                                action:nil];
-    
-    self.navigationItem.backBarButtonItem = backItem;
-    GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
-    goodsListViewController.navigationItem.title = @"商品列表";
-    [self.navigationController pushViewController:goodsListViewController animated:(YES)];
-        
+    if (scrollView.tag == 1) {
+        int offset = (int)scrollView.contentOffset.x;
+        int page = (int)(offset/320) + 1;
+        if(offset%320 > 160) {
+            page++;
+        }
+        int countPage = (int)(scrollView.contentSize.width/320);
+        [self setAdPage:page countPage:countPage];
+    }
 }
 
 - (void)showAdList
@@ -121,15 +117,33 @@
             UIButton *adImageBtn = [[UIButton alloc] initWithFrame:CGRectMake(320 * (o.adid - 1), 0, 320, 129)];
             [adImageBtn setTag:o.adid];
             [adImageBtn setBackgroundImage:[UIImage imageNamed:@"ad_default"] forState:UIControlStateNormal];
+            [adImageBtn addTarget:self action:@selector(adClickAction:) forControlEvents:UIControlEventTouchUpInside];
             [YMGlobal loadImage:o.imageUrl andButton:adImageBtn andControlState:UIControlStateNormal];
             [self.adScrollView addSubview:adImageBtn];
         }
     }
 }
 
+- (void)adClickAction:(id)sender
+{
+    UIButton *adImageBtn = (UIButton *)sender;
+    for (AdModel *o in self.adList) {
+        if (adImageBtn.tag == o.adid) {
+            NSLog(@"goodsIds:%@", o.goodsIds);
+            // 获取到goodsIds 接下来执行pushView到产品列表操作，待完成
+            //UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+            //self.navigationItem.backBarButtonItem = backItem;
+            //GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
+            //goodsListViewController.navigationItem.title = @"商品列表";
+            //[self.navigationController pushViewController:goodsListViewController animated:(YES)];
+            break;
+        }
+    }
+}
+
 - (void)setAdPage:(float)page countPage:(float)countPage
 {
-    [self.adPageProgressView setFrame:CGRectMake(page/countPage*320.0, 0, 320, 6)];
+    [self.adPageProgressView setFrame:CGRectMake((page-1)/countPage*320.0, 0, 1/countPage*320.0, 6)];
 }
 
 - (void)viewDidUnload {
