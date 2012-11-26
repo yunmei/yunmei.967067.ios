@@ -12,6 +12,7 @@
 @interface IndexViewController : UIViewController <UIScrollViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIScrollView *adScrollView;
+@property (strong, nonatomic) IBOutlet UIView *searchBgView;
 @property (strong, nonatomic) NSMutableArray *adList;
 @property (strong, nonatomic) UIView *adPageView;
 @property (strong, nonatomic) UIView *adPageProgressView;

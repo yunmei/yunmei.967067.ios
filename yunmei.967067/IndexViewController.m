@@ -80,6 +80,19 @@
     
     [ApplicationDelegate.appEngine enqueueOperation: op];
     
+    // searchBgView
+    UIImageView *searchBgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 43)];
+    [searchBgImageView setImage:[UIImage imageNamed:@"search_bg.png"]];
+    [self.searchBgView addSubview:searchBgImageView];
+    UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 8, 207, 31)];
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"search_btn"] forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(adClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.searchBgView addSubview:searchBtn];
+    UIButton *tdbBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, 8, 91, 32)];
+    [tdbBtn setBackgroundImage:[UIImage imageNamed:@"tdc_btn"] forState:UIControlStateNormal];
+    [tdbBtn addTarget:self action:@selector(adClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.searchBgView addSubview:tdbBtn];
+    
     // Do any additional setup after loading the view from its nib.
 
 }
@@ -150,6 +163,7 @@
     [self setAdScrollView:nil];
     self.adPageView = nil;
     self.adList = nil;
+    [self setSearchBgView:nil];
     [super viewDidUnload];
 }
 
