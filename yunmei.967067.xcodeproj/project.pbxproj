@@ -81,6 +81,7 @@
 		46E865A8164CD38F00F620DB /* tabbar_index.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E865A3164CD38F00F620DB /* tabbar_index.png */; };
 		46E865A9164CD38F00F620DB /* tabbar_category.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E865A4164CD38F00F620DB /* tabbar_category.png */; };
 		46E865AA164CD38F00F620DB /* tabbar_cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E865A5164CD38F00F620DB /* tabbar_cart.png */; };
+		AAC801601665BF8400F5D655 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8015F1665BF8400F5D655 /* CategoryModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +207,8 @@
 		46E865A3164CD38F00F620DB /* tabbar_index.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_index.png; sourceTree = "<group>"; };
 		46E865A4164CD38F00F620DB /* tabbar_category.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_category.png; sourceTree = "<group>"; };
 		46E865A5164CD38F00F620DB /* tabbar_cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_cart.png; sourceTree = "<group>"; };
+		AAC8015E1665BF8400F5D655 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryModel.h; sourceTree = "<group>"; };
+		AAC8015F1665BF8400F5D655 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -477,6 +480,8 @@
 			children = (
 				46CC0C931651ECC600210CFE /* AdModel.h */,
 				46CC0C941651ECC600210CFE /* AdModel.m */,
+				AAC8015E1665BF8400F5D655 /* CategoryModel.h */,
+				AAC8015F1665BF8400F5D655 /* CategoryModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -649,6 +654,7 @@
 				469143141665E2B900093ACC /* SBJsonTokeniser.m in Sources */,
 				469143151665E2B900093ACC /* SBJsonUTF8Stream.m in Sources */,
 				469143161665E2B900093ACC /* SBJsonWriter.m in Sources */,
+				AAC801601665BF8400F5D655 /* CategoryModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

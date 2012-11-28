@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CategoryModel.h"
+#import "YMGlobal.h"
+#import "YMGlobal.h"
+#import "AppDelegate.h"
+@interface CategoryViewController : UIViewController<
+    UITableViewDataSource,
+    UITableViewDelegate
+>
 
-@interface CategoryViewController : UIViewController
+@property (strong, nonatomic)NSMutableArray *catItemList;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
