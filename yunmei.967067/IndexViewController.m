@@ -11,6 +11,7 @@
 #import "GoodsListViewController.h"
 #import "AppDelegate.h"
 #import "MBProgressHUD.h"
+#import "SBJson.h"
 
 @interface IndexViewController ()
 
@@ -47,17 +48,15 @@
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 129)];
     [imageView setImage:[UIImage imageNamed:@"ad_default"]];
     [self.adScrollView addSubview:imageView];
-    
     [self.view addSubview:self.adPageView];
     [self.adPageView addSubview:self.adPageProgressView];
     
     // 获取广告
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"ad_getAdList" forKey:@"act"];
     MKNetworkOperation* op = [YMGlobal getOperation:params];
-
-    [op onCompletion:^(MKNetworkOperation *completedOperation) {
-        //NSLog(@"Data:%@", [op responseString]);
-        NSMutableDictionary *object = [op responseJSON];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
         if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
             int i = 1;
             for (id o in [object objectForKey:@"data"]) {
@@ -73,34 +72,79 @@
             [self setAdPage:1.0 countPage:(i-1)];
         }
         [HUD hide:YES];
-    } onError:^(NSError *error) {
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"Error:%@", error);
         [HUD hide:YES];
     }];
-    
     [ApplicationDelegate.appEngine enqueueOperation: op];
     
     // searchBgView
     UIImageView *searchBgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 43)];
-    [searchBgImageView setImage:[UIImage imageNamed:@"search_bg.png"]];
+    [searchBgImageView setImage:[UIImage imageNamed:@"search_bg"]];
     [self.searchBgView addSubview:searchBgImageView];
     UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 8, 207, 31)];
     [searchBtn setBackgroundImage:[UIImage imageNamed:@"search_btn"] forState:UIControlStateNormal];
-    [searchBtn addTarget:self action:@selector(adClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    [searchBtn addTarget:self action:@selector(searchClickAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.searchBgView addSubview:searchBtn];
     UIButton *tdbBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, 8, 91, 32)];
     [tdbBtn setBackgroundImage:[UIImage imageNamed:@"tdc_btn"] forState:UIControlStateNormal];
-    [tdbBtn addTarget:self action:@selector(adClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    [tdbBtn addTarget:self action:@selector(tdbClickAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.searchBgView addSubview:tdbBtn];
     
-    // Do any additional setup after loading the view from its nib.
+    // imageAdView - getNewAdImage
+    params = [NSMutableDictionary dictionaryWithObject:@"goods_getNewAdImage" forKey:@"act"];
+    op = [YMGlobal getOperation:params];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+        if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
+            NSString *imageUrl = [[object objectForKey:@"data"]objectForKey:@"imageUrl"];
+            UIButton *adImageBtn0 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 160, 80)];
+            [adImageBtn0 setBackgroundImage:[UIImage imageNamed:@"ad_default"] forState:UIControlStateNormal];
+            [adImageBtn0 addTarget:self action:@selector(newAdClickAction:) forControlEvents:UIControlEventTouchUpInside];
+            [YMGlobal loadImage:imageUrl andButton:adImageBtn0 andControlState:UIControlStateNormal];
+            [self.imageAdView addSubview:adImageBtn0];
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"Error:%@", error);
+    }];
+    [ApplicationDelegate.appEngine enqueueOperation: op];
 
+    // imageAdView - getHotAdImage
+    params = [NSMutableDictionary dictionaryWithObject:@"goods_getHotAdImage" forKey:@"act"];
+    op = [YMGlobal getOperation:params];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+        if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
+            NSString *imageUrl = [[object objectForKey:@"data"]objectForKey:@"imageUrl"];
+            UIButton *adImageBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(160, 0, 160, 80)];
+            [adImageBtn1 setBackgroundImage:[UIImage imageNamed:@"Icon"] forState:UIControlStateNormal];
+            [adImageBtn1 addTarget:self action:@selector(hotAdClickAction:) forControlEvents:UIControlEventTouchUpInside];
+            [YMGlobal loadImage:imageUrl andButton:adImageBtn1 andControlState:UIControlStateNormal];
+            [self.imageAdView addSubview:adImageBtn1];
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+         NSLog(@"Error:%@", error);
+    }];
+    [ApplicationDelegate.appEngine enqueueOperation: op];
+    
+    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidUnload {
+    [self setAdScrollView:nil];
+    self.adPageView = nil;
+    self.adList = nil;
+    [self setSearchBgView:nil];
+    [self setImageAdView:nil];
+    [super viewDidUnload];
 }
 
 // ScrollView
@@ -117,6 +161,7 @@
     }
 }
 
+// 展示广告图
 - (void)showAdList
 {
     int countAdList = [self.adList count];
@@ -137,6 +182,31 @@
     }
 }
 
+// 搜索点击操作
+- (void)searchClickAction:(id)sender
+{
+    NSLog(@"searchClickAction");
+}
+
+// 二维码点击操作
+- (void)tdbClickAction:(id)sender
+{
+    NSLog(@"tdbClickAction");
+}
+
+// 新品点击操作
+- (void)newAdClickAction:(id)sender
+{
+    NSLog(@"newAdClickAction");
+}
+
+// 热销点击操作
+- (void)hotAdClickAction:(id)sender
+{
+    NSLog(@"hotAdClickAction");
+}
+
+// 广告点击操作
 - (void)adClickAction:(id)sender
 {
     UIButton *adImageBtn = (UIButton *)sender;
@@ -154,17 +224,10 @@
     }
 }
 
+// 设置广告分页
 - (void)setAdPage:(float)page countPage:(float)countPage
 {
     [self.adPageProgressView setFrame:CGRectMake((page-1)/countPage*320.0, 0, 1/countPage*320.0, 6)];
-}
-
-- (void)viewDidUnload {
-    [self setAdScrollView:nil];
-    self.adPageView = nil;
-    self.adList = nil;
-    [self setSearchBgView:nil];
-    [super viewDidUnload];
 }
 
 // 初始化操作

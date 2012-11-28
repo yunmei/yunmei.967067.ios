@@ -37,7 +37,7 @@
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIScrollView" id="254273673">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">292</int>
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUIScrollView" id="860796910">
 								<reference key="NSNextResponder" ref="254273673"/>
@@ -45,6 +45,7 @@
 								<string key="NSFrameSize">{320, 129}</string>
 								<reference key="NSSuperview" ref="254273673"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="18148216"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -65,6 +66,20 @@
 									<object class="NSColorSpace" key="NSCustomColorSpace" id="392391350">
 										<int key="NSID">2</int>
 									</object>
+								</object>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							</object>
+							<object class="IBUIView" id="779311298">
+								<reference key="NSNextResponder" ref="254273673"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{0, 173}, {320, 80}}</string>
+								<reference key="NSSuperview" ref="254273673"/>
+								<reference key="NSWindow"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<object class="NSColor" key="IBUIBackgroundColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+									<reference key="NSCustomColorSpace" ref="392391350"/>
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -137,6 +152,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">imageAdView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="779311298"/>
+					</object>
+					<int key="connectionID">67</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="860796910"/>
 						<reference key="destination" ref="372490531"/>
@@ -177,6 +200,7 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="860796910"/>
 							<reference ref="18148216"/>
+							<reference ref="779311298"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -191,6 +215,13 @@
 						<reference key="object" ref="18148216"/>
 						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="254273673"/>
+						<string key="objectName">searchBgView</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">66</int>
+						<reference key="object" ref="779311298"/>
+						<reference key="parent" ref="254273673"/>
+						<string key="objectName">imageAdView</string>
 					</object>
 				</array>
 			</object>
@@ -203,12 +234,13 @@
 				<string key="32.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="52.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="62.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="66.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">65</int>
+			<int key="maxID">67</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -217,12 +249,17 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="adScrollView">UIScrollView</string>
+						<string key="imageAdView">UIView</string>
 						<string key="searchBgView">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="adScrollView">
 							<string key="name">adScrollView</string>
 							<string key="candidateClassName">UIScrollView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="imageAdView">
+							<string key="name">imageAdView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="searchBgView">
 							<string key="name">searchBgView</string>
