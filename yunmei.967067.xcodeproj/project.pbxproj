@@ -38,9 +38,6 @@
 		464E0658164BC4CF0090162A /* GoodsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 464E0656164BC4CF0090162A /* GoodsListViewController.xib */; };
 		466C69A2164B947E003ECB2F /* navigation_bar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 466C69A0164B947E003ECB2F /* navigation_bar_bg.png */; };
 		466C69A3164B947E003ECB2F /* navigation_bar_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 466C69A1164B947E003ECB2F /* navigation_bar_bg@2x.png */; };
-		466C69AF164B949E003ECB2F /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69A7164B949E003ECB2F /* MoreViewController.xib */; };
-		466C69B1164B949E003ECB2F /* MyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69AA164B949E003ECB2F /* MyViewController.xib */; };
-		466C69B3164B949E003ECB2F /* CartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69AD164B949E003ECB2F /* CartViewController.xib */; };
 		466C69BC164B954B003ECB2F /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466C69A9164B949E003ECB2F /* MyViewController.m */; };
 		466C69BD164B954F003ECB2F /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466C69A6164B949E003ECB2F /* MoreViewController.m */; };
 		466C69BE164B955A003ECB2F /* CartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466C69AC164B949E003ECB2F /* CartViewController.m */; };
@@ -82,6 +79,9 @@
 		46E865A9164CD38F00F620DB /* tabbar_category.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E865A4164CD38F00F620DB /* tabbar_category.png */; };
 		46E865AA164CD38F00F620DB /* tabbar_cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E865A5164CD38F00F620DB /* tabbar_cart.png */; };
 		AAC801601665BF8400F5D655 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8015F1665BF8400F5D655 /* CategoryModel.m */; };
+		AAC8016A1665F90000F5D655 /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69A7164B949E003ECB2F /* MoreViewController.xib */; };
+		AAC8016C1665F91700F5D655 /* MyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69AA164B949E003ECB2F /* MyViewController.xib */; };
+		AAC8016F166600EF00F5D655 /* CartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69AD164B949E003ECB2F /* CartViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -584,6 +584,9 @@
 				4617C6B51663157800D0E014 /* search_bg.png in Resources */,
 				46A68D3D1663516500083F79 /* search_btn.png in Resources */,
 				46A68D3E1663516500083F79 /* tdc_btn.png in Resources */,
+				AAC8016A1665F90000F5D655 /* MoreViewController.xib in Resources */,
+				AAC8016C1665F91700F5D655 /* MyViewController.xib in Resources */,
+				AAC8016F166600EF00F5D655 /* CartViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,9 +595,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4635DFBE1643A39100C7B445 /* InfoPlist.strings in Resources */,
-				466C69AF164B949E003ECB2F /* MoreViewController.xib in Resources */,
-				466C69B1164B949E003ECB2F /* MyViewController.xib in Resources */,
-				466C69B3164B949E003ECB2F /* CartViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
