@@ -56,6 +56,7 @@
 		469143161665E2B900093ACC /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4691430A1665E2B900093ACC /* SBJsonWriter.m */; };
 		46A68D3D1663516500083F79 /* search_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A68D3B1663516500083F79 /* search_btn.png */; };
 		46A68D3E1663516500083F79 /* tdc_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A68D3C1663516500083F79 /* tdc_btn.png */; };
+		46BD187A166740C2007E72EB /* GoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 46BD1879166740C2007E72EB /* GoodsModel.m */; };
 		46CC0C811651D2D900210CFE /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 46CC0C6E1651D2D900210CFE /* NSAlert+MKNetworkKitAdditions.m */; };
 		46CC0C821651D2D900210CFE /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 46CC0C701651D2D900210CFE /* NSData+Base64.m */; };
 		46CC0C831651D2D900210CFE /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = 46CC0C721651D2D900210CFE /* NSDate+RFC1123.m */; };
@@ -175,6 +176,8 @@
 		4691430A1665E2B900093ACC /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		46A68D3B1663516500083F79 /* search_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_btn.png; sourceTree = "<group>"; };
 		46A68D3C1663516500083F79 /* tdc_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tdc_btn.png; sourceTree = "<group>"; };
+		46BD1878166740C2007E72EB /* GoodsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsModel.h; sourceTree = "<group>"; };
+		46BD1879166740C2007E72EB /* GoodsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsModel.m; sourceTree = "<group>"; };
 		46CC0C6E1651D2D900210CFE /* NSAlert+MKNetworkKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MKNetworkKitAdditions.m"; sourceTree = "<group>"; };
 		46CC0C6F1651D2D900210CFE /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		46CC0C701651D2D900210CFE /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
@@ -488,6 +491,8 @@
 				46CC0C941651ECC600210CFE /* AdModel.m */,
 				AAC8015E1665BF8400F5D655 /* CategoryModel.h */,
 				AAC8015F1665BF8400F5D655 /* CategoryModel.m */,
+				46BD1878166740C2007E72EB /* GoodsModel.h */,
+				46BD1879166740C2007E72EB /* GoodsModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -673,6 +678,7 @@
 				469143161665E2B900093ACC /* SBJsonWriter.m in Sources */,
 				AAC801601665BF8400F5D655 /* CategoryModel.m in Sources */,
 				AAD7542E1666EEAE0059962D /* CategoryCell.m in Sources */,
+				46BD187A166740C2007E72EB /* GoodsModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
