@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "MBProgressHUD.h"
 #import "SBJson.h"
+#import "GoodsModel.h"
 
 @interface IndexViewController ()
 
@@ -23,6 +24,7 @@
 @synthesize adList;
 @synthesize adPageView;
 @synthesize adPageProgressView;
+@synthesize goodsList;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,7 +50,7 @@
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 129)];
     [imageView setImage:[UIImage imageNamed:@"ad_default"]];
     [self.adScrollView addSubview:imageView];
-    [self.view addSubview:self.adPageView];
+    [self.adPageView setBackgroundColor:[UIColor colorWithRed:122/255.0 green:122/255.0 blue:122/255.0 alpha:1.0]];
     [self.adPageView addSubview:self.adPageProgressView];
     
     // 获取广告
@@ -82,11 +84,11 @@
     UIImageView *searchBgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 43)];
     [searchBgImageView setImage:[UIImage imageNamed:@"search_bg"]];
     [self.searchBgView addSubview:searchBgImageView];
-    UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 8, 207, 31)];
+    UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 5, 207, 31)];
     [searchBtn setBackgroundImage:[UIImage imageNamed:@"search_btn"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchClickAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.searchBgView addSubview:searchBtn];
-    UIButton *tdbBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, 8, 91, 32)];
+    UIButton *tdbBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, 5, 91, 32)];
     [tdbBtn setBackgroundImage:[UIImage imageNamed:@"tdc_btn"] forState:UIControlStateNormal];
     [tdbBtn addTarget:self action:@selector(tdbClickAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.searchBgView addSubview:tdbBtn];
@@ -129,6 +131,28 @@
     }];
     [ApplicationDelegate.appEngine enqueueOperation: op];
     
+    // 产品推荐列表
+    params = [NSMutableDictionary dictionaryWithObject:@"goods_getCommendList" forKey:@"act"];
+    op = [YMGlobal getOperation:params];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSLog(@"goods_getCommendList:%@", [completedOperation responseString]);
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+        if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
+            for (id o in [object objectForKey:@"data"]) {
+                GoodsModel *goodsModel = [[GoodsModel alloc]init];
+                goodsModel.goodsId = [o objectForKey:@"goodsId"];
+                goodsModel.goodsName = [o objectForKey:@"goodsName"];
+                goodsModel.goodsPrice = [o objectForKey:@"goodsPrice"];
+                goodsModel.imageUrl = [o objectForKey:@"imageUrl"];
+                [self.goodsList addObject:goodsModel];
+            }
+            [self showGoodsList];
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"Error:%@", error);
+    }];
+    [ApplicationDelegate.appEngine enqueueOperation: op];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -144,6 +168,7 @@
     self.adList = nil;
     [self setSearchBgView:nil];
     [self setImageAdView:nil];
+    [self setGoodsListView:nil];
     [super viewDidUnload];
 }
 
@@ -181,6 +206,39 @@
         }
     }
 }
+// 展示推荐列表
+- (void)showGoodsList
+{
+    int i = 1;
+    int x = 0;
+    int y = 0;
+    for (GoodsModel *o in self.goodsList) {
+        if (i <= 3) {
+            x = (i - 1) * 105;
+            y = 0;
+        } else {
+            x = (i - 4) * 105;
+            y = 110;
+        }
+        UIView *tempView = [[UIView alloc]initWithFrame:CGRectMake(x, y, 100, 100)];
+        
+        UIButton *imageBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 0, 80, 80)];
+        [imageBtn setTag:i];
+        [imageBtn setBackgroundImage:[UIImage imageNamed:@"goods_default"] forState:UIControlStateNormal];
+        [imageBtn addTarget:self action:@selector(goodsClickAction:) forControlEvents:UIControlEventTouchUpInside];
+        [YMGlobal loadImage:o.imageUrl andButton:imageBtn andControlState:UIControlStateNormal];
+        [tempView addSubview:imageBtn];
+        
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 80, 100, 20)];
+        [label setTextAlignment:NSTextAlignmentCenter];
+        [label setText:o.goodsName];
+        [label setFont:[UIFont systemFontOfSize:12.0]];
+        [tempView addSubview:label];
+        
+        [self.goodsListView addSubview:tempView];
+        i++;
+    }
+}
 
 // 搜索点击操作
 - (void)searchClickAction:(id)sender
@@ -204,6 +262,12 @@
 - (void)hotAdClickAction:(id)sender
 {
     NSLog(@"hotAdClickAction");
+}
+
+// 产品点击
+- (void)goodsClickAction:(id)sender
+{
+    NSLog(@"goodsClickAction");
 }
 
 // 广告点击操作
@@ -238,13 +302,12 @@
     }
     return adList;
 }
--(UIView *)adPageView
+-(NSMutableArray *)goodsList
 {
-    if (adPageView == nil) {
-        adPageView = [[UIView alloc]initWithFrame:CGRectMake(0, 129, 320, 6)];
-        [adPageView setBackgroundColor:[UIColor colorWithRed:122/255.0 green:122/255.0 blue:122/255.0 alpha:1.0]];
+    if (goodsList == nil) {
+        goodsList = [[NSMutableArray alloc]init];
     }
-    return adPageView;
+    return goodsList;
 }
 -(UIView *)adPageProgressView
 {

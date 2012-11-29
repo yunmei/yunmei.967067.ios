@@ -10,7 +10,7 @@
 
 @interface GoodsModel : NSObject
 
-@property NSUInteger goodsId;
+@property(strong, nonatomic)NSString *goodsId;
 @property(strong, nonatomic)NSString *goodsPrice;
 @property(strong, nonatomic)NSString *goodsName;
 @property(strong, nonatomic)NSString *imageUrl;
