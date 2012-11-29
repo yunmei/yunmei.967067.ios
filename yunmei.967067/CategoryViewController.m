@@ -30,16 +30,29 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     self.catItemList = [[NSMutableArray alloc]init];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"category_getList" forKey:@"act"];
     MKNetworkOperation * op = [YMGlobal getOperation:params];
-    [op onCompletion:^(MKNetworkOperation *completedOperation) {
-       // NSLog(@"%@",[op responseString]);
-        
-        
-    } onError:^(NSError *error) {
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+        if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            for(id i in [object objectForKey:@"data"])
+            {
+                CategoryModel *catModel =[[CategoryModel alloc]init];
+                catModel.catId = [i objectForKey:@"catId"];
+                catModel.catName = [i objectForKey:@"catName"];
+                catModel.parentId = @"0";
+                [self.catItemList addObject:catModel];
+                [self.tableView reloadData];
+            }
+        }
+        [hud hide:YES];
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        [hud hide:YES];
         NSLog(@"Error:%@",error);
-        NSLog(@"aa");
     }];
     [ApplicationDelegate.appEngine enqueueOperation: op];
     
@@ -56,5 +69,36 @@
     [super viewDidUnload];
 }
 
+-(UITableViewCell *)tableView:(UITableView *)tableView
+        cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if(cell==nil)
+    {
+        NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"CategoryCell" owner:self options:nil];
+        for(id i in nibs)
+        {
+            if([i isKindOfClass:[CategoryCell class]])
+            {
+                cell = (CategoryCell *)i;
+            }
+        }
+        
+    }
+    CategoryModel *cellItemCat = [self.catItemList objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = cellItemCat.catName;
+    cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+    cell.textLabel.backgroundColor = [UIColor clearColor];
+    return cell;
+    
+}
+
+-(NSInteger)tableView:(UITableView *)tableView
+numberOfRowsInSection:(NSInteger)section
+{
+    return  self.catItemList.count;
+}
 
 @end

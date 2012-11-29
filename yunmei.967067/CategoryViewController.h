@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "CategoryModel.h"
 #import "YMGlobal.h"
-#import "YMGlobal.h"
+#import "MBProgressHUD.h"
 #import "AppDelegate.h"
+#import "SBJson.h"
+#import "CategoryCell.h"
+
 @interface CategoryViewController : UIViewController<
     UITableViewDataSource,
     UITableViewDelegate

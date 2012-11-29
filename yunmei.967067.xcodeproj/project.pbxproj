@@ -82,6 +82,8 @@
 		AAC8016A1665F90000F5D655 /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69A7164B949E003ECB2F /* MoreViewController.xib */; };
 		AAC8016C1665F91700F5D655 /* MyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69AA164B949E003ECB2F /* MyViewController.xib */; };
 		AAC8016F166600EF00F5D655 /* CartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69AD164B949E003ECB2F /* CartViewController.xib */; };
+		AAD7542E1666EEAE0059962D /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD7542D1666EEAE0059962D /* CategoryCell.m */; };
+		AAD754301666EEED0059962D /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD7542F1666EEED0059962D /* CategoryCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -209,6 +211,9 @@
 		46E865A5164CD38F00F620DB /* tabbar_cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_cart.png; sourceTree = "<group>"; };
 		AAC8015E1665BF8400F5D655 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryModel.h; sourceTree = "<group>"; };
 		AAC8015F1665BF8400F5D655 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryModel.m; sourceTree = "<group>"; };
+		AAD7542C1666EEAE0059962D /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
+		AAD7542D1666EEAE0059962D /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCell.m; sourceTree = "<group>"; };
+		AAD7542F1666EEED0059962D /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +246,7 @@
 		4630057F1653487D0046C903 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				AAD7542A1666EE0D0059962D /* CustomCell */,
 			);
 			name = Custom;
 			sourceTree = "<group>";
@@ -486,6 +492,16 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		AAD7542A1666EE0D0059962D /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				AAD7542C1666EEAE0059962D /* CategoryCell.h */,
+				AAD7542D1666EEAE0059962D /* CategoryCell.m */,
+				AAD7542F1666EEED0059962D /* CategoryCell.xib */,
+			);
+			name = CustomCell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -587,6 +603,7 @@
 				AAC8016A1665F90000F5D655 /* MoreViewController.xib in Resources */,
 				AAC8016C1665F91700F5D655 /* MyViewController.xib in Resources */,
 				AAC8016F166600EF00F5D655 /* CartViewController.xib in Resources */,
+				AAD754301666EEED0059962D /* CategoryCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -655,6 +672,7 @@
 				469143151665E2B900093ACC /* SBJsonUTF8Stream.m in Sources */,
 				469143161665E2B900093ACC /* SBJsonWriter.m in Sources */,
 				AAC801601665BF8400F5D655 /* CategoryModel.m in Sources */,
+				AAD7542E1666EEAE0059962D /* CategoryCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
