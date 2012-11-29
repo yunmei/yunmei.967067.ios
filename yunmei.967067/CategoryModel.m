@@ -12,4 +12,5 @@
 @synthesize catId = _catId;
 @synthesize catName = _catName;
 @synthesize parentId = _parentId;
+@synthesize imgUrl = _imgUrl;
 @end
