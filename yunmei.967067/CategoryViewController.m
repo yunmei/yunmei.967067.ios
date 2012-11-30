@@ -87,7 +87,7 @@
         
     }
     CategoryModel *cellItemCat = [self.catItemList objectAtIndex:indexPath.row];
-    
+    NSLog(@"%@",cellItemCat.imgUrl);
     cell.textLabel.text = cellItemCat.catName;
     cell.textLabel.font = [UIFont systemFontOfSize:14.0];
     cell.textLabel.backgroundColor = [UIColor clearColor];
