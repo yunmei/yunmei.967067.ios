@@ -9,9 +9,12 @@
 #import "CategoryCell.h"
 
 @implementation CategoryCell
-@synthesize categoryDiscription = _categoryDiscription;
-@synthesize categoryImageView = _categoryImageView;
+
 @synthesize categoryName = _categoryName;
+@synthesize catDesc = _catDesc;
+@synthesize catImageView = _catImageView;
+
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -27,5 +30,12 @@
 
     // Configure the view for the selected state
 }
-
+-(UILabel *)categoryName
+{
+    if(_categoryName==nil)
+    {
+        _categoryName.backgroundColor=[UIColor clearColor];
+    }
+    return  _categoryName;
+}
 @end

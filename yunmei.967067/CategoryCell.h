@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface CategoryCell : UITableViewCell
+
+
 @property (strong, nonatomic) IBOutlet UILabel *categoryName;
-@property (strong, nonatomic) IBOutlet UIImageView *categoryImageView;
-@property (strong, nonatomic) IBOutlet UILabel *categoryDiscription;
+@property (strong, nonatomic) IBOutlet UIImageView *catImageView;
+@property (strong, nonatomic) IBOutlet UILabel *catDesc;
+
+
 
 @end

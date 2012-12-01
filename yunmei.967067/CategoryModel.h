@@ -13,5 +13,6 @@
 @property(strong, nonatomic)NSString *catId;
 @property(strong, nonatomic)NSString *catName;
 @property(strong, nonatomic)NSString *parentId;
-@property(strong, nonatomic)NSString *imgUrl;
+@property(strong, nonatomic)NSString *imageUrl;
+@property(strong, nonatomic)NSString *catDesc;
 @end

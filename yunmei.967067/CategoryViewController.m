@@ -45,6 +45,8 @@
                 catModel.catId = [i objectForKey:@"catId"];
                 catModel.catName = [i objectForKey:@"catName"];
                 catModel.parentId = @"0";
+                catModel.imageUrl = [i objectForKey:@"imageUrl"];
+                catModel.catDesc = [i objectForKey:@"catDesc"];
                 [self.catItemList addObject:catModel];
                 [self.tableView reloadData];
             }
@@ -73,7 +75,7 @@
         cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    CategoryCell *cell = (CategoryCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if(cell==nil)
     {
         NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"CategoryCell" owner:self options:nil];
@@ -86,11 +88,19 @@
         }
         
     }
+   
     CategoryModel *cellItemCat = [self.catItemList objectAtIndex:indexPath.row];
-    NSLog(@"%@",cellItemCat.imgUrl);
-    cell.textLabel.text = cellItemCat.catName;
-    cell.textLabel.font = [UIFont systemFontOfSize:14.0];
-    cell.textLabel.backgroundColor = [UIColor clearColor];
+    NSLog(@"%@",cellItemCat.catDesc);
+    if(!(cellItemCat==nil))
+    {
+        cell.categoryName.text = cellItemCat.catName;
+        cell.catDesc.text = cellItemCat.catDesc;
+        [cell.catImageView setImage:[UIImage imageNamed:@"goods_default"]];
+        [YMGlobal loadImage:[cellItemCat imageUrl] andImageView:[cell catImageView]];
+    }
+//    cell.textLabel.text = cellItemCat.catName;
+//    cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+//    cell.textLabel.backgroundColor = [UIColor clearColor];
     return cell;
     
 }
