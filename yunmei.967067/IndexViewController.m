@@ -121,7 +121,7 @@
         if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
             NSString *imageUrl = [[object objectForKey:@"data"]objectForKey:@"imageUrl"];
             UIButton *adImageBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(160, 0, 160, 80)];
-            [adImageBtn1 setBackgroundImage:[UIImage imageNamed:@"Icon"] forState:UIControlStateNormal];
+            [adImageBtn1 setBackgroundImage:[UIImage imageNamed:@"ad_default"] forState:UIControlStateNormal];
             [adImageBtn1 addTarget:self action:@selector(hotAdClickAction:) forControlEvents:UIControlEventTouchUpInside];
             [YMGlobal loadImage:imageUrl andButton:adImageBtn1 andControlState:UIControlStateNormal];
             [self.imageAdView addSubview:adImageBtn1];
@@ -135,7 +135,6 @@
     params = [NSMutableDictionary dictionaryWithObject:@"goods_getCommendList" forKey:@"act"];
     op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        NSLog(@"goods_getCommendList:%@", [completedOperation responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
         if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
@@ -278,11 +277,11 @@
         if (adImageBtn.tag == o.adid) {
             NSLog(@"goodsIds:%@", o.goodsIds);
             // 获取到goodsIds 接下来执行pushView到产品列表操作，待完成
-            //UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
-            //self.navigationItem.backBarButtonItem = backItem;
-            //GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
-            //goodsListViewController.navigationItem.title = @"商品列表";
-            //[self.navigationController pushViewController:goodsListViewController animated:(YES)];
+            UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+            self.navigationItem.backBarButtonItem = backItem;
+            GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
+            goodsListViewController.navigationItem.title = @"商品列表";
+            [self.navigationController pushViewController:goodsListViewController animated:(YES)];
             break;
         }
     }

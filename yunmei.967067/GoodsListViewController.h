@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GoodsListViewController : UIViewController
+@interface GoodsListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end
