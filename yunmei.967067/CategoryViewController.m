@@ -111,6 +111,26 @@
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    CategoryModel *selectCate = [self.catItemList objectAtIndex:indexPath.row];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"category_getSubList", @"act",[selectCate catId],@"catId",nil];
+    MKNetworkOperation *op = [YMGlobal getOperation:params];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSLog(@"%@",[completedOperation responseString]);
+        NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+        if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            for(id i in [object objectForKey:@"data"])
+            {
+                NSLog(@"%@",i);    
+            }
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    [ApplicationDelegate.appEngine enqueueOperation: op];
+    [hud hide:YES];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView
