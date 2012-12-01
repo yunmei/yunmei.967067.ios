@@ -93,16 +93,24 @@
     NSLog(@"%@",cellItemCat.catDesc);
     if(!(cellItemCat==nil))
     {
+        cell.categoryName.font = [UIFont systemFontOfSize:20.0];
         cell.categoryName.text = cellItemCat.catName;
         cell.catDesc.text = cellItemCat.catDesc;
+        cell.catDesc.textColor = [UIColor grayColor];
+        cell.catDesc.font = [UIFont boldSystemFontOfSize:17.0];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
         [cell.catImageView setImage:[UIImage imageNamed:@"goods_default"]];
         [YMGlobal loadImage:[cellItemCat imageUrl] andImageView:[cell catImageView]];
     }
-//    cell.textLabel.text = cellItemCat.catName;
-//    cell.textLabel.font = [UIFont systemFontOfSize:14.0];
-//    cell.textLabel.backgroundColor = [UIColor clearColor];
     return cell;
     
+}
+
+-(void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView
