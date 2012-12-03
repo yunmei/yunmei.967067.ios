@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PullToRefreshTableView.h"
 
 @interface GoodsListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (strong, nonatomic) NSMutableArray *goodsList;
+@property (strong, nonatomic) NSString *requestDataType;
+@property (strong, nonatomic) NSString *requestId;
+@property (strong, nonatomic) PullToRefreshTableView *refreshTableView;
 
 @end

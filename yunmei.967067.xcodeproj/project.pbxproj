@@ -712,12 +712,9 @@
 				AAD7542E1666EEAE0059962D /* CategoryCell.m in Sources */,
 				46BD187A166740C2007E72EB /* GoodsModel.m in Sources */,
 				46BD188D166880AB007E72EB /* GoodsCell.m in Sources */,
-<<<<<<< HEAD
 				AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */,
 				AABB45D8166C488800306A09 /* GoodsInfoViewController.m in Sources */,
-=======
 				4697E415166C38D7006BEF17 /* PullToRefreshTableView.m in Sources */,
->>>>>>> 添加 PullToRefreshTableView
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

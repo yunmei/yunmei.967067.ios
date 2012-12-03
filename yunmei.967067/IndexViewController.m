@@ -285,6 +285,8 @@
             UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
             self.navigationItem.backBarButtonItem = backItem;
             GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
+            goodsListViewController.requestId = o.goodsIds;
+            goodsListViewController.requestDataType = @"goodsIds";
             goodsListViewController.navigationItem.title = @"商品列表";
             [self.navigationController pushViewController:goodsListViewController animated:(YES)];
             break;
