@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "SBJson.h"
 #import "CategoryCell.h"
+#import "CategorySecViewController.h"
 
 @interface CategoryViewController : UIViewController<
     UITableViewDataSource,

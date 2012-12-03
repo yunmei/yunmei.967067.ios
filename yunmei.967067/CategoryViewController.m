@@ -117,15 +117,19 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     MKNetworkOperation *op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         SBJsonParser *parser = [[SBJsonParser alloc]init];
-        NSLog(@"%@",[completedOperation responseString]);
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
         if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
         {
+            CategorySecViewController *subCateView = [[CategorySecViewController alloc]init];
             for(id i in [object objectForKey:@"data"])
             {
-                NSLog(@"%@",i);    
+                [subCateView.subCateList addObject:i];
             }
+            UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+            self.navigationItem.backBarButtonItem = backItem;
+            [self.navigationController pushViewController:subCateView animated:YES];
         }
+        [hud hide:YES];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);
     }];
