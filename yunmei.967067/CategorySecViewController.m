@@ -7,6 +7,7 @@
 //
 
 #import "CategorySecViewController.h"
+#import "GoodsListViewController.h"
 
 @interface CategorySecViewController ()
 
@@ -79,10 +80,22 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSUInteger row = [indexPath row];
-    NSString * subCatId = [[self.subCateList objectAtIndex:row] objectForKey:@"catId"];
-    NSLog(@"%@",subCatId);
-    
-    
+    NSString *subCatId = [[self.subCateList objectAtIndex:row] objectForKey:@"catId"];
+    NSString *subCatName = [[self.subCateList objectAtIndex:row] objectForKey:@"catName"];
+    // pushView到GoodsListView
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
+    GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
+    goodsListViewController.requestId = subCatId;
+    goodsListViewController.requestDataType = @"category";
+    UILabel *itemTitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
+    itemTitle.textAlignment = UITextAlignmentCenter;
+    itemTitle.text = [NSString stringWithFormat:@"\"%@\"下的产品列表", subCatName];
+    itemTitle.font = [UIFont systemFontOfSize:14.0];
+    itemTitle.backgroundColor = [UIColor clearColor];
+    itemTitle.textColor = [UIColor whiteColor];
+    goodsListViewController.navigationItem.titleView = itemTitle;
+    [self.navigationController pushViewController:goodsListViewController animated:(YES)];
 }
 
 @end
