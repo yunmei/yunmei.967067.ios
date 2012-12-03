@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AdModel.h"
-
+#import "GoodsInfoViewController.h"
 @interface IndexViewController : UIViewController <UIScrollViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIScrollView *adScrollView;

@@ -83,6 +83,8 @@
 		46E865AA164CD38F00F620DB /* tabbar_cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E865A5164CD38F00F620DB /* tabbar_cart.png */; };
 		AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */; };
 		AA8DBAB11669ED53003291D2 /* CategorySecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */; };
+		AABB45D8166C488800306A09 /* GoodsInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB45D6166C488800306A09 /* GoodsInfoViewController.m */; };
+		AABB45D9166C488800306A09 /* GoodsInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */; };
 		AAC801601665BF8400F5D655 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8015F1665BF8400F5D655 /* CategoryModel.m */; };
 		AAC8016A1665F90000F5D655 /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69A7164B949E003ECB2F /* MoreViewController.xib */; };
 		AAC8016C1665F91700F5D655 /* MyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69AA164B949E003ECB2F /* MyViewController.xib */; };
@@ -222,6 +224,9 @@
 		AA8DBAAD1669ED53003291D2 /* CategorySecViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySecViewController.h; sourceTree = "<group>"; };
 		AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySecViewController.m; sourceTree = "<group>"; };
 		AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategorySecViewController.xib; sourceTree = "<group>"; };
+		AABB45D5166C488800306A09 /* GoodsInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsInfoViewController.h; sourceTree = "<group>"; };
+		AABB45D6166C488800306A09 /* GoodsInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsInfoViewController.m; sourceTree = "<group>"; };
+		AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoodsInfoViewController.xib; sourceTree = "<group>"; };
 		AAC8015E1665BF8400F5D655 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryModel.h; sourceTree = "<group>"; };
 		AAC8015F1665BF8400F5D655 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryModel.m; sourceTree = "<group>"; };
 		AAD7542C1666EEAE0059962D /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
@@ -405,6 +410,9 @@
 				464E0654164BC4CF0090162A /* GoodsListViewController.h */,
 				464E0655164BC4CF0090162A /* GoodsListViewController.m */,
 				464E0656164BC4CF0090162A /* GoodsListViewController.xib */,
+				AABB45D5166C488800306A09 /* GoodsInfoViewController.h */,
+				AABB45D6166C488800306A09 /* GoodsInfoViewController.m */,
+				AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */,
 			);
 			name = Goods;
 			sourceTree = "<group>";
@@ -627,6 +635,7 @@
 				AAD754301666EEED0059962D /* CategoryCell.xib in Resources */,
 				46BD188E166880AB007E72EB /* GoodsCell.xib in Resources */,
 				AA8DBAB11669ED53003291D2 /* CategorySecViewController.xib in Resources */,
+				AABB45D9166C488800306A09 /* GoodsInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,6 +708,7 @@
 				46BD187A166740C2007E72EB /* GoodsModel.m in Sources */,
 				46BD188D166880AB007E72EB /* GoodsCell.m in Sources */,
 				AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */,
+				AABB45D8166C488800306A09 /* GoodsInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -80,7 +80,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSUInteger row = [indexPath row];
     NSString * subCatId = [[self.subCateList objectAtIndex:row] objectForKey:@"catId"];
-    	
+    NSLog(@"%@",subCatId);
     
     
 }

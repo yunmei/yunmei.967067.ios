@@ -266,7 +266,12 @@
 // 产品点击
 - (void)goodsClickAction:(id)sender
 {
-    NSLog(@"goodsClickAction");
+    GoodsInfoViewController *goodsInfoView = [[GoodsInfoViewController alloc]init];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;	
+    goodsInfoView.navigationItem.title = @"商品详情";
+    goodsInfoView.subCatId = @"1";
+    [self.navigationController pushViewController:goodsInfoView animated:YES];
 }
 
 // 广告点击操作
