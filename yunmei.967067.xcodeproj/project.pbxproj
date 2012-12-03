@@ -54,6 +54,7 @@
 		469143141665E2B900093ACC /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 469143061665E2B900093ACC /* SBJsonTokeniser.m */; };
 		469143151665E2B900093ACC /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 469143081665E2B900093ACC /* SBJsonUTF8Stream.m */; };
 		469143161665E2B900093ACC /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4691430A1665E2B900093ACC /* SBJsonWriter.m */; };
+		4697E415166C38D7006BEF17 /* PullToRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4697E414166C38D7006BEF17 /* PullToRefreshTableView.m */; };
 		46A68D3D1663516500083F79 /* search_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A68D3B1663516500083F79 /* search_btn.png */; };
 		46A68D3E1663516500083F79 /* tdc_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A68D3C1663516500083F79 /* tdc_btn.png */; };
 		46BD187A166740C2007E72EB /* GoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 46BD1879166740C2007E72EB /* GoodsModel.m */; };
@@ -180,6 +181,8 @@
 		469143081665E2B900093ACC /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
 		469143091665E2B900093ACC /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		4691430A1665E2B900093ACC /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		4697E413166C38D7006BEF17 /* PullToRefreshTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullToRefreshTableView.h; sourceTree = "<group>"; };
+		4697E414166C38D7006BEF17 /* PullToRefreshTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullToRefreshTableView.m; sourceTree = "<group>"; };
 		46A68D3B1663516500083F79 /* search_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_btn.png; sourceTree = "<group>"; };
 		46A68D3C1663516500083F79 /* tdc_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tdc_btn.png; sourceTree = "<group>"; };
 		46BD1878166740C2007E72EB /* GoodsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsModel.h; sourceTree = "<group>"; };
@@ -428,6 +431,8 @@
 				46CC0C9F1652214500210CFE /* YMGlobal.m */,
 				46300588165366BD0046C903 /* MBProgressHUD.h */,
 				46300589165366BD0046C903 /* MBProgressHUD.m */,
+				4697E413166C38D7006BEF17 /* PullToRefreshTableView.h */,
+				4697E414166C38D7006BEF17 /* PullToRefreshTableView.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -707,8 +712,12 @@
 				AAD7542E1666EEAE0059962D /* CategoryCell.m in Sources */,
 				46BD187A166740C2007E72EB /* GoodsModel.m in Sources */,
 				46BD188D166880AB007E72EB /* GoodsCell.m in Sources */,
+<<<<<<< HEAD
 				AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */,
 				AABB45D8166C488800306A09 /* GoodsInfoViewController.m in Sources */,
+=======
+				4697E415166C38D7006BEF17 /* PullToRefreshTableView.m in Sources */,
+>>>>>>> 添加 PullToRefreshTableView
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
