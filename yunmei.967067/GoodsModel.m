@@ -14,5 +14,9 @@
 @synthesize goodsPrice;
 @synthesize goodsName;
 @synthesize imageUrl;
-
+@synthesize goodsCode;
+@synthesize goodsMarketPrice;
+@synthesize store;
+@synthesize standard;
+@synthesize property;
 @end

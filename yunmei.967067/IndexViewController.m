@@ -270,7 +270,7 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
     self.navigationItem.backBarButtonItem = backItem;	
     goodsInfoView.navigationItem.title = @"商品详情";
-    goodsInfoView.subCatId = @"1";
+    goodsInfoView.goodsId = @"1";
     [self.navigationController pushViewController:goodsInfoView animated:YES];
 }
 

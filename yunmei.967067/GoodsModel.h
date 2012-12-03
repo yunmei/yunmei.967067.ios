@@ -14,5 +14,9 @@
 @property(strong, nonatomic)NSString *goodsPrice;
 @property(strong, nonatomic)NSString *goodsName;
 @property(strong, nonatomic)NSString *imageUrl;
-
+@property(strong, nonatomic)NSString *goodsCode;
+@property(strong, nonatomic)NSString *goodsMarketPrice;
+@property(strong, nonatomic)NSString *store;
+@property(strong, nonatomic)NSString *standard;
+@property(strong, nonatomic)NSString *property;
 @end

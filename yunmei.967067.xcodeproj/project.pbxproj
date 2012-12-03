@@ -516,8 +516,8 @@
 				46CC0C931651ECC600210CFE /* AdModel.h */,
 				46CC0C941651ECC600210CFE /* AdModel.m */,
 				AAC8015E1665BF8400F5D655 /* CategoryModel.h */,
-				AAC8015F1665BF8400F5D655 /* CategoryModel.m */,
 				46BD1878166740C2007E72EB /* GoodsModel.h */,
+				AAC8015F1665BF8400F5D655 /* CategoryModel.m */,
 				46BD1879166740C2007E72EB /* GoodsModel.m */,
 			);
 			name = Model;

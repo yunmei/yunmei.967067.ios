@@ -7,8 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YMGlobal.h"
+#import "MBProgressHUD.h"
+#import "SBJson.h"
+#import "AppDelegate.h"
+#import "GoodsModel.h"
 
 @interface GoodsInfoViewController : UIViewController
 
-@property(strong, nonatomic)NSString *subCatId;
+@property(strong, nonatomic)NSString *goodsId;
+@property(strong, nonatomic)GoodsModel *goodsModel;
 @end
