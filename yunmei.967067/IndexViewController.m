@@ -254,13 +254,23 @@
 // 新品点击操作
 - (void)newAdClickAction:(id)sender
 {
-    NSLog(@"newAdClickAction");
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
+    GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
+    goodsListViewController.requestDataType = @"newAdList";
+    goodsListViewController.navigationItem.title = @"新品列表";
+    [self.navigationController pushViewController:goodsListViewController animated:(YES)];
 }
 
 // 热销点击操作
 - (void)hotAdClickAction:(id)sender
 {
-    NSLog(@"hotAdClickAction");
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
+    GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
+    goodsListViewController.requestDataType = @"hotAdList";
+    goodsListViewController.navigationItem.title = @"热销商品";
+    [self.navigationController pushViewController:goodsListViewController animated:(YES)];
 }
 
 // 产品点击
