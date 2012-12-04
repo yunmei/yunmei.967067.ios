@@ -23,6 +23,7 @@
 @synthesize requestDataType;
 @synthesize requestId;
 @synthesize goodsList;
+@synthesize currentPage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,24 +40,23 @@
     [self.view addSubview:self.refreshTableView];
     self.refreshTableView.delegate = self;
     self.refreshTableView.dataSource = self;
-    
+    self.currentPage = 1;
     // 开始加载数据
     MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
-    if ([requestDataType isEqualToString:@"category"]) {
+    if ([self.requestDataType isEqualToString:@"category"]) {
         [params setObject:@"goods_getListByCatId" forKey:@"act"];
-        [params setObject:requestId forKey:@"catId"];
-    } else if ([requestDataType isEqualToString:@"goodsIds"]) {
+        [params setObject:self.requestId forKey:@"catId"];
+    } else if ([self.requestDataType isEqualToString:@"goodsIds"]) {
         [params setObject:@"goods_getListById" forKey:@"act"];
-        [params setObject:requestId forKey:@"goodsId"];
-    } else if ([requestDataType isEqualToString:@"hotAdList"]) {
+        [params setObject:self.requestId forKey:@"goodsId"];
+    } else if ([self.requestDataType isEqualToString:@"hotAdList"]) {
         [params setObject:@"goods_getHotList" forKey:@"act"];
-    } else if ([requestDataType isEqualToString:@"newAdList"]) {
+    } else if ([self.requestDataType isEqualToString:@"newAdList"]) {
         [params setObject:@"goods_getNewList" forKey:@"act"];
     }
     MKNetworkOperation* op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        NSLog(@"goodsList:%@", [completedOperation responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
         if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
@@ -69,7 +69,11 @@
                 [self.goodsList addObject:goodsModel];
             }
         }
-        [self.refreshTableView reloadData:NO];
+        if ([self.requestDataType isEqualToString:@"category"]) {
+            [self.refreshTableView reloadData:YES];
+        } else {
+            [self.refreshTableView reloadData:NO];
+        }
         [HUD hide:YES];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"Error:%@", error);
@@ -91,7 +95,47 @@
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    [self.refreshTableView tableViewDidEndDragging];
+    int state = [self.refreshTableView tableViewDidEndDragging];
+    if (state == k_RETURN_LOADMORE) {
+        self.currentPage++;
+        MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
+        [params setObject:@"goods_getListByCatId" forKey:@"act"];
+        [params setObject:self.requestId forKey:@"catId"];
+        [params setObject:[NSString stringWithFormat:@"%i", self.currentPage] forKey:@"page"];
+        [params setObject:@"10" forKey:@"num"];
+        MKNetworkOperation* op = [YMGlobal getOperation:params];
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            //NSLog(@"goodsList:%@", [completedOperation responseString]);
+            SBJsonParser *parser = [[SBJsonParser alloc]init];
+            NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+            if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
+                int i = 0;
+                for (id o in [object objectForKey:@"data"]) {
+                    GoodsModel *goodsModel = [[GoodsModel alloc]init];
+                    goodsModel.goodsId = [o objectForKey:@"goodsId"];
+                    goodsModel.goodsName = [o objectForKey:@"goodsName"];
+                    goodsModel.goodsPrice = [o objectForKey:@"goodsPrice"];
+                    goodsModel.imageUrl = [o objectForKey:@"imageUrl"];
+                    [self.goodsList addObject:goodsModel];
+                    i++;
+                }
+                if (i < 10) {
+                    [self.refreshTableView reloadData:NO];
+                } else {
+                    [self.refreshTableView reloadData:YES];
+                }
+            } else {
+                NSLog(@"goodsList:%@", [completedOperation responseString]);
+                [self.refreshTableView reloadData:NO];
+            }
+            [HUD hide:YES];
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            NSLog(@"Error:%@", error);
+            [HUD hide:YES];
+        }];
+        [ApplicationDelegate.appEngine enqueueOperation: op];
+    }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -115,6 +159,7 @@
     cell.goodsNameLabel.text = goodsModel.goodsName;
     cell.goodsPriceLabel.text = [NSString stringWithFormat:@"￥%@", goodsModel.goodsPrice];
     [YMGlobal loadImage:goodsModel.imageUrl andImageView:cell.goodsImageView];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 
@@ -132,5 +177,19 @@
         goodsList = [[NSMutableArray alloc]init];
     }
     return goodsList;
+}
+- (NSString *)requestDataType
+{
+    if (requestDataType == nil) {
+        requestDataType = [[NSString alloc]init];
+    }
+    return requestDataType;
+}
+- (NSString *)requestId
+{
+    if (requestId == nil) {
+        requestId = [[NSString alloc]init];
+    }
+    return requestId;
 }
 @end

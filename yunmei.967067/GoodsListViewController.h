@@ -10,7 +10,7 @@
 #import "PullToRefreshTableView.h"
 
 @interface GoodsListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-
+@property NSInteger currentPage;
 @property (strong, nonatomic) NSMutableArray *goodsList;
 @property (strong, nonatomic) NSString *requestDataType;
 @property (strong, nonatomic) NSString *requestId;
