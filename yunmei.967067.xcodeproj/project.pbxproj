@@ -52,6 +52,8 @@
 		46871A86166EE28A00C91CE8 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46871A85166EE28A00C91CE8 /* CoreVideo.framework */; };
 		46871A88166EE29500C91CE8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46871A87166EE29500C91CE8 /* QuartzCore.framework */; };
 		46871A8A166EE2A600C91CE8 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 46871A89166EE2A600C91CE8 /* libiconv.dylib */; };
+		46871A9A166F2E7A00C91CE8 /* GoodsSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46871A98166F2E7A00C91CE8 /* GoodsSearchViewController.m */; };
+		46871A9B166F2E7A00C91CE8 /* GoodsSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46871A99166F2E7A00C91CE8 /* GoodsSearchViewController.xib */; };
 		4691430B1665E2B900093ACC /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 469142F31665E2B900093ACC /* NSObject+SBJson.m */; };
 		4691430C1665E2B900093ACC /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 469142F61665E2B900093ACC /* SBJsonParser.m */; };
 		4691430D1665E2B900093ACC /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 469142F81665E2B900093ACC /* SBJsonStreamParser.m */; };
@@ -196,6 +198,9 @@
 		46871A85166EE28A00C91CE8 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		46871A87166EE29500C91CE8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		46871A89166EE2A600C91CE8 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		46871A97166F2E7A00C91CE8 /* GoodsSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsSearchViewController.h; sourceTree = "<group>"; };
+		46871A98166F2E7A00C91CE8 /* GoodsSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsSearchViewController.m; sourceTree = "<group>"; };
+		46871A99166F2E7A00C91CE8 /* GoodsSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoodsSearchViewController.xib; sourceTree = "<group>"; };
 		469142F21665E2B900093ACC /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		469142F31665E2B900093ACC /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
 		469142F41665E2B900093ACC /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
@@ -467,6 +472,9 @@
 				AABB45D5166C488800306A09 /* GoodsInfoViewController.h */,
 				AABB45D6166C488800306A09 /* GoodsInfoViewController.m */,
 				AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */,
+				46871A97166F2E7A00C91CE8 /* GoodsSearchViewController.h */,
+				46871A98166F2E7A00C91CE8 /* GoodsSearchViewController.m */,
+				46871A99166F2E7A00C91CE8 /* GoodsSearchViewController.xib */,
 			);
 			name = Goods;
 			sourceTree = "<group>";
@@ -761,6 +769,7 @@
 				46871A7D166EE1CB00C91CE8 /* zbar-help.html in Resources */,
 				46871A7E166EE1CB00C91CE8 /* zbar-helpicons.png in Resources */,
 				46871A7F166EE1CB00C91CE8 /* zbar-samples.png in Resources */,
+				46871A9B166F2E7A00C91CE8 /* GoodsSearchViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,6 +844,7 @@
 				AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */,
 				AABB45D8166C488800306A09 /* GoodsInfoViewController.m in Sources */,
 				4697E415166C38D7006BEF17 /* PullToRefreshTableView.m in Sources */,
+				46871A9A166F2E7A00C91CE8 /* GoodsSearchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
