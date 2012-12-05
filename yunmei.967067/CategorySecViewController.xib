@@ -36,7 +36,6 @@
 				<string key="NSFrameSize">{320, 568}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -82,11 +81,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">tableView</string>
+						<string key="label">categorySectableView</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="416336157"/>
 					</object>
-					<int key="connectionID">8</int>
+					<int key="connectionID">9</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -142,7 +141,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">8</int>
+			<int key="maxID">9</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -150,13 +149,13 @@
 					<string key="className">CategorySecViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">tableView</string>
+						<string key="NS.key.0">categorySectableView</string>
 						<string key="NS.object.0">UITableView</string>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">tableView</string>
+						<string key="NS.key.0">categorySectableView</string>
 						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">tableView</string>
+							<string key="name">categorySectableView</string>
 							<string key="candidateClassName">UITableView</string>
 						</object>
 					</object>

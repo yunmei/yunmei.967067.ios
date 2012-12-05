@@ -14,7 +14,7 @@
 
 @implementation CategoryViewController
 
-@synthesize tableView;
+@synthesize categoryTableView;
 @synthesize catItemList;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,7 +48,7 @@
                 catModel.imageUrl = [i objectForKey:@"imageUrl"];
                 catModel.catDesc = [i objectForKey:@"catDesc"];
                 [self.catItemList addObject:catModel];
-                [self.tableView reloadData];
+                [self.categoryTableView reloadData];
             }
         }
         [hud hide:YES];
@@ -67,7 +67,7 @@
 }
 
 - (void)viewDidUnload {
-    [self setTableView:nil];
+    [self setCategoryTableView:nil];
     [super viewDidUnload];
 }
 

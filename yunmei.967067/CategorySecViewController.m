@@ -14,7 +14,7 @@
 @end
 
 @implementation CategorySecViewController
-@synthesize tableView = _tableView;
+@synthesize categorySectableView = categorySectableView;
 @synthesize subCateList = _subCateList;
 
 //初始化属性subCateList
@@ -39,7 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.tableView reloadData];
+    [self.categorySectableView reloadData];
     
     
     // Do any additional setup after loading the view from its nib.
@@ -52,7 +52,7 @@
 }
 
 - (void)viewDidUnload {
-    [self setTableView:nil];
+    [self setCategorySectableView:nil];
     [super viewDidUnload];
 }
 

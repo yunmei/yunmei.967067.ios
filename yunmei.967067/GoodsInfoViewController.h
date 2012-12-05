@@ -20,6 +20,6 @@
 
 @property(strong, nonatomic)NSString *goodsId;
 @property(strong, nonatomic)GoodsModel *goodsModel;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UITableView *goodsTableView;
 @property(strong,nonatomic)UIButton *sizeBtn;
 @end

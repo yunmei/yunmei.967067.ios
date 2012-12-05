@@ -16,7 +16,7 @@
 @implementation GoodsInfoViewController
 @synthesize goodsId;
 @synthesize goodsModel = _goodsModel;
-@synthesize tableView;
+@synthesize goodsTableView;
 @synthesize sizeBtn;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -39,13 +39,12 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"goods_getBaseByGoodsId",@"act",[self goodsId],@"goodsId",nil];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSLog(@"%@",[completedOperation responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
        if([(NSString *)[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
-       {
-//           
-//           
-//
+       {                    
+//这个是没有数组的
 //           NSMutableDictionary *dataDic = [object objectForKey:@"data"];
 //           self.goodsModel.goodsCode = [dataDic objectForKey:@"goodsCode"];
 //           self.goodsModel.goodsMarketPrice = [dataDic objectForKey:@"goodsMarketPrice"];
@@ -55,7 +54,18 @@
 //           self.goodsModel.standard = [dataDic objectForKey:@"standard"];
 //           self.goodsModel.store = [dataDic objectForKey:@"store"];
 //           NSLog(@"%@",self.goodsModel.store);
-           [self.tableView reloadData];
+//这个是有数组的
+           NSMutableArray *dataArr = [object objectForKey:@"data"];
+           NSMutableDictionary *dataDic = [dataArr objectAtIndex:0];
+           self.goodsModel.goodsCode = [dataDic objectForKey:@"goodsCode"];
+           self.goodsModel.goodsMarketPrice = [dataDic objectForKey:@"goodsMarketPrice"];
+           self.goodsModel.goodsName = [dataDic objectForKey:@"goodsName"];
+           self.goodsModel.imageUrl = [dataDic objectForKey:@"imageUrl"];
+           self.goodsModel.property = [dataDic objectForKey:@"property"];
+           self.goodsModel.standard = [dataDic objectForKey:@"standard"];
+           self.goodsModel.store = [dataDic objectForKey:@"store"];
+           NSLog(@"%@",self.goodsModel.store);
+           [self.goodsTableView reloadData];
        }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"Error:%@",error);
@@ -79,7 +89,7 @@
 }
 
 - (void)viewDidUnload {
-    [self setTableView:nil];
+    [self setGoodsTableView:nil];
     [super viewDidUnload];
 }
 
@@ -120,14 +130,11 @@
         imageScrollView.backgroundColor = [UIColor blueColor];
         imageScrollView.showsHorizontalScrollIndicator=YES;
         [cell.contentView addSubview:imageScrollView];
-        
         return cell;
-    }
-    //加载第二行时
-    if(indexPath.row ==1)
+    }else if(indexPath.row ==1)
     {
         static NSString *identifier = @"cellMiddle";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+          UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if(cell == nil)
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
@@ -213,8 +220,17 @@
         [cell addSubview:chiBtn3];
         [cell addSubview:chiBtn4];
         return cell;
-    }
+    }else
+    {
+        static NSString *identifier = @"cellNon";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if(cell == nil)
+        {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        }
+        return cell;
 
+    }
 }
 
 

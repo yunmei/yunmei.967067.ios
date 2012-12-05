@@ -11,6 +11,6 @@
 @interface CategorySecViewController : UIViewController<UITableViewDelegate,
     UITableViewDataSource
 >
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UITableView *categorySectableView;
 @property (strong, nonatomic) NSMutableArray * subCateList;
 @end

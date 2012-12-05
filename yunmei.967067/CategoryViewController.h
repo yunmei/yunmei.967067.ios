@@ -21,6 +21,6 @@
 >
 
 @property (strong, nonatomic)NSMutableArray *catItemList;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UITableView *categoryTableView;
 
 @end
