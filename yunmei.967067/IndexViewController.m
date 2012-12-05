@@ -264,7 +264,25 @@
 // 解析二维码操作
 - (void) imagePickerController: (UIImagePickerController*) reader didFinishPickingMediaWithInfo: (NSDictionary*) info
 {
-    NSLog(@"解析二维码操作");
+    id<NSFastEnumeration> results = [info objectForKey: ZBarReaderControllerResults];
+    ZBarSymbol *symbol = nil;
+    for(symbol in results)
+        break;
+    [reader dismissModalViewControllerAnimated: YES];
+    NSString *url = symbol.data;
+    NSString *regEx = @"wap-[0-9]+_1-index";
+    NSRange r = [url rangeOfString:regEx options:NSRegularExpressionSearch];
+    if (r.location != NSNotFound) {
+        NSString *str = [[url substringWithRange:r] stringByReplacingOccurrencesOfString:@"wap-" withString:@""];
+        str = [str stringByReplacingOccurrencesOfString:@"_1-index" withString:@""];
+        // 这里还需要进行处理
+        // 通过商品编码获取商品id，再加入到购物车里
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"商品的编码是:%@",str] delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+        [alertView show];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没有对应的商品" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+        [alertView show];
+    }
 }
 
 // 新品点击操作
