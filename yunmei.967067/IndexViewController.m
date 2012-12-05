@@ -248,7 +248,23 @@
 // 二维码点击操作
 - (void)tdbClickAction:(id)sender
 {
-    NSLog(@"tdbClickAction");
+    ZBarReaderViewController *reader = [ZBarReaderViewController new];
+    reader.readerDelegate = self;
+    reader.supportedOrientationsMask = ZBarOrientationMaskAll;
+    
+    ZBarImageScanner *scanner = reader.scanner;
+    
+    [scanner setSymbology: ZBAR_I25
+                   config: ZBAR_CFG_ENABLE
+                       to: 0];
+    
+    [self presentModalViewController: reader
+                            animated: YES];
+}
+// 解析二维码操作
+- (void) imagePickerController: (UIImagePickerController*) reader didFinishPickingMediaWithInfo: (NSDictionary*) info
+{
+    NSLog(@"解析二维码操作");
 }
 
 // 新品点击操作
