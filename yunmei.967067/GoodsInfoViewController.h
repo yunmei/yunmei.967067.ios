@@ -12,7 +12,7 @@
 #import "SBJson.h"
 #import "AppDelegate.h"
 #import "GoodsModel.h"
-
+#import <QuartzCore/QuartzCore.h>
 @interface GoodsInfoViewController : UIViewController<
     UITableViewDataSource,
     UITabBarDelegate
@@ -21,5 +21,5 @@
 @property(strong, nonatomic)NSString *goodsId;
 @property(strong, nonatomic)GoodsModel *goodsModel;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
+@property(strong,nonatomic)UIButton *sizeBtn;
 @end
