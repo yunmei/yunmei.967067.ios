@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "GoodsModel.h"
 #import <QuartzCore/QuartzCore.h>
+#import "YMUIButton.h"
 @interface GoodsInfoViewController : UIViewController<
     UITableViewDataSource,
     UITabBarDelegate
@@ -22,4 +23,6 @@
 @property(strong, nonatomic)GoodsModel *goodsModel;
 @property (strong, nonatomic) IBOutlet UITableView *goodsTableView;
 @property(strong,nonatomic)UIButton *sizeBtn;
+
+
 @end

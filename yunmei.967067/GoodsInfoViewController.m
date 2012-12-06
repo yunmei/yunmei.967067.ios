@@ -147,78 +147,40 @@
         UILabel *priceLable = [[UILabel alloc]initWithFrame:CGRectMake(15, 32, 101, 30)];
         priceLable.textColor = [UIColor redColor];
         priceLable.text = @"￥567.00";
+        priceLable.font = [UIFont systemFontOfSize:15.0];
         [cell addSubview:priceLable];
         //产品市场价
         UILabel *marketPriceLable = [[UILabel alloc]initWithFrame:CGRectMake(103, 32, 150, 30)];
         marketPriceLable.text = @"市场价:￥986.00";
         marketPriceLable.textColor = [UIColor grayColor];
+        marketPriceLable.font = [UIFont systemFontOfSize:15.0];
         [cell addSubview:marketPriceLable];
         //产品尺码
-        UILabel *chiMaLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 76, 50, 25)];
+        UILabel *chiMaLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 70, 40, 25)];
         chiMaLable.text = @"尺码:";
-        chiMaLable.font = [UIFont systemFontOfSize:18.0];
+        chiMaLable.font = [UIFont systemFontOfSize:15.0];
         [cell addSubview:chiMaLable];
         //生成尺寸的选择框按钮
-        UIButton *chiBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIButton *chiBtn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIButton *chiBtn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIButton *chiBtn4 = [UIButton buttonWithType:UIButtonTypeCustom];
-        //按钮定位
-        [chiBtn1 setFrame:CGRectMake(70, 76, 40, 26)];
-        [chiBtn2 setFrame:CGRectMake(110, 76, 40, 26)];
-        [chiBtn3 setFrame:CGRectMake(150, 76, 40, 26)];
-        [chiBtn4 setFrame:CGRectMake(190, 76, 40, 26)];
-        //设置标题
-        [chiBtn1 setTitle:@"20" forState:UIControlStateNormal];
-        [chiBtn2 setTitle:@"30" forState:UIControlStateNormal];
-        [chiBtn3 setTitle:@"40" forState:UIControlStateNormal];
-        [chiBtn4 setTitle:@"50" forState:UIControlStateNormal];
+        UIButton *chiBtn1 = [YMUIButton CreateSizeButton:@"20" CGFrame:CGRectMake(55, 70, 40, 26)];
+        UIButton *chiBtn2 = [YMUIButton CreateSizeButton:@"30" CGFrame:CGRectMake(95, 70, 40, 26)];
+        UIButton *chiBtn3 = [YMUIButton CreateSizeButton:@"40" CGFrame:CGRectMake(135, 70, 40, 26)];
+        UIButton *chiBtn4 = [YMUIButton CreateSizeButton:@"50" CGFrame:CGRectMake(175, 70, 40, 26)];
         //设置点击大小按钮时候的事件
         [chiBtn1 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
         [chiBtn2 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
         [chiBtn3 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
         [chiBtn4 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
-        //设置背景色
-        [chiBtn1 setBackgroundColor:[UIColor whiteColor]];
-        [chiBtn2 setBackgroundColor:[UIColor whiteColor]];
-        [chiBtn3 setBackgroundColor:[UIColor whiteColor]];
-        [chiBtn4 setBackgroundColor:[UIColor whiteColor]];
-        //设置字体颜色
-        [chiBtn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [chiBtn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [chiBtn3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [chiBtn4 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        //设置边框宽
-        [chiBtn1.layer setBorderWidth:1.0];
-        [chiBtn2.layer setBorderWidth:1.0];
-        [chiBtn3.layer setBorderWidth:1.0];
-        [chiBtn4.layer setBorderWidth:1.0];
-        //生成button边框的颜色
-        CGFloat r = (CGFloat)228/255.0;
-        CGFloat g = (CGFloat)228/255.0;
-        CGFloat b = (CGFloat)228/55.0;
-        CGFloat a = (CGFloat) 1.0;
-        CGFloat componets[4] = {r,g,b,a};
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        CGColorRef borderColor = CGColorCreate(colorSpace, componets);
-        [chiBtn1.layer setBorderColor:borderColor];
-        [chiBtn2.layer setBorderColor:borderColor];
-        [chiBtn3.layer setBorderColor:borderColor];
-        [chiBtn4.layer setBorderColor:borderColor];
-        //生成button被按下时候的背景色
-//        CGFloat r1 = (CGFloat)237/255.0;
-//        CGFloat g1 = (CGFloat)237/255.0;
-//        CGFloat b1 = (CGFloat)237/55.0;
-//        CGFloat a1 = (CGFloat) 1.0;
-//        CGFloat componets1[4] = {r1,g1,b1,a1};
-//        CGColorSpaceRef colorSpace1 = CGColorSpaceCreateDeviceRGB();
-//        CGColorRef backgroundColor = CGColorCreate(colorSpace1, componets1);
-//        UIColor *backColor = [UIColor colorWithCGColor:backgroundColor];
         //将这些按钮加入cell视图
         [cell addSubview:chiBtn1];
         [cell addSubview:chiBtn2];
         [cell addSubview:chiBtn3];
         [cell addSubview:chiBtn4];
+        //颜色label
+        UILabel *colorLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 98, 50, 40)];
+        [colorLable setText:@"颜色:"];
+        [colorLable setFont:[UIFont systemFontOfSize:15.0]];
+        [cell addSubview:colorLable];
+        //生成颜色button  开始位置 60 112   大小 57＊20
         return cell;
     }else
     {
@@ -233,7 +195,7 @@
     }
 }
 
-
+//尺码按钮绑定的事件
 -(void)chiMaCliked:(id)sender
 {
     if(self.sizeBtn != nil)
@@ -247,4 +209,5 @@
     [PressedBtn setBackgroundColor:[UIColor grayColor]];
     NSLog(@"%@",[sender titleLabel].text);
 }
+
 @end
