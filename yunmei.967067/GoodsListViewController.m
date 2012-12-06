@@ -54,6 +54,9 @@
         [params setObject:@"goods_getHotList" forKey:@"act"];
     } else if ([self.requestDataType isEqualToString:@"newAdList"]) {
         [params setObject:@"goods_getNewList" forKey:@"act"];
+    } else if ([self.requestDataType isEqualToString:@"search"]) {
+        [params setObject:@"goods_getListByKeywords" forKey:@"act"];
+        [params setObject:self.requestId forKey:@"keywords"];
     }
     MKNetworkOperation* op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
