@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GoodsSearchViewController : UIViewController
+@interface GoodsSearchViewController : UIViewController <UISearchBarDelegate>
+
+@property (strong, nonatomic) IBOutlet UISearchBar *goodsSearchBar;
 
 @end

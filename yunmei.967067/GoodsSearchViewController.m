@@ -13,6 +13,7 @@
 @end
 
 @implementation GoodsSearchViewController
+@synthesize goodsSearchBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,7 +27,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.goodsSearchBar.tintColor = [UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1];
+    [self.goodsSearchBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"]];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    
+    [self dismissModalViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"GoToSearch" object:self userInfo:[NSDictionary dictionaryWithObject:searchBar.text forKey:@"keywords"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,4 +49,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidUnload {
+    [self setGoodsSearchBar:nil];
+    [super viewDidUnload];
+}
 @end

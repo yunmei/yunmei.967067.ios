@@ -242,7 +242,7 @@
 // 搜索点击操作
 - (void)searchClickAction:(id)sender
 {
-    NSLog(@"searchClickAction");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToSearch" object:self];
 }
 
 // 二维码点击操作

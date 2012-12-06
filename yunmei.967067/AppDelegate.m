@@ -13,6 +13,8 @@
 #import "CartViewController.h"
 #import "MyViewController.h"
 #import "MoreViewController.h"
+#import "GoodsSearchViewController.h"
+#import "GoodsListViewController.h"
 #import "Constants.h"
 
 @implementation UINavigationBar (CustomNavigationBarImage)
@@ -73,7 +75,37 @@
 
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
+    
+    // NSNotification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openSearchView:) name:@"INeedToSearch" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToSearch:) name:@"GoToSearch" object:nil];
     return YES;
+}
+
+- (void)openSearchView:(NSNotification *)note
+{
+    GoodsSearchViewController *searchView = [[GoodsSearchViewController alloc]init];
+    [self.tabBarController.selectedViewController presentModalViewController:searchView animated:YES];
+}
+
+- (void)goToSearch:(NSNotification *)note
+{
+    UINavigationController *viewController = (UINavigationController *)self.tabBarController.selectedViewController;
+    NSString *keywords = [[note userInfo]objectForKey:@"keywords"];
+    
+    
+    
+    GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
+    goodsListViewController.requestDataType = @"search";
+    goodsListViewController.requestId = keywords;
+    UILabel *itemTitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 170, 44)];
+    itemTitle.textAlignment = UITextAlignmentCenter;
+    itemTitle.text = [NSString stringWithFormat:@"关键字\"%@\"的产品列表", keywords];
+    itemTitle.font = [UIFont systemFontOfSize:14.0];
+    itemTitle.backgroundColor = [UIColor clearColor];
+    itemTitle.textColor = [UIColor whiteColor];
+    goodsListViewController.navigationItem.titleView = itemTitle;
+    [viewController pushViewController:goodsListViewController animated:(YES)];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
