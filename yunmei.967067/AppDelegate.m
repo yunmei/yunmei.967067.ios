@@ -93,8 +93,6 @@
     UINavigationController *viewController = (UINavigationController *)self.tabBarController.selectedViewController;
     NSString *keywords = [[note userInfo]objectForKey:@"keywords"];
     
-    
-    
     GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
     goodsListViewController.requestDataType = @"search";
     goodsListViewController.requestId = keywords;

@@ -243,6 +243,8 @@
 - (void)searchClickAction:(id)sender
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToSearch" object:self];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
 }
 
 // 二维码点击操作
