@@ -31,8 +31,11 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = NSLocalizedString(@"首页", @"首页");
-        self.tabBarItem.image = [UIImage imageNamed:@"tabbar_index"];
         self.navigationItem.title = @"齐鲁直销商城";
+        [self.tabBarItem setImage:[UIImage imageNamed:@"tabbar_index"]];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
+            [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_index"] withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_index_unselected"]];
+        }
     }
     return self;
 }
@@ -88,7 +91,7 @@
     [searchBtn setBackgroundImage:[UIImage imageNamed:@"search_btn"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchClickAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.searchBgView addSubview:searchBtn];
-    UIButton *tdbBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, 5, 91, 32)];
+    UIButton *tdbBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, 4, 91, 32)];
     [tdbBtn setBackgroundImage:[UIImage imageNamed:@"tdc_btn"] forState:UIControlStateNormal];
     [tdbBtn addTarget:self action:@selector(tdbClickAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.searchBgView addSubview:tdbBtn];

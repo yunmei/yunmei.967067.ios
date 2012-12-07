@@ -19,8 +19,11 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = NSLocalizedString(@"我的商城", @"我的商城");
-        self.tabBarItem.image = [UIImage imageNamed:@"tabbar_my"];
-        self.navigationItem.title = @"齐鲁直销商城";
+        self.navigationItem.title = @"我的商城";
+        [self.tabBarItem setImage:[UIImage imageNamed:@"tabbar_my"]];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
+            [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_my"] withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_my_unselected"]];
+        }
     }
     return self;
 }

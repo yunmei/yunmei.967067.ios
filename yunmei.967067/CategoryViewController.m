@@ -21,7 +21,11 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = NSLocalizedString(@"商品分类", @"商品分类");
-        self.tabBarItem.image = [UIImage imageNamed:@"tabbar_category"];
+        self.navigationItem.title = @"商品分类";
+        [self.tabBarItem setImage:[UIImage imageNamed:@"tabbar_category"]];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
+            [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_category"] withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_category_unselected"]];
+        }
     }
     return self;
 }
