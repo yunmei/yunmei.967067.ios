@@ -27,10 +27,26 @@
     //设置边框宽
     [chiBtn1.layer setBorderWidth:1.0];
     //生成button边框的颜色
-    
     CGColorRef borderColor = [YMUIButton CreateCGColorRef:228 greenNumber:228 blueNumber:228 alphaNumber:1.0];
     [chiBtn1.layer setBorderColor:borderColor];
     return chiBtn1;
+}
+
+//生成商品详情页颜色button
++(UIButton *)CreateColorButton:(CGColorRef)refColor
+                       CGFrame:(CGRect)CGFrame
+{
+    UIButton *colorBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //按钮定位
+    [colorBtn setFrame:CGFrame];
+    //生成按钮背景色
+    [colorBtn setBackgroundColor:[UIColor colorWithCGColor:refColor]];
+    //设置边逛宽度
+    [colorBtn.layer setBorderWidth:4.0];
+    //生成并设置边框颜色
+    CGColorRef borderColor = [YMUIButton CreateCGColorRef:255 greenNumber:255 blueNumber:255 alphaNumber:1.0];
+    [colorBtn.layer setBorderColor:borderColor];
+    return colorBtn;
 }
 
 //根据三色生成CGColorRef
@@ -41,11 +57,12 @@
 {
     CGFloat r = (CGFloat)redNumer/255.0;
     CGFloat g = (CGFloat)greenNumber/255.0;
-    CGFloat b = (CGFloat)blueNumber/55.0;
+    CGFloat b = (CGFloat)blueNumber/255.0;
     CGFloat a = (CGFloat)alphaNumber;
     CGFloat componets[4] = {r,g,b,a};
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGColorRef CreatedCGColorRef = CGColorCreate(colorSpace, componets);
     return CreatedCGColorRef;
 }
+
 @end

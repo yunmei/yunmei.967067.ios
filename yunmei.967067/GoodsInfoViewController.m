@@ -14,10 +14,13 @@
 @end
 
 @implementation GoodsInfoViewController
+
 @synthesize goodsId;
 @synthesize goodsModel = _goodsModel;
 @synthesize goodsTableView;
 @synthesize sizeBtn;
+@synthesize textControlToolbar;
+@synthesize  firstResponderTextFeild;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -111,6 +114,9 @@
     if(indexPath.row == 1)
     {
         return 465;
+    }else
+    {
+        return 0;
     }
 
 }
@@ -165,7 +171,7 @@
         UIButton *chiBtn2 = [YMUIButton CreateSizeButton:@"30" CGFrame:CGRectMake(95, 70, 40, 26)];
         UIButton *chiBtn3 = [YMUIButton CreateSizeButton:@"40" CGFrame:CGRectMake(135, 70, 40, 26)];
         UIButton *chiBtn4 = [YMUIButton CreateSizeButton:@"50" CGFrame:CGRectMake(175, 70, 40, 26)];
-        //设置点击大小按钮时候的事件
+        //设置点击尺寸按钮时候的事件
         [chiBtn1 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
         [chiBtn2 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
         [chiBtn3 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
@@ -181,6 +187,69 @@
         [colorLable setFont:[UIFont systemFontOfSize:15.0]];
         [cell addSubview:colorLable];
         //生成颜色button  开始位置 60 112   大小 57＊20
+        CGColorRef colorBtnRef1 = [YMUIButton CreateCGColorRef:237 greenNumber:134 blueNumber:6 alphaNumber:1.0];
+        UIButton *colorBtn1 = [YMUIButton CreateColorButton:colorBtnRef1 CGFrame:CGRectMake(60, 109, 52, 24)];
+        CGColorRef colorBtnRef2 = [YMUIButton CreateCGColorRef:192 greenNumber:42 blueNumber:3 alphaNumber:1.0];
+        UIButton *colorBtn2 = [YMUIButton CreateColorButton:colorBtnRef2 CGFrame:CGRectMake(112, 109, 52, 24)];
+        CGColorRef colorBtnRef3 = [YMUIButton CreateCGColorRef:138 greenNumber:0 blueNumber:180 alphaNumber:1.0];
+        UIButton *colorBtn3 = [YMUIButton CreateColorButton:colorBtnRef3 CGFrame:CGRectMake(164, 109, 52, 24)];
+        //设置点击颜色按钮时候产生的事件
+        [colorBtn1 addTarget:self action:@selector(colorBtnCliked:)forControlEvents:UIControlEventTouchUpInside];
+        [colorBtn2 addTarget:self action:@selector(colorBtnCliked:)forControlEvents:UIControlEventTouchUpInside];
+        [colorBtn3 addTarget:self action:@selector(colorBtnCliked:)forControlEvents:UIControlEventTouchUpInside];
+        [cell addSubview:colorBtn1];
+        [cell addSubview:colorBtn2];
+        [cell addSubview:colorBtn3];
+        //生成数量label
+        NSUInteger numHeight = 135;
+        UILabel *numLable = [[UILabel alloc]initWithFrame:CGRectMake(12, numHeight, 50, 40)];
+        [numLable setText:@"数量:"];
+        [numLable setFont:[UIFont systemFontOfSize:15.0]];
+        [cell addSubview:numLable];
+        //生成button减
+        UIButton *minusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [minusBtn setTitle:@"-" forState:UIControlStateNormal];
+        [minusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        minusBtn.titleLabel.font = [UIFont systemFontOfSize:38.0];
+        CGColorRef minusBtnColor = [YMUIButton CreateCGColorRef:70 greenNumber:70 blueNumber:70 alphaNumber:1.0];
+        [minusBtn setBackgroundColor:[UIColor colorWithCGColor:minusBtnColor]];
+        [minusBtn setFrame:CGRectMake(56, 142, 26, 26)];
+        [cell addSubview:minusBtn];
+        //生成text框
+        UITextField *numFeild = [[UITextField alloc]initWithFrame:CGRectMake(84, 142, 40, 26)];
+        [numFeild.layer setBorderWidth:1.0];
+        [numFeild.layer setBorderColor:[YMUIButton CreateCGColorRef:128 greenNumber:128 blueNumber:128 alphaNumber:1.0]];
+        [numFeild setText:@"1"];
+        [numFeild setKeyboardType:UIKeyboardTypeNumberPad];
+        self.firstResponderTextFeild = numFeild;
+        //设置内容水平垂直居中
+        [numFeild setTextAlignment:UITextAlignmentCenter];
+        [numFeild setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+        [cell addSubview:numFeild];
+        //生成加button
+        UIButton *plusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [plusBtn setTitle:@"+" forState:UIControlStateNormal];
+        [plusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        plusBtn.titleLabel.font = [UIFont systemFontOfSize:28.0];
+        CGColorRef plusBtnColor = [YMUIButton CreateCGColorRef:70 greenNumber:70 blueNumber:70 alphaNumber:1.0];
+        [plusBtn setBackgroundColor:[UIColor colorWithCGColor:plusBtnColor]];
+        [plusBtn setFrame:CGRectMake(126, 142, 26, 26)];
+        [cell addSubview:plusBtn];
+        //为文本域输入添加一个控制键盘的toolbar
+        UIToolbar *keyBordTopBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 160, 320, 40)];
+        [keyBordTopBar setBarStyle:UIBarStyleBlackTranslucent];
+        UIBarButtonItem *cancleBtn = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancleBtnClick:)];
+        UIBarButtonItem *confirmBtn = [[UIBarButtonItem alloc]initWithTitle:@"确认" style:UIBarButtonItemStyleBordered target:self action:@selector(confirmBtnClick:)];
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        [cancleBtn setWidth:60.0];
+        [flexibleSpace setWidth:190.0];
+        [confirmBtn setWidth:60.0];
+        [confirmBtn setAccessibilityActivationPoint:CGPointMake(282, 18)];
+        NSArray *buttons = [[NSArray alloc]initWithObjects:cancleBtn,flexibleSpace,confirmBtn, nil];
+        [keyBordTopBar setItems:buttons];
+        self.textControlToolbar = keyBordTopBar;
+        //为文本框绑定事件，获得焦点时弹出toolbar
+        numFeild.delegate = self;
         return cell;
     }else
     {
@@ -204,10 +273,47 @@
     }
     UIButton *PressedBtn = sender;
     self.sizeBtn = sender;
-  
-   
     [PressedBtn setBackgroundColor:[UIColor grayColor]];
     NSLog(@"%@",[sender titleLabel].text);
 }
 
+//颜色按钮绑定事件
+-(void)colorBtnCliked:(id)sender
+{
+    if(self.colorBtn !=nil)
+    {
+        NSLog(@"notnil");
+        CGColorRef witeColor = [YMUIButton CreateCGColorRef:255 greenNumber:255 blueNumber:255 alphaNumber:1.0];
+        [self.colorBtn.layer setBorderColor:witeColor];
+    }
+    UIButton *PressedBtn = sender;
+    self.colorBtn = sender;
+    CGColorRef borderColor = [YMUIButton CreateCGColorRef:228 greenNumber:228 blueNumber:228 alphaNumber:1.0];
+    [PressedBtn.layer setBorderColor:borderColor];
+    
+}
+
+//点击数量文本域时候弹出toolbar事件
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self.firstResponderTextFeild setText:@""];
+    [self.view.superview addSubview:self.textControlToolbar];
+}
+
+//绑定toobar取消按钮的事件
+-(void)cancleBtnClick:(id)sender
+{
+    [self.firstResponderTextFeild setText:@"1"];
+    [self.firstResponderTextFeild resignFirstResponder];
+    [self.textControlToolbar removeFromSuperview];
+    [self.firstResponderTextFeild resignFirstResponder];
+}
+
+//绑定toobar确认按钮
+-(void)confirmBtnClick:(id)sender
+{
+    NSLog(@"%@",self.firstResponderTextFeild.text);
+    [self.firstResponderTextFeild resignFirstResponder];
+    [self.textControlToolbar removeFromSuperview];
+}
 @end

@@ -16,13 +16,26 @@
 #import "YMUIButton.h"
 @interface GoodsInfoViewController : UIViewController<
     UITableViewDataSource,
-    UITabBarDelegate
+    UITabBarDelegate,
+    UITextFieldDelegate
 >
 
 @property(strong, nonatomic)NSString *goodsId;
 @property(strong, nonatomic)GoodsModel *goodsModel;
 @property (strong, nonatomic) IBOutlet UITableView *goodsTableView;
+//这个属性设置为最后一次点击的尺寸按钮的一个强引用
 @property(strong,nonatomic)UIButton *sizeBtn;
+//这个属性设置为最后一次点击的颜色按钮的一个强引用
+@property(strong,nonatomic)UIButton *colorBtn;
 
+//为这个页添加一个toolbar
+@property(strong, nonatomic)UIToolbar *textControlToolbar;
+//尺寸按钮绑定事件
 
+//这个属性作为数量输入框textFeild一个引用
+@property(strong,nonatomic)UITextField *firstResponderTextFeild;
+
+-(void)chiMaCliked:(id)sender;
+//颜色按钮绑定事件
+-(void)colorBtnClicked:(id)sender;
 @end
