@@ -144,7 +144,7 @@
         if(cell == nil)
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        }
+        
         //产品名字
         UILabel *nameLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 0, 320, 43)];
         nameLable.text = @"2012秋装新款韩款女装中长版";
@@ -215,7 +215,7 @@
         [minusBtn setBackgroundColor:[UIColor colorWithCGColor:minusBtnColor]];
         [minusBtn setFrame:CGRectMake(56, 142, 26, 26)];
         [cell addSubview:minusBtn];
-        //生成text框
+        //生成数量text框
         UITextField *numFeild = [[UITextField alloc]initWithFrame:CGRectMake(84, 142, 40, 26)];
         [numFeild.layer setBorderWidth:1.0];
         [numFeild.layer setBorderColor:[YMUIButton CreateCGColorRef:128 greenNumber:128 blueNumber:128 alphaNumber:1.0]];
@@ -250,6 +250,7 @@
         self.textControlToolbar = keyBordTopBar;
         //为文本框绑定事件，获得焦点时弹出toolbar
         numFeild.delegate = self;
+        }
         return cell;
     }else
     {
