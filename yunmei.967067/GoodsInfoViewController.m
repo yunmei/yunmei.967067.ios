@@ -214,6 +214,7 @@
         CGColorRef minusBtnColor = [YMUIButton CreateCGColorRef:70 greenNumber:70 blueNumber:70 alphaNumber:1.0];
         [minusBtn setBackgroundColor:[UIColor colorWithCGColor:minusBtnColor]];
         [minusBtn setFrame:CGRectMake(56, 142, 26, 26)];
+        [minusBtn addTarget:self action:@selector(minusBtnPress:) forControlEvents:UIControlEventTouchUpInside];
         [cell addSubview:minusBtn];
         //生成数量text框
         UITextField *numFeild = [[UITextField alloc]initWithFrame:CGRectMake(84, 142, 40, 26)];
@@ -234,6 +235,7 @@
         CGColorRef plusBtnColor = [YMUIButton CreateCGColorRef:70 greenNumber:70 blueNumber:70 alphaNumber:1.0];
         [plusBtn setBackgroundColor:[UIColor colorWithCGColor:plusBtnColor]];
         [plusBtn setFrame:CGRectMake(126, 142, 26, 26)];
+        [plusBtn addTarget:self action:@selector(plusBtnPress:) forControlEvents:UIControlEventTouchUpInside];
         [cell addSubview:plusBtn];
         //为文本域输入添加一个控制键盘的toolbar
         UIToolbar *keyBordTopBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 160, 320, 40)];
@@ -316,5 +318,25 @@
     NSLog(@"%@",self.firstResponderTextFeild.text);
     [self.firstResponderTextFeild resignFirstResponder];
     [self.textControlToolbar removeFromSuperview];
+}
+
+//绑定plusBtnPress这个加号按钮事件
+-(void)plusBtnPress:(id)sender
+{
+    NSInteger i = [self.firstResponderTextFeild.text integerValue];
+        i++;
+    self.firstResponderTextFeild.text = [NSString stringWithFormat:@"%i",i];
+    
+}
+
+//绑定minusBtnPress这个减号按钮事件
+-(void)minusBtnPress:(id)sender
+{
+    NSUInteger i = [self.firstResponderTextFeild.text integerValue];
+    if(i > 1)
+    {
+        i--;
+    }
+    self.firstResponderTextFeild.text = [NSString stringWithFormat:@"%i",i];
 }
 @end
