@@ -22,6 +22,7 @@
 @synthesize textControlToolbar;
 @synthesize  firstResponderTextFeild;
 @synthesize goodsImageScrollView = _goodsImageScrollView;
+@synthesize goodsDetailTableView = _goodsDetailTableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -74,6 +75,11 @@
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"Error:%@",error);
     }];
+    self.goodsDetailTableView.tag =1;
+    self.goodsDetailTableView.delegate = self;
+    self.goodsDetailTableView.dataSource = self;
+    self.goodsDetailTableView.scrollEnabled = NO;
+    self.goodsDetailTableView.backgroundColor = [UIColor whiteColor];
     [hud hide:YES];
     [ApplicationDelegate.appEngine enqueueOperation:op];
 }
@@ -83,6 +89,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 -(GoodsModel *)goodsModel
 {
     if(_goodsModel == nil)
@@ -90,6 +97,24 @@
         _goodsModel = [[GoodsModel alloc]init];
     }
     return _goodsModel;
+}
+
+-(UIScrollView *)goodsImageScrollView
+{
+    if(_goodsImageScrollView == nil)
+    {
+        _goodsImageScrollView = [[UIScrollView alloc]init];
+    }
+    return _goodsImageScrollView;
+}
+
+-(UITableView *)goodsDetailTableView
+{
+    if(_goodsDetailTableView == nil)
+    {
+        _goodsDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, 320, 420) style:UITableViewStyleGrouped];
+    }
+    return _goodsDetailTableView;
 }
 
 - (void)viewDidUnload {
@@ -131,7 +156,14 @@
         {
             return 101;
         }else{
-            return 427;
+            return 500;
+        }
+    }else{
+        if(indexPath.section == 0)
+        {
+            return 130;
+        }else{
+            return  30;
         }
     }
 }
@@ -146,151 +178,206 @@
     }
 }
 
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //当加载第一行时
-    if(indexPath.row ==0)
+    if(tableView.tag ==0)
     {
-        static NSString *identifier = @"cellHeader";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if(cell == nil)
+        //当加载第一行时
+        if(indexPath.row ==0)
         {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            UIScrollView * imageScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(30, 15, 260, 160)];
-            imageScrollView.backgroundColor = [UIColor blueColor];
-            imageScrollView.showsHorizontalScrollIndicator=YES;
-            [cell.contentView addSubview:imageScrollView];
-        }
-        return cell;
-    }else if(indexPath.row ==1)
-    {
-        static NSString *identifier = @"cellMiddle";
-          UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if(cell == nil)
+            static NSString *identifierHeader = @"cellHeader";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierHeader];
+            if(cell == nil)
+            {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierHeader];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                UIScrollView * imageScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(30, 15, 260, 160)];
+                imageScrollView.backgroundColor = [UIColor blueColor];
+                imageScrollView.showsHorizontalScrollIndicator=YES;
+                [cell addSubview:imageScrollView];
+            }
+            return cell;
+        }else if(indexPath.row ==1)
         {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        
-        //产品名字
-        UILabel *nameLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 0, 320, 43)];
-        nameLable.text = @"2012秋装新款韩款女装中长版";
-        [cell addSubview:nameLable];
-        //产品价格
-        UILabel *priceLable = [[UILabel alloc]initWithFrame:CGRectMake(15, 32, 101, 30)];
-        priceLable.textColor = [UIColor redColor];
-        priceLable.text = @"￥567.00";
-        priceLable.font = [UIFont systemFontOfSize:15.0];
-        [cell addSubview:priceLable];
-        //产品市场价
-        UILabel *marketPriceLable = [[UILabel alloc]initWithFrame:CGRectMake(103, 32, 150, 30)];
-        marketPriceLable.text = @"市场价:￥986.00";
-        marketPriceLable.textColor = [UIColor grayColor];
-        marketPriceLable.font = [UIFont systemFontOfSize:15.0];
-        [cell addSubview:marketPriceLable];
-        }
-        return cell;
-    }else if (indexPath.row ==2)
-    {
-        static NSString * identifier = @"cellParams";
-        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if(cell == nil)
+            static NSString *identifierMiddle = @"cellMiddle";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierMiddle];
+            if(cell == nil)
+            {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierMiddle];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                //产品名字
+                UILabel *nameLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 0, 320, 43)];
+                nameLable.text = @"2012秋装新款韩款女装中长版";
+                [cell addSubview:nameLable];
+                //产品价格
+                UILabel *priceLable = [[UILabel alloc]initWithFrame:CGRectMake(15, 32, 101, 30)];
+                priceLable.textColor = [UIColor redColor];
+                priceLable.text = @"￥567.00";
+                priceLable.font = [UIFont systemFontOfSize:15.0];
+                [cell addSubview:priceLable];
+                //产品市场价
+                UILabel *marketPriceLable = [[UILabel alloc]initWithFrame:CGRectMake(103, 32, 150, 30)];
+                marketPriceLable.text = @"市场价:￥986.00";
+                marketPriceLable.textColor = [UIColor grayColor];
+                marketPriceLable.font = [UIFont systemFontOfSize:15.0];
+                [cell addSubview:marketPriceLable];
+            }
+            return cell;
+        }else if (indexPath.row ==2)
         {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            //产品尺码
-            UILabel *chiMaLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 0, 40, 25)];
-            chiMaLable.text = @"尺码:";
-            chiMaLable.font = [UIFont systemFontOfSize:15.0];
-            [cell addSubview:chiMaLable];
-            //生成尺寸的选择框按钮
-            UIButton *chiBtn1 = [YMUIButton CreateSizeButton:@"20" CGFrame:CGRectMake(55, 0, 40, 26)];
-            UIButton *chiBtn2 = [YMUIButton CreateSizeButton:@"30" CGFrame:CGRectMake(95, 0, 40, 26)];
-            UIButton *chiBtn3 = [YMUIButton CreateSizeButton:@"40" CGFrame:CGRectMake(135, 0, 40, 26)];
-            UIButton *chiBtn4 = [YMUIButton CreateSizeButton:@"50" CGFrame:CGRectMake(175, 0, 40, 26)];
-            //设置点击尺寸按钮时候的事件
-            [chiBtn1 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
-            [chiBtn2 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
-            [chiBtn3 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
-            [chiBtn4 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
-            //将这些按钮加入cell视图
-            [cell addSubview:chiBtn1];
-            [cell addSubview:chiBtn2];
-            [cell addSubview:chiBtn3];
-            [cell addSubview:chiBtn4];
-        }
-        return cell;
-
-    }else if (indexPath.row ==3)
-    {
-        static NSString * identifier = @"cellNum";
-        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if(cell == nil)
-        {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            //生成数量label
-            UILabel *numLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 2, 50, 20)];
-            [numLable setText:@"数量:"];
-            [cell addSubview:numLable];
-            //生成button减
-            UIButton *minusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [minusBtn setBackgroundImage:[UIImage imageNamed:@"minusBtn.png"] forState:UIControlStateNormal];
-            [minusBtn setFrame:CGRectMake(56, 0, 26, 26)];
-            [minusBtn addTarget:self action:@selector(minusBtnPress:) forControlEvents:UIControlEventTouchUpInside];
-            [cell addSubview:minusBtn];
-            //生成数量text框
-            UITextField *numFeild = [[UITextField alloc]initWithFrame:CGRectMake(84, 0, 40, 26)];
-            [numFeild.layer setBorderWidth:1.0];
-            [numFeild.layer setBorderColor:[YMUIButton CreateCGColorRef:128 greenNumber:128 blueNumber:128 alphaNumber:1.0]];
-            [numFeild setText:@"1"];
-            [numFeild setKeyboardType:UIKeyboardTypeNumberPad];
-            self.firstResponderTextFeild = numFeild;
-            //设置内容水平垂直居中
-            [numFeild setTextAlignment:UITextAlignmentCenter];
-            [numFeild setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-            [cell addSubview:numFeild];
-            //生成加button
-            UIButton *plusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [plusBtn setBackgroundImage:[UIImage imageNamed:@"plusBtn.png"] forState:UIControlStateNormal];
-            [plusBtn setFrame:CGRectMake(126, 0, 26, 26)];
-            [plusBtn addTarget:self action:@selector(plusBtnPress:) forControlEvents:UIControlEventTouchUpInside];
-            [cell addSubview:plusBtn];
-            //为文本域输入添加一个控制键盘的toolbar
-            UIToolbar *keyBordTopBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 160, 320, 40)];
-            [keyBordTopBar setBarStyle:UIBarStyleBlackTranslucent];
-            UIBarButtonItem *cancleBtn = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancleBtnClick:)];
-            UIBarButtonItem *confirmBtn = [[UIBarButtonItem alloc]initWithTitle:@"确认" style:UIBarButtonItemStyleBordered target:self action:@selector(confirmBtnClick:)];
-            UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-            [cancleBtn setWidth:60.0];
-            [flexibleSpace setWidth:190.0];
-            [confirmBtn setWidth:60.0];
-            [confirmBtn setAccessibilityActivationPoint:CGPointMake(282, 18)];
-            NSArray *buttons = [[NSArray alloc]initWithObjects:cancleBtn,flexibleSpace,confirmBtn, nil];
-            [keyBordTopBar setItems:buttons];
-            self.textControlToolbar = keyBordTopBar;
-            //为文本框绑定事件，获得焦点时弹出toolbar
-            numFeild.delegate = self;
-            //生成立即购买按钮
-            UIButton *quickBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            //[quickBuyBtn setBackgroundImage:[UIImage imageNamed:<#(NSString *)#>] forState:<#(UIControlState)#>]
+            static NSString * identifier = @"cellParams";
+            UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if(cell == nil)
+            {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                //产品尺码
+                UILabel *chiMaLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 0, 40, 25)];
+                chiMaLable.text = @"尺码:";
+                chiMaLable.font = [UIFont systemFontOfSize:15.0];
+                [cell addSubview:chiMaLable];
+                //生成尺寸的选择框按钮
+                UIButton *chiBtn1 = [YMUIButton CreateSizeButton:@"20" CGFrame:CGRectMake(55, 0, 40, 26)];
+                UIButton *chiBtn2 = [YMUIButton CreateSizeButton:@"30" CGFrame:CGRectMake(95, 0, 40, 26)];
+                UIButton *chiBtn3 = [YMUIButton CreateSizeButton:@"40" CGFrame:CGRectMake(135, 0, 40, 26)];
+                UIButton *chiBtn4 = [YMUIButton CreateSizeButton:@"50" CGFrame:CGRectMake(175, 0, 40, 26)];
+                //设置点击尺寸按钮时候的事件
+                [chiBtn1 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
+                [chiBtn2 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
+                [chiBtn3 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
+                [chiBtn4 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
+                //将这些按钮加入cell视图
+                [cell addSubview:chiBtn1];
+                [cell addSubview:chiBtn2];
+                [cell addSubview:chiBtn3];
+                [cell addSubview:chiBtn4];
+            }
+            return cell;
             
-        }
-        return cell;
-    }else if (indexPath.row ==4)
-    {
-        static NSString *identifier = @"goodsDetailLable";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if(cell == nil)
+        }else if (indexPath.row ==3)
         {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            static NSString * identifierNum = @"cellNum";
+            UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identifierNum];
+            if(cell == nil)
+            {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierNum];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                //生成数量label
+                UILabel *numLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 2, 50, 20)];
+                [numLable setText:@"数量:"];
+                [cell addSubview:numLable];
+                //生成button减
+                UIButton *minusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [minusBtn setBackgroundImage:[UIImage imageNamed:@"minusBtn.png"] forState:UIControlStateNormal];
+                [minusBtn setFrame:CGRectMake(56, 0, 26, 26)];
+                [minusBtn addTarget:self action:@selector(minusBtnPress:) forControlEvents:UIControlEventTouchUpInside];
+                [cell addSubview:minusBtn];
+                //生成数量text框
+                UITextField *numFeild = [[UITextField alloc]initWithFrame:CGRectMake(84, 0, 40, 26)];
+                [numFeild.layer setBorderWidth:1.0];
+                [numFeild.layer setBorderColor:[YMUIButton CreateCGColorRef:128 greenNumber:128 blueNumber:128 alphaNumber:1.0]];
+                [numFeild setText:@"1"];
+                [numFeild setKeyboardType:UIKeyboardTypeNumberPad];
+                self.firstResponderTextFeild = numFeild;
+                //设置内容水平垂直居中
+                [numFeild setTextAlignment:UITextAlignmentCenter];
+                [numFeild setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+                [cell addSubview:numFeild];
+                //生成加button
+                UIButton *plusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [plusBtn setBackgroundImage:[UIImage imageNamed:@"plusBtn.png"] forState:UIControlStateNormal];
+                [plusBtn setFrame:CGRectMake(126, 0, 26, 26)];
+                [plusBtn addTarget:self action:@selector(plusBtnPress:) forControlEvents:UIControlEventTouchUpInside];
+                [cell addSubview:plusBtn];
+                //为文本域输入添加一个控制键盘的toolbar
+                UIToolbar *keyBordTopBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 160, 320, 40)];
+                [keyBordTopBar setBarStyle:UIBarStyleBlackTranslucent];
+                UIBarButtonItem *cancleBtn = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancleBtnClick:)];
+                UIBarButtonItem *confirmBtn = [[UIBarButtonItem alloc]initWithTitle:@"确认" style:UIBarButtonItemStyleBordered target:self action:@selector(confirmBtnClick:)];
+                UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+                [cancleBtn setWidth:60.0];
+                [flexibleSpace setWidth:190.0];
+                [confirmBtn setWidth:60.0];
+                [confirmBtn setAccessibilityActivationPoint:CGPointMake(282, 18)];
+                NSArray *buttons = [[NSArray alloc]initWithObjects:cancleBtn,flexibleSpace,confirmBtn, nil];
+                [keyBordTopBar setItems:buttons];
+                self.textControlToolbar = keyBordTopBar;
+                //为文本框绑定事件，获得焦点时弹出toolbar
+                numFeild.delegate = self;
+                //生成立即购买按钮
+                UIButton *quickBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtn"] forState:UIControlStateNormal];
+                [quickBuyBtn setFrame:CGRectMake(45, 45, 225, 50)];
+                [cell addSubview:quickBuyBtn];
+                
+            }
+            return cell;
+        }else
+        {
+            static NSString *identifierDetail = @"goodsDetailLable";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierDetail];
+            if(cell == nil)
+            {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierDetail];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                UILabel *goodsDetailLable = [[UILabel alloc]initWithFrame:CGRectMake(14, 0, 74, 24)];
+                goodsDetailLable.textColor = [UIColor blackColor];
+                goodsDetailLable.text = @"商品详情";
+                UILabel *goodsCoding = [[UILabel alloc]initWithFrame:CGRectMake(172,3, 120,22)];
+                goodsCoding.text = @"商品编码";
+                goodsCoding.font = [UIFont systemFontOfSize:12];
+                goodsCoding.textColor = [UIColor grayColor];
+                [cell addSubview:goodsCoding];
+                [cell addSubview:goodsDetailLable];
+                [cell addSubview:self.goodsDetailTableView];
+            }
+            return  cell;
         }
-        return  cell;
     }else
     {
-        static NSString *identifier = @"cellNon";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if(cell == nil)
+        if(indexPath.section ==0)
         {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            //section上半部分
+            if(indexPath.row == 1)
+            {
+                static NSString *identifier = @"goodsintro1";
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+                if(cell == nil)
+                {
+                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                }
+                return cell;
+            }else{
+                static NSString *identifier = @"goodsintro2";
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+                if(cell == nil)
+                {
+                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                }
+                return cell;
+            }
+        }else if(indexPath.section == 1){
+            static NSString *identifier = @"bottomCell1";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if(cell == nil)
+            {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            }
+            return cell;
+        }else{
+            static NSString *identifier = @"bottomCell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if(cell == nil)
+            {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            }
+            return cell;
         }
-        return cell;
 
     }
 }

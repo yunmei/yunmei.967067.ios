@@ -16,6 +16,7 @@
 #import "YMUIButton.h"
 @interface GoodsInfoViewController : UIViewController<
     UITableViewDataSource,
+    UITableViewDelegate,
     UITabBarDelegate,
     UITextFieldDelegate,
     UIScrollViewDelegate
@@ -38,6 +39,8 @@
 
 //定义头部的ScrollView
 @property(strong,nonatomic)UIScrollView *goodsImageScrollView;
+//定义商品详情部分的section
+@property(strong,nonatomic)UITableView *goodsDetailTableView;
 -(void)chiMaCliked:(id)sender;
 //颜色按钮绑定事件
 -(void)colorBtnClicked:(id)sender;
