@@ -110,6 +110,10 @@
 		46E342631659E18A000255C6 /* goods_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E342611659E18A000255C6 /* goods_default.png */; };
 		46E342641659E18A000255C6 /* ad_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E342621659E18A000255C6 /* ad_default.png */; };
 		46E865A0164CB22700F620DB /* tab_bar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E8659F164CB22700F620DB /* tab_bar_bg.png */; };
+		46FDFFE1167836320075A644 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FDFFDF167836320075A644 /* LoginViewController.m */; };
+		46FDFFE2167836320075A644 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46FDFFE0167836320075A644 /* LoginViewController.xib */; };
+		46FDFFE61678368E0075A644 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FDFFE41678368E0075A644 /* RegisterViewController.m */; };
+		46FDFFE71678368E0075A644 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46FDFFE51678368E0075A644 /* RegisterViewController.xib */; };
 		AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */; };
 		AA8DBAB11669ED53003291D2 /* CategorySecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */; };
 		AABB243516780C7300008F6B /* moveRight.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243416780C7300008F6B /* moveRight.png */; };
@@ -305,6 +309,12 @@
 		46E342611659E18A000255C6 /* goods_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goods_default.png; sourceTree = "<group>"; };
 		46E342621659E18A000255C6 /* ad_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ad_default.png; sourceTree = "<group>"; };
 		46E8659F164CB22700F620DB /* tab_bar_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_bar_bg.png; sourceTree = "<group>"; };
+		46FDFFDE167836320075A644 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		46FDFFDF167836320075A644 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		46FDFFE0167836320075A644 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		46FDFFE31678368E0075A644 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		46FDFFE41678368E0075A644 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		46FDFFE51678368E0075A644 /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		AA8DBAAD1669ED53003291D2 /* CategorySecViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySecViewController.h; sourceTree = "<group>"; };
 		AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySecViewController.m; sourceTree = "<group>"; };
 		AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategorySecViewController.xib; sourceTree = "<group>"; };
@@ -412,12 +422,10 @@
 				466C69A5164B949E003ECB2F /* MoreViewController.h */,
 				466C69A6164B949E003ECB2F /* MoreViewController.m */,
 				466C69A7164B949E003ECB2F /* MoreViewController.xib */,
-				466C69A8164B949E003ECB2F /* MyViewController.h */,
-				466C69A9164B949E003ECB2F /* MyViewController.m */,
-				466C69AA164B949E003ECB2F /* MyViewController.xib */,
 				466C69AB164B949E003ECB2F /* CartViewController.h */,
 				466C69AC164B949E003ECB2F /* CartViewController.m */,
 				466C69AD164B949E003ECB2F /* CartViewController.xib */,
+				46FDFFDC167835EB0075A644 /* MyCenter */,
 				464E0650164BC4580090162A /* Goods */,
 				464E064F164BC37C0090162A /* Category */,
 				4630057F1653487D0046C903 /* Custom */,
@@ -707,6 +715,22 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		46FDFFDC167835EB0075A644 /* MyCenter */ = {
+			isa = PBXGroup;
+			children = (
+				466C69A8164B949E003ECB2F /* MyViewController.h */,
+				466C69A9164B949E003ECB2F /* MyViewController.m */,
+				466C69AA164B949E003ECB2F /* MyViewController.xib */,
+				46FDFFDE167836320075A644 /* LoginViewController.h */,
+				46FDFFDF167836320075A644 /* LoginViewController.m */,
+				46FDFFE0167836320075A644 /* LoginViewController.xib */,
+				46FDFFE31678368E0075A644 /* RegisterViewController.h */,
+				46FDFFE41678368E0075A644 /* RegisterViewController.m */,
+				46FDFFE51678368E0075A644 /* RegisterViewController.xib */,
+			);
+			name = MyCenter;
+			sourceTree = "<group>";
+		};
 		AAD7542A1666EE0D0059962D /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -850,6 +874,8 @@
 				AABB243816780C7B00008F6B /* moveLeft.png in Resources */,
 				AABB243A16780C8600008F6B /* plusBtn.png in Resources */,
 				AABB243C16780C9300008F6B /* minusBtn.png in Resources */,
+				46FDFFE2167836320075A644 /* LoginViewController.xib in Resources */,
+				46FDFFE71678368E0075A644 /* RegisterViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -925,6 +951,8 @@
 				AABB45D8166C488800306A09 /* GoodsInfoViewController.m in Sources */,
 				4697E415166C38D7006BEF17 /* PullToRefreshTableView.m in Sources */,
 				46871A9A166F2E7A00C91CE8 /* GoodsSearchViewController.m in Sources */,
+				46FDFFE1167836320075A644 /* LoginViewController.m in Sources */,
+				46FDFFE61678368E0075A644 /* RegisterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
