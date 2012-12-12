@@ -112,6 +112,10 @@
 		46E865A0164CB22700F620DB /* tab_bar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 46E8659F164CB22700F620DB /* tab_bar_bg.png */; };
 		AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */; };
 		AA8DBAB11669ED53003291D2 /* CategorySecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */; };
+		AABB243516780C7300008F6B /* moveRight.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243416780C7300008F6B /* moveRight.png */; };
+		AABB243816780C7B00008F6B /* moveLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243716780C7B00008F6B /* moveLeft.png */; };
+		AABB243A16780C8600008F6B /* plusBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243916780C8600008F6B /* plusBtn.png */; };
+		AABB243C16780C9300008F6B /* minusBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243B16780C9300008F6B /* minusBtn.png */; };
 		AABB45D8166C488800306A09 /* GoodsInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB45D6166C488800306A09 /* GoodsInfoViewController.m */; };
 		AABB45D9166C488800306A09 /* GoodsInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */; };
 		AAC801601665BF8400F5D655 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8015F1665BF8400F5D655 /* CategoryModel.m */; };
@@ -304,6 +308,10 @@
 		AA8DBAAD1669ED53003291D2 /* CategorySecViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySecViewController.h; sourceTree = "<group>"; };
 		AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySecViewController.m; sourceTree = "<group>"; };
 		AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategorySecViewController.xib; sourceTree = "<group>"; };
+		AABB243416780C7300008F6B /* moveRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveRight.png; sourceTree = "<group>"; };
+		AABB243716780C7B00008F6B /* moveLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveLeft.png; sourceTree = "<group>"; };
+		AABB243916780C8600008F6B /* plusBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusBtn.png; sourceTree = "<group>"; };
+		AABB243B16780C9300008F6B /* minusBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minusBtn.png; sourceTree = "<group>"; };
 		AABB45D5166C488800306A09 /* GoodsInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsInfoViewController.h; sourceTree = "<group>"; };
 		AABB45D6166C488800306A09 /* GoodsInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsInfoViewController.m; sourceTree = "<group>"; };
 		AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoodsInfoViewController.xib; sourceTree = "<group>"; };
@@ -455,6 +463,10 @@
 		4635DFCE1643A47000C7B445 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AABB243B16780C9300008F6B /* minusBtn.png */,
+				AABB243916780C8600008F6B /* plusBtn.png */,
+				AABB243716780C7B00008F6B /* moveLeft.png */,
+				AABB243416780C7300008F6B /* moveRight.png */,
 				469EA3A11671BAF20028CB57 /* tabbar_cart_unselected.png */,
 				469EA3A21671BAF20028CB57 /* tabbar_cart.png */,
 				469EA3A31671BAF20028CB57 /* tabbar_category_unselected.png */,
@@ -834,6 +846,10 @@
 				469EA3B41671BAF20028CB57 /* tabbar_more.png in Resources */,
 				469EA3B51671BAF20028CB57 /* tabbar_my_unselected.png in Resources */,
 				469EA3B61671BAF20028CB57 /* tabbar_my.png in Resources */,
+				AABB243516780C7300008F6B /* moveRight.png in Resources */,
+				AABB243816780C7B00008F6B /* moveLeft.png in Resources */,
+				AABB243A16780C8600008F6B /* plusBtn.png in Resources */,
+				AABB243C16780C9300008F6B /* minusBtn.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
