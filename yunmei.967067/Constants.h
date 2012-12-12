@@ -13,3 +13,5 @@
 
 #define URL_HOME        @"http://www.967067.cn/"
 #define URL_HELP        @"http://www.967067.cn/waphelp/index.php"
+
+#define DB_NAME         @"yunmei.db"

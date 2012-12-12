@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4603B7A016785BDE00B8AFD4 /* YMDbClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4603B79F16785BDE00B8AFD4 /* YMDbClass.m */; };
+		4603B7A316785C2900B8AFD4 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4603B7A216785C2900B8AFD4 /* libsqlite3.dylib */; };
 		4617C6B51663157800D0E014 /* search_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 4617C6B41663157800D0E014 /* search_bg.png */; };
 		4630057716533ED00046C903 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 4630057016533ECF0046C903 /* Icon-72.png */; };
 		4630057816533ED00046C903 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 4630057116533ECF0046C903 /* Icon-Small-50.png */; };
@@ -141,6 +143,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4603B79E16785BDE00B8AFD4 /* YMDbClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMDbClass.h; sourceTree = "<group>"; };
+		4603B79F16785BDE00B8AFD4 /* YMDbClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMDbClass.m; sourceTree = "<group>"; };
+		4603B7A216785C2900B8AFD4 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		4617C6B41663157800D0E014 /* search_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_bg.png; sourceTree = "<group>"; };
 		4630057016533ECF0046C903 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		4630057116533ECF0046C903 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
@@ -337,6 +342,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4603B7A316785C2900B8AFD4 /* libsqlite3.dylib in Frameworks */,
 				46871A8A166EE2A600C91CE8 /* libiconv.dylib in Frameworks */,
 				46871A88166EE29500C91CE8 /* QuartzCore.framework in Frameworks */,
 				46871A86166EE28A00C91CE8 /* CoreVideo.framework in Frameworks */,
@@ -376,6 +382,7 @@
 		4635DF721643A39000C7B445 = {
 			isa = PBXGroup;
 			children = (
+				4603B7A216785C2900B8AFD4 /* libsqlite3.dylib */,
 				4635DF871643A39000C7B445 /* yunmei.967067 */,
 				4635DFB91643A39100C7B445 /* yunmei.967067Tests */,
 				4635DF801643A39000C7B445 /* Frameworks */,
@@ -557,6 +564,8 @@
 				466C69C1164B97D0003ECB2F /* YMUIButton.m */,
 				46CC0C9E1652214500210CFE /* YMGlobal.h */,
 				46CC0C9F1652214500210CFE /* YMGlobal.m */,
+				4603B79E16785BDE00B8AFD4 /* YMDbClass.h */,
+				4603B79F16785BDE00B8AFD4 /* YMDbClass.m */,
 				46300588165366BD0046C903 /* MBProgressHUD.h */,
 				46300589165366BD0046C903 /* MBProgressHUD.m */,
 				4697E413166C38D7006BEF17 /* PullToRefreshTableView.h */,
@@ -953,6 +962,7 @@
 				46871A9A166F2E7A00C91CE8 /* GoodsSearchViewController.m in Sources */,
 				46FDFFE1167836320075A644 /* LoginViewController.m in Sources */,
 				46FDFFE61678368E0075A644 /* RegisterViewController.m in Sources */,
+				4603B7A016785BDE00B8AFD4 /* YMDbClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
