@@ -17,7 +17,8 @@
 @interface GoodsInfoViewController : UIViewController<
     UITableViewDataSource,
     UITabBarDelegate,
-    UITextFieldDelegate
+    UITextFieldDelegate,
+    UIScrollViewDelegate
 >
 
 @property(strong, nonatomic)NSString *goodsId;
@@ -35,6 +36,8 @@
 //这个属性作为数量输入框textFeild一个引用
 @property(strong,nonatomic)UITextField *firstResponderTextFeild;
 
+//定义头部的ScrollView
+@property(strong,nonatomic)UIScrollView *goodsImageScrollView;
 -(void)chiMaCliked:(id)sender;
 //颜色按钮绑定事件
 -(void)colorBtnClicked:(id)sender;
