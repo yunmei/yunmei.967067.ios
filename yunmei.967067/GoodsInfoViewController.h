@@ -41,6 +41,8 @@
 @property(strong,nonatomic)UIScrollView *goodsImageScrollView;
 //定义商品详情部分的section
 @property(strong,nonatomic)UITableView *goodsDetailTableView;
+//定义商品所有图片的数组
+@property(strong,nonatomic)NSMutableArray *goodsImagesArr;
 -(void)chiMaCliked:(id)sender;
 //颜色按钮绑定事件
 -(void)colorBtnClicked:(id)sender;

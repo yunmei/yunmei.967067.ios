@@ -23,6 +23,7 @@
 @synthesize  firstResponderTextFeild;
 @synthesize goodsImageScrollView = _goodsImageScrollView;
 @synthesize goodsDetailTableView = _goodsDetailTableView;
+@synthesize goodsImagesArr= _goodsImagesArr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,22 +45,10 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"goods_getBaseByGoodsId",@"act",[self goodsId],@"goodsId",nil];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        NSLog(@"%@",[completedOperation responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
        if([(NSString *)[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
        {                    
-//这个是没有数组的
-//           NSMutableDictionary *dataDic = [object objectForKey:@"data"];
-//           self.goodsModel.goodsCode = [dataDic objectForKey:@"goodsCode"];
-//           self.goodsModel.goodsMarketPrice = [dataDic objectForKey:@"goodsMarketPrice"];
-//           self.goodsModel.goodsName = [dataDic objectForKey:@"goodsName"];
-//           self.goodsModel.imageUrl = [dataDic objectForKey:@"imageUrl"];
-//           self.goodsModel.property = [dataDic objectForKey:@"property"];
-//           self.goodsModel.standard = [dataDic objectForKey:@"standard"];
-//           self.goodsModel.store = [dataDic objectForKey:@"store"];
-//           NSLog(@"%@",self.goodsModel.store);
-//这个是有数组的
            NSMutableArray *dataArr = [object objectForKey:@"data"];
            NSMutableDictionary *dataDic = [dataArr objectAtIndex:0];
            self.goodsModel.goodsCode = [dataDic objectForKey:@"goodsCode"];
@@ -69,11 +58,21 @@
            self.goodsModel.property = [dataDic objectForKey:@"property"];
            self.goodsModel.standard = [dataDic objectForKey:@"standard"];
            self.goodsModel.store = [dataDic objectForKey:@"store"];
-           NSLog(@"%@",self.goodsModel.store);
            [self.goodsTableView reloadData];
        }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"Error:%@",error);
+    }];
+    //发送图片请求
+    NSMutableDictionary *imageParam = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"goods_getImagesByGoodsId",@"act",self.goodsId,@"goodsId", nil];
+    MKNetworkOperation *imageOp = [YMGlobal getOperation:imageParam];
+    [imageOp addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *imageParser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *object = [imageParser objectWithData:[completedOperation responseData]];
+        self.goodsImagesArr = [NSArray arrayWithArray:[object objectForKey:@"data"]];
+        [self displayImages];
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"%@",error);
     }];
     self.goodsDetailTableView.tag =1;
     self.goodsDetailTableView.delegate = self;
@@ -82,12 +81,37 @@
     self.goodsDetailTableView.backgroundColor = [UIColor whiteColor];
     [hud hide:YES];
     [ApplicationDelegate.appEngine enqueueOperation:op];
+    [ApplicationDelegate.appEngine enqueueOperation:imageOp];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+//加载头部图片
+-(void)displayImages
+{
+    int i = [self.goodsImagesArr count];
+    if(i >0)
+    {
+        for(UIView *imageView in[self.goodsImageScrollView subviews])
+        {
+            [imageView removeFromSuperview];
+        }
+        self.goodsImageScrollView.contentSize = CGSizeMake(258*i, 170);
+        int numb = 1;
+        for(NSString *o in self.goodsImagesArr)
+        {
+            UIImageView  *goodsImageView = [[UIImageView alloc]initWithFrame:CGRectMake((numb-1)*258, 10, 258,170)];
+            [goodsImageView setImage:[UIImage imageNamed:@"goods_default.png"]];
+            [YMGlobal loadImage:o andImageView:goodsImageView];
+            [self.goodsImageScrollView addSubview:goodsImageView];
+            NSLog(@"%@",o);
+            numb ++;
+        }
+    }
 }
 
 -(GoodsModel *)goodsModel
@@ -98,6 +122,7 @@
     }
     return _goodsModel;
 }
+
 
 -(UIScrollView *)goodsImageScrollView
 {
@@ -192,10 +217,27 @@
             {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierHeader];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                UIScrollView * imageScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(30, 15, 260, 160)];
-                imageScrollView.backgroundColor = [UIColor blueColor];
-                imageScrollView.showsHorizontalScrollIndicator=YES;
-                [cell addSubview:imageScrollView];
+                self.goodsImageScrollView.frame = CGRectMake(31, 5, 258, 170);
+                self.goodsImageScrollView.bounces = YES;
+                self.goodsImageScrollView.pagingEnabled = YES;
+                UIImageView *imageViewChangeScroll = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 258, 170)];
+                [imageViewChangeScroll setImage:[UIImage imageNamed:@"ad_default"]];
+                [self.goodsImageScrollView addSubview:imageViewChangeScroll];
+                //给滚动图片左边加一个向左小箭头
+                UIButton *leftMoveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [leftMoveBtn setFrame:CGRectMake(8, 79, 20, 24)];
+                [leftMoveBtn setBackgroundImage:[UIImage imageNamed:@"moveLeft.png"] forState:UIControlStateNormal];
+                //为这个箭头绑定一个事件
+                [leftMoveBtn addTarget:self action:@selector(leftMoveBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+                //给滚动图片左边加一个向右小箭头
+                UIButton *rightMoveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [rightMoveBtn setFrame:CGRectMake(293, 79, 20, 24)];
+                [rightMoveBtn setBackgroundImage:[UIImage imageNamed:@"moveRight.png"] forState:UIControlStateNormal];
+                //为这个箭头绑定一个事件
+                [rightMoveBtn addTarget:self action:@selector(rightMoveBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+                [cell addSubview:self.goodsImageScrollView];
+                [cell addSubview:rightMoveBtn];
+                [cell addSubview:leftMoveBtn];
             }
             return cell;
         }else if(indexPath.row ==1)
@@ -324,7 +366,8 @@
                 UILabel *goodsDetailLable = [[UILabel alloc]initWithFrame:CGRectMake(14, 0, 74, 24)];
                 goodsDetailLable.textColor = [UIColor blackColor];
                 goodsDetailLable.text = @"商品详情";
-                UILabel *goodsCoding = [[UILabel alloc]initWithFrame:CGRectMake(172,3, 120,22)];
+                UILabel *goodsCoding = [[UILabel alloc]initWithFrame:CGRectMake(172,3
+                                                                                , 120,22)];
                 goodsCoding.text = @"商品编码";
                 goodsCoding.font = [UIFont systemFontOfSize:12];
                 goodsCoding.textColor = [UIColor grayColor];
@@ -453,5 +496,30 @@
         i--;
     }
     self.firstResponderTextFeild.text = [NSString stringWithFormat:@"%i",i];
+}
+
+//为向左移动小箭头绑定事件
+-(void)leftMoveBtnPressed:(id)sender
+{
+    int offsetWidth = self.goodsImageScrollView.contentOffset.x;
+    if((offsetWidth == 258)||(offsetWidth < 258))
+    {
+        [self.goodsImageScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    }else{
+        [self.goodsImageScrollView setContentOffset:CGPointMake(offsetWidth-258, 0) animated:YES];
+    }
+}
+
+//为向右移动小箭头绑定事件
+-(void)rightMoveBtnPressed:(id)sender
+{
+    int offsetWidth = self.goodsImageScrollView.contentOffset.x;
+    int offsetRetain = self.goodsImageScrollView.contentSize.width-offsetWidth;
+    if((offsetRetain == 258)||(offsetRetain < 258))
+    {
+        [self.goodsImageScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    }else{
+        [self.goodsImageScrollView setContentOffset:CGPointMake(offsetWidth+258, 0) animated:YES];
+    }   
 }
 @end
