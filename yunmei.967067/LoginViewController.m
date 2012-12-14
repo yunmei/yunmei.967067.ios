@@ -7,19 +7,24 @@
 //
 
 #import "LoginViewController.h"
+#import "RegisterViewController.h"
 
 @interface LoginViewController ()
 
 @end
 
 @implementation LoginViewController
+@synthesize usernameTextField;
+@synthesize passwordTextField;
+@synthesize registerBtn;
+@synthesize loginBtn;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"登陆", @"登陆");
-        self.navigationItem.title = @"登陆";
+        self.title = NSLocalizedString(@"用户登陆", @"用户登陆");
+        self.navigationItem.title = @"用户登陆";
     }
     return self;
 }
@@ -38,7 +43,8 @@
                                                                 target:self
                                                                 action:@selector(userCancel)];
     self.navigationItem.leftBarButtonItem = backItem;
-    // Do any additional setup after loading the view from its nib.
+    
+    [self.registerBtn addTarget:self action:@selector(userRegister) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)userLogin
@@ -52,10 +58,28 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
+- (void)userRegister
+{
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithTitle:@"登陆"
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:nil];
+    self.navigationItem.backBarButtonItem = buttonItem;
+    RegisterViewController *registerViewController = [[RegisterViewController alloc]initWithNibName:@"RegisterViewController" bundle:nil];
+    [self.navigationController pushViewController:registerViewController animated:YES];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidUnload {
+    [self setUsernameTextField:nil];
+    [self setPasswordTextField:nil];
+    [self setLoginBtn:nil];
+    [self setRegisterBtn:nil];
+    [super viewDidUnload];
+}
 @end
