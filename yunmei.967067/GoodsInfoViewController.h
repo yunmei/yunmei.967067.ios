@@ -21,10 +21,13 @@
     UITextFieldDelegate,
     UIScrollViewDelegate
 >
-
+//定义可选择属性
+@property(strong,nonatomic)NSMutableArray *specArr;
 @property(strong, nonatomic)NSString *goodsId;
 @property(strong, nonatomic)GoodsModel *goodsModel;
 @property (strong, nonatomic) IBOutlet UITableView *goodsTableView;
+//这个字典用来存放从请求中获取的一种商品的不同货品
+@property(strong,nonatomic)NSMutableDictionary *goodsDictionary;
 //这个属性设置为最后一次点击的尺寸按钮的一个强引用
 @property(strong,nonatomic)UIButton *sizeBtn;
 //这个属性设置为最后一次点击的颜色按钮的一个强引用

@@ -24,7 +24,8 @@
 @synthesize goodsImageScrollView = _goodsImageScrollView;
 @synthesize goodsDetailTableView = _goodsDetailTableView;
 @synthesize goodsImagesArr= _goodsImagesArr;
-
+@synthesize specArr = _specArr;
+@synthesize goodsDictionary = _goodsDictionary;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -58,6 +59,7 @@
            self.goodsModel.property = [dataDic objectForKey:@"property"];
            self.goodsModel.standard = [dataDic objectForKey:@"standard"];
            self.goodsModel.store = [dataDic objectForKey:@"store"];
+           self.specArr = [dataDic objectForKey:@"spec"];
            [self.goodsTableView reloadData];
        }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
@@ -108,10 +110,27 @@
             [goodsImageView setImage:[UIImage imageNamed:@"goods_default.png"]];
             [YMGlobal loadImage:o andImageView:goodsImageView];
             [self.goodsImageScrollView addSubview:goodsImageView];
-            NSLog(@"%@",o);
             numb ++;
         }
     }
+}
+
+-(NSMutableDictionary *)goodsDictionary
+{
+    if(_goodsDictionary == nil)
+    {
+        _goodsDictionary = [[NSMutableDictionary alloc]init];
+    }
+    return _goodsDictionary;
+}
+
+-(NSMutableArray *)specArr
+{
+    if(_specArr == nil)
+    {
+        _specArr = [[NSMutableArray alloc]init];
+    }
+    return _specArr;
 }
 
 -(GoodsModel *)goodsModel
@@ -176,7 +195,15 @@
             return 75;
         }else if (indexPath.row ==2)
         {
-            return  41;
+            int i =1;
+            if([self.specArr count] ==0)
+            {
+                return  41;
+            }else{
+                i = (int)[self.specArr  count];
+                    return  41*i;
+            }
+            
         }else if (indexPath.row ==3)
         {
             return 101;
@@ -274,26 +301,33 @@
             {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                //产品尺码
-                UILabel *chiMaLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 0, 40, 25)];
-                chiMaLable.text = @"尺码:";
-                chiMaLable.font = [UIFont systemFontOfSize:15.0];
-                [cell addSubview:chiMaLable];
-                //生成尺寸的选择框按钮
-                UIButton *chiBtn1 = [YMUIButton CreateSizeButton:@"20" CGFrame:CGRectMake(55, 0, 40, 26)];
-                UIButton *chiBtn2 = [YMUIButton CreateSizeButton:@"30" CGFrame:CGRectMake(95, 0, 40, 26)];
-                UIButton *chiBtn3 = [YMUIButton CreateSizeButton:@"40" CGFrame:CGRectMake(135, 0, 40, 26)];
-                UIButton *chiBtn4 = [YMUIButton CreateSizeButton:@"50" CGFrame:CGRectMake(175, 0, 40, 26)];
-                //设置点击尺寸按钮时候的事件
-                [chiBtn1 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
-                [chiBtn2 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
-                [chiBtn3 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
-                [chiBtn4 addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
-                //将这些按钮加入cell视图
-                [cell addSubview:chiBtn1];
-                [cell addSubview:chiBtn2];
-                [cell addSubview:chiBtn3];
-                [cell addSubview:chiBtn4];
+            }else{
+                
+                int paramCount = 1;
+                for(id o in self.specArr)
+                {
+                    //属性
+                    UILabel *paramLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 0+(paramCount - 1)*41, 40, 25)];
+                    paramLable.font = [UIFont systemFontOfSize:15.0];
+                    paramLable.text = [o objectForKey:@"spec_name"];
+                    NSMutableArray *paramBtnArr = [o objectForKey:@"spec_values"];
+                    //按钮计数器
+                    int btnCount = 1;
+                    for(NSMutableDictionary *k in paramBtnArr)
+                    {
+                        UIButton *paramBtn = [YMUIButton CreateSizeButton:[k objectForKey:@"specValue"] CGFrame:CGRectMake(55+(btnCount -1)*50, 0+(paramCount - 1)*41, 50, 26)];
+                        //将该属性的ID设置为其tag
+                        [paramBtn setTag:[[k objectForKey:@"specValueId"] integerValue]];
+                        //设置该按钮字体
+                        paramBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
+                        //设置该按钮的事件
+                        [paramBtn addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
+                        [cell addSubview:paramBtn];
+                        btnCount++;
+                    }
+                    paramCount ++;
+                    [cell addSubview:paramLable];
+                }
             }
             return cell;
             
@@ -350,7 +384,7 @@
                 //生成立即购买按钮
                 UIButton *quickBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
                 [quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtn"] forState:UIControlStateNormal];
-                [quickBuyBtn setFrame:CGRectMake(45, 45, 225, 50)];
+                [quickBuyBtn setFrame:CGRectMake(55, 45, 200, 40)];
                 [cell addSubview:quickBuyBtn];
                 
             }
@@ -435,7 +469,7 @@
     UIButton *PressedBtn = sender;
     self.sizeBtn = sender;
     [PressedBtn setBackgroundColor:[UIColor grayColor]];
-    NSLog(@"%@",[sender titleLabel].text);
+    NSLog(@"%i",[sender tag]);
 }
 
 //颜色按钮绑定事件

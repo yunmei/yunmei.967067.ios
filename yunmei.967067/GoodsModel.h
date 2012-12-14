@@ -19,4 +19,5 @@
 @property(strong, nonatomic)NSString *store;
 @property(strong, nonatomic)NSString *standard;
 @property(strong, nonatomic)NSString *property;
+@property(strong, nonatomic)NSMutableDictionary *products;
 @end

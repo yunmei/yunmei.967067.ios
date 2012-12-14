@@ -124,7 +124,7 @@
 		AABB243C16780C9300008F6B /* minusBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243B16780C9300008F6B /* minusBtn.png */; };
 		AABB45D8166C488800306A09 /* GoodsInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB45D6166C488800306A09 /* GoodsInfoViewController.m */; };
 		AABB45D9166C488800306A09 /* GoodsInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */; };
-		AAC2204C16784F2F00023178 /* quickBuyBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC2204B16784F2F00023178 /* quickBuyBtn.png */; };
+		AAC205D716797FAC00CCF6BA /* quickBuyBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC205D616797FAC00CCF6BA /* quickBuyBtn.png */; };
 		AAC801601665BF8400F5D655 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8015F1665BF8400F5D655 /* CategoryModel.m */; };
 		AAC8016A1665F90000F5D655 /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69A7164B949E003ECB2F /* MoreViewController.xib */; };
 		AAC8016C1665F91700F5D655 /* MyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69AA164B949E003ECB2F /* MyViewController.xib */; };
@@ -331,7 +331,7 @@
 		AABB45D5166C488800306A09 /* GoodsInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsInfoViewController.h; sourceTree = "<group>"; };
 		AABB45D6166C488800306A09 /* GoodsInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsInfoViewController.m; sourceTree = "<group>"; };
 		AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoodsInfoViewController.xib; sourceTree = "<group>"; };
-		AAC2204B16784F2F00023178 /* quickBuyBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtn.png; sourceTree = "<group>"; };
+		AAC205D616797FAC00CCF6BA /* quickBuyBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtn.png; sourceTree = "<group>"; };
 		AAC8015E1665BF8400F5D655 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryModel.h; sourceTree = "<group>"; };
 		AAC8015F1665BF8400F5D655 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryModel.m; sourceTree = "<group>"; };
 		AAD7542C1666EEAE0059962D /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
@@ -480,7 +480,7 @@
 		4635DFCE1643A47000C7B445 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				AAC2204B16784F2F00023178 /* quickBuyBtn.png */,
+				AAC205D616797FAC00CCF6BA /* quickBuyBtn.png */,
 				AABB243B16780C9300008F6B /* minusBtn.png */,
 				AABB243916780C8600008F6B /* plusBtn.png */,
 				AABB243716780C7B00008F6B /* moveLeft.png */,
@@ -888,7 +888,7 @@
 				AABB243C16780C9300008F6B /* minusBtn.png in Resources */,
 				46FDFFE2167836320075A644 /* LoginViewController.xib in Resources */,
 				46FDFFE71678368E0075A644 /* RegisterViewController.xib in Resources */,
-				AAC2204C16784F2F00023178 /* quickBuyBtn.png in Resources */,
+				AAC205D716797FAC00CCF6BA /* quickBuyBtn.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
