@@ -18,7 +18,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.title = NSLocalizedString(@"登陆", @"登陆");
+        self.navigationItem.title = @"登陆";
     }
     return self;
 }
@@ -26,7 +27,29 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithTitle:@"登陆"
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(userLogin)];
+    self.navigationItem.rightBarButtonItem = buttonItem;
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"取消"
+                                                                 style:UIBarButtonItemStyleBordered
+                                                                target:self
+                                                                action:@selector(userCancel)];
+    self.navigationItem.leftBarButtonItem = backItem;
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void)userLogin
+{
+    NSLog(@"userLogin");
+}
+
+- (void)userCancel
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserRespondsLogin" object:self userInfo:[NSMutableDictionary dictionaryWithObject:@"cancel" forKey:@"cancel"]];
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning

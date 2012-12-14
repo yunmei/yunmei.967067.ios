@@ -28,6 +28,12 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    // 如果用户没有登陆弹出登陆的View
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToLogin" object:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

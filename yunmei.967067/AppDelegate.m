@@ -15,6 +15,7 @@
 #import "MoreViewController.h"
 #import "GoodsSearchViewController.h"
 #import "GoodsListViewController.h"
+#import "LoginViewController.h"
 #import "Constants.h"
 
 @implementation UINavigationBar (CustomNavigationBarImage)
@@ -79,6 +80,8 @@
     // NSNotification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openSearchView:) name:@"INeedToSearch" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToSearch:) name:@"GoToSearch" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openLoginView:) name:@"INeedToLogin" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRespondsLogin:) name:@"UserRespondsLogin" object:nil];
     return YES;
 }
 
@@ -104,6 +107,25 @@
     itemTitle.textColor = [UIColor whiteColor];
     goodsListViewController.navigationItem.titleView = itemTitle;
     [viewController pushViewController:goodsListViewController animated:(YES)];
+}
+
+- (void)openLoginView:(NSNotification *)note
+{
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil]];
+    [navController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+    if ([navController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [navController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+    }
+    [self.tabBarController.selectedViewController presentModalViewController:navController animated:YES];
+}
+
+- (void)userRespondsLogin:(NSNotification *)note
+{
+    if ([[note userInfo]objectForKey:@"cancel"]) {
+        if (self.tabBarController.selectedIndex == 3) {
+            [self.tabBarController setSelectedIndex:0];
+        }
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
