@@ -19,14 +19,5 @@
 @synthesize store;
 @synthesize standard;
 @synthesize property;
-@synthesize products = _products;
 
--(NSMutableDictionary *)products
-{
-    if(_products == nil)
-    {
-        _products = [[NSMutableDictionary alloc]init];
-    }
-    return _products;
-}
 @end

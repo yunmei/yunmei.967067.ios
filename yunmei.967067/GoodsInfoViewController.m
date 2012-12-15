@@ -15,10 +15,11 @@
 
 @implementation GoodsInfoViewController
 
+@synthesize selectedProduct = _selectedProduct;
 @synthesize goodsId;
 @synthesize goodsModel = _goodsModel;
 @synthesize goodsTableView;
-@synthesize sizeBtn;
+@synthesize paramBtnDictionary = _paramBtnDictionary;
 @synthesize textControlToolbar;
 @synthesize  firstResponderTextFeild;
 @synthesize goodsImageScrollView = _goodsImageScrollView;
@@ -26,6 +27,10 @@
 @synthesize goodsImagesArr= _goodsImagesArr;
 @synthesize specArr = _specArr;
 @synthesize goodsDictionary = _goodsDictionary;
+@synthesize keyToSpec = _keyToSpec;
+@synthesize chooseParam = _chooseParam;
+//该私有变量用来存储上一次所选择的一个属性队形的拼接字符串的首部数字
+NSInteger beforePressedParamBtnHeadNum =0;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -54,11 +59,27 @@
            NSMutableDictionary *dataDic = [dataArr objectAtIndex:0];
            self.goodsModel.goodsCode = [dataDic objectForKey:@"goodsCode"];
            self.goodsModel.goodsMarketPrice = [dataDic objectForKey:@"goodsMarketPrice"];
+           self.goodsModel.goodsPrice = [dataDic objectForKey:@"goodsPrice"];
            self.goodsModel.goodsName = [dataDic objectForKey:@"goodsName"];
            self.goodsModel.imageUrl = [dataDic objectForKey:@"imageUrl"];
            self.goodsModel.property = [dataDic objectForKey:@"property"];
            self.goodsModel.standard = [dataDic objectForKey:@"standard"];
            self.goodsModel.store = [dataDic objectForKey:@"store"];
+           NSMutableArray *productCheck = [dataDic objectForKey:@"products"];
+           //将商品的spec_id和spec_key组合成一个唯一的字符串，将该商品存到字典中，并以该唯一的字符串作为key值
+           for(id o in productCheck)
+           {
+               NSString * idConstruct = @"";
+               NSMutableArray *specArr = [o objectForKey:@"spec_value"];
+               for(id i in specArr)
+               {
+                   idConstruct = [idConstruct stringByAppendingString:[i objectForKey:@"spec_id"]];
+                   idConstruct = [idConstruct stringByAppendingString:@"_"];
+                   idConstruct = [idConstruct stringByAppendingString:[i objectForKey:@"spec_value"]];
+                   idConstruct = [idConstruct stringByAppendingString:@"_"];
+               }
+               [self.goodsDictionary setObject:o forKey:idConstruct];
+           }
            self.specArr = [dataDic objectForKey:@"spec"];
            [self.goodsTableView reloadData];
        }
@@ -115,6 +136,24 @@
     }
 }
 
+-(NSMutableDictionary *)paramBtnDictionary
+{
+    if(_paramBtnDictionary == nil)
+    {
+        _paramBtnDictionary = [[NSMutableDictionary alloc]init];
+    }
+    return _paramBtnDictionary;
+}
+
+-(NSMutableDictionary *)selectedProduct
+{
+    if(_selectedProduct == nil)
+    {
+        _selectedProduct = [[NSMutableDictionary alloc]init];
+    }
+    return _selectedProduct;
+}
+
 -(NSMutableDictionary *)goodsDictionary
 {
     if(_goodsDictionary == nil)
@@ -142,6 +181,14 @@
     return _goodsModel;
 }
 
+-(NSMutableDictionary *)keyToSpec
+{
+    if(_keyToSpec == nil)
+    {
+        _keyToSpec = [[NSMutableDictionary alloc]init];
+    }
+    return _keyToSpec;
+}
 
 -(UIScrollView *)goodsImageScrollView
 {
@@ -159,6 +206,14 @@
         _goodsDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, 320, 420) style:UITableViewStyleGrouped];
     }
     return _goodsDetailTableView;
+}
+-(NSMutableArray *)chooseParam
+{
+    if(_chooseParam == nil)
+    {
+        _chooseParam = [[NSMutableArray alloc]init];
+    }
+    return _chooseParam;
 }
 
 - (void)viewDidUnload {
@@ -275,19 +330,35 @@
             {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierMiddle];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            }else if([self.selectedProduct count]==0){
                 //产品名字
-                UILabel *nameLable = [[UILabel alloc]initWithFrame:CGRectMake(12, 0, 320, 43)];
-                nameLable.text = @"2012秋装新款韩款女装中长版";
+                UILabel *nameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 0, 320, 43)];
+                nameLable.text = self.goodsModel.goodsName;
                 [cell addSubview:nameLable];
                 //产品价格
                 UILabel *priceLable = [[UILabel alloc]initWithFrame:CGRectMake(15, 32, 101, 30)];
                 priceLable.textColor = [UIColor redColor];
-                priceLable.text = @"￥567.00";
+                priceLable.text = [[@"￥" stringByAppendingString:[self.goodsModel goodsPrice]]stringByAppendingString:@".00"];
                 priceLable.font = [UIFont systemFontOfSize:15.0];
                 [cell addSubview:priceLable];
                 //产品市场价
                 UILabel *marketPriceLable = [[UILabel alloc]initWithFrame:CGRectMake(103, 32, 150, 30)];
-                marketPriceLable.text = @"市场价:￥986.00";
+                marketPriceLable.text = [[@"￥" stringByAppendingString:[self.goodsModel goodsMarketPrice]]stringByAppendingString:@".00"];
+
+                marketPriceLable.textColor = [UIColor grayColor];
+                marketPriceLable.font = [UIFont systemFontOfSize:15.0];
+                [cell addSubview:marketPriceLable];
+            }else{
+                //产品价格
+                UILabel *priceLable = [[UILabel alloc]initWithFrame:CGRectMake(15, 32, 101, 30)];
+                priceLable.textColor = [UIColor redColor];
+                NSString *rmb = @"￥";
+                priceLable.text = [[rmb stringByAppendingString:[self.selectedProduct objectForKey:@"pro_price"]]stringByAppendingString:@".00"];
+                priceLable.font = [UIFont systemFontOfSize:15.0];
+                [cell addSubview:priceLable];
+                //产品市场价
+                UILabel *marketPriceLable = [[UILabel alloc]initWithFrame:CGRectMake(103, 32, 150, 30)];
+                marketPriceLable.text = [[@"市场价:￥" stringByAppendingString:[self.selectedProduct objectForKey:@"mktPrice"]]stringByAppendingString :@".00" ];
                 marketPriceLable.textColor = [UIColor grayColor];
                 marketPriceLable.font = [UIFont systemFontOfSize:15.0];
                 [cell addSubview:marketPriceLable];
@@ -301,9 +372,10 @@
             {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            }else{
-                
+            }else if([self.paramBtnDictionary count]==0){
                 int paramCount = 1;
+                //tag计数器
+                int tagCount = 1;
                 for(id o in self.specArr)
                 {
                     //属性
@@ -311,24 +383,33 @@
                     paramLable.font = [UIFont systemFontOfSize:15.0];
                     paramLable.text = [o objectForKey:@"spec_name"];
                     NSMutableArray *paramBtnArr = [o objectForKey:@"spec_values"];
+                    NSString *specId = [o objectForKey:@"spec_id"];
                     //按钮计数器
                     int btnCount = 1;
                     for(NSMutableDictionary *k in paramBtnArr)
                     {
                         UIButton *paramBtn = [YMUIButton CreateSizeButton:[k objectForKey:@"specValue"] CGFrame:CGRectMake(55+(btnCount -1)*50, 0+(paramCount - 1)*41, 50, 26)];
+                        NSString *specValue_id = [k objectForKey:@"specValueId"];
+                        //将spec的ID和对应值的ID通过-拼接
+                        NSString *specToSpecValue = [[specId stringByAppendingString:@"_"]stringByAppendingString:specValue_id];
                         //将该属性的ID设置为其tag
-                        [paramBtn setTag:[[k objectForKey:@"specValueId"] integerValue]];
+                        [paramBtn setTag:tagCount];
+                        [self.keyToSpec setObject:specToSpecValue forKey:[NSString stringWithFormat:@"%i",tagCount]];
+                        tagCount++;
                         //设置该按钮字体
                         paramBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
                         //设置该按钮的事件
                         [paramBtn addTarget:self action:@selector(chiMaCliked:)forControlEvents:UIControlEventTouchUpInside];
+                        [self.paramBtnDictionary setObject:paramBtn forKey:[NSString stringWithFormat:@"%i",paramBtn.tag]];
                         [cell addSubview:paramBtn];
+                        
                         btnCount++;
-                    }
+                    } 
                     paramCount ++;
                     [cell addSubview:paramLable];
                 }
-            }
+                NSLog(@"%@",self.keyToSpec);
+            }else{}
             return cell;
             
         }else if (indexPath.row ==3)
@@ -462,14 +543,21 @@
 //尺码按钮绑定的事件
 -(void)chiMaCliked:(id)sender
 {
-    if(self.sizeBtn != nil)
-    {
-        [self.sizeBtn setBackgroundColor:[UIColor whiteColor]];
-    }
     UIButton *PressedBtn = sender;
-    self.sizeBtn = sender;
+    NSString *key = [NSString stringWithFormat:@"%i",[sender tag]];
+    NSString *content = [self.keyToSpec objectForKey:key];
+    NSInteger nowBtnHeaderNumber = [self getParamHeadNum:content];
+    for(NSString *o in self.paramBtnDictionary)
+    {
+        NSString *oContent = [self.keyToSpec objectForKey:o];
+        NSInteger existBtnHeaderNumber = [self getParamHeadNum:oContent];
+        if(nowBtnHeaderNumber == existBtnHeaderNumber)
+        {
+            [[self.paramBtnDictionary objectForKey:o] setBackgroundColor:[UIColor whiteColor]];
+        }
+    }
     [PressedBtn setBackgroundColor:[UIColor grayColor]];
-    NSLog(@"%i",[sender tag]);
+    [self consistString:sender addString:content];
 }
 
 //颜色按钮绑定事件
@@ -555,5 +643,65 @@
     }else{
         [self.goodsImageScrollView setContentOffset:CGPointMake(offsetWidth+258, 0) animated:YES];
     }   
+}
+
+//拼接字符串
+-(void)consistString:(UIButton *)chooseBtn
+             addString:(NSString *)addString
+{
+    if([self.chooseParam count]> 0)
+    {
+        int arrLength = [self.chooseParam count];
+        int i = 1;
+        NSInteger objHeaderNumber = [self getParamHeadNum:addString];
+        for(id o in self.chooseParam)
+        {
+
+            NSInteger arrHeaderNumber = [self getParamHeadNum:(NSString *)o];
+            if(objHeaderNumber >arrHeaderNumber)
+            {
+                i++;
+                if(i>arrLength)
+                {
+                    [self.chooseParam addObject:addString];
+                    break;
+                }else{
+                    continue;
+                }
+            }else if (objHeaderNumber <arrHeaderNumber){
+                [self.chooseParam insertObject:addString atIndex:(i-1)];
+                break;
+            }else{
+                [self.chooseParam replaceObjectAtIndex:(i-1) withObject:addString];
+                break;
+            }
+        }
+    }else{
+        [self.chooseParam addObject:addString];
+    }
+    if([self.chooseParam count] ==[self.specArr count])
+    {
+        NSString *pinjie = @"";
+        for(id o in self.chooseParam)
+        {
+            pinjie = [pinjie stringByAppendingString:o];
+            pinjie = [pinjie stringByAppendingString:@"_"];
+        }
+        NSLog(@"%@",pinjie);
+        
+        NSMutableDictionary *matchProduct = [self.goodsDictionary objectForKey:pinjie];
+        if(matchProduct != nil)
+        {
+            self.selectedProduct = matchProduct;
+            [self.goodsTableView reloadData];
+        }
+    }
+}
+
+-(NSInteger)getParamHeadNum:(NSString *)addString
+{
+    NSRange stringIdentifier = [addString rangeOfString:@"_"];
+    return [[addString substringToIndex:stringIdentifier.location] integerValue];
+    
 }
 @end
