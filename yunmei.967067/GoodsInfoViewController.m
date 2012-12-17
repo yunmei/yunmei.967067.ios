@@ -29,6 +29,12 @@
 @synthesize goodsDictionary = _goodsDictionary;
 @synthesize keyToSpec = _keyToSpec;
 @synthesize chooseParam = _chooseParam;
+@synthesize nameLable;
+@synthesize priceLable;
+@synthesize marketPriceLable;
+@synthesize quickBuyBtn;
+//判断立即购买是否可用
+bool buyBtnIsUseful =NO;
 //该私有变量用来存储上一次所选择的一个属性队形的拼接字符串的首部数字
 NSInteger beforePressedParamBtnHeadNum =0;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -332,36 +338,30 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             }else if([self.selectedProduct count]==0){
                 //产品名字
-                UILabel *nameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 0, 320, 43)];
-                nameLable.text = self.goodsModel.goodsName;
-                [cell addSubview:nameLable];
+               self.nameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 0, 320, 43)];
+                self.nameLable .text = self.goodsModel.goodsName;
+                [cell addSubview:self.nameLable ];
                 //产品价格
-                UILabel *priceLable = [[UILabel alloc]initWithFrame:CGRectMake(15, 32, 101, 30)];
-                priceLable.textColor = [UIColor redColor];
-                priceLable.text = [[@"￥" stringByAppendingString:[self.goodsModel goodsPrice]]stringByAppendingString:@".00"];
-                priceLable.font = [UIFont systemFontOfSize:15.0];
-                [cell addSubview:priceLable];
+                self.priceLable = [[UILabel alloc]initWithFrame:CGRectMake(15, 32, 101, 30)];
+                self.priceLable.textColor = [UIColor redColor];
+                self.priceLable.text = [[@"￥" stringByAppendingString:[self.goodsModel goodsPrice]]stringByAppendingString:@".00"];
+                self.priceLable.font = [UIFont systemFontOfSize:15.0];
+                [cell addSubview:self.priceLable];
                 //产品市场价
-                UILabel *marketPriceLable = [[UILabel alloc]initWithFrame:CGRectMake(103, 32, 150, 30)];
-                marketPriceLable.text = [[@"￥" stringByAppendingString:[self.goodsModel goodsMarketPrice]]stringByAppendingString:@".00"];
+                self.marketPriceLable = [[UILabel alloc]initWithFrame:CGRectMake(103, 32, 150, 30)];
+                self.marketPriceLable.text = [[@"￥" stringByAppendingString:[self.goodsModel goodsMarketPrice]]stringByAppendingString:@".00"];
 
-                marketPriceLable.textColor = [UIColor grayColor];
-                marketPriceLable.font = [UIFont systemFontOfSize:15.0];
-                [cell addSubview:marketPriceLable];
+                self.marketPriceLable.textColor = [UIColor grayColor];
+                self.marketPriceLable.font = [UIFont systemFontOfSize:15.0];
+                [cell addSubview:self.marketPriceLable];
             }else{
                 //产品价格
-                UILabel *priceLable = [[UILabel alloc]initWithFrame:CGRectMake(15, 32, 101, 30)];
-                priceLable.textColor = [UIColor redColor];
                 NSString *rmb = @"￥";
-                priceLable.text = [[rmb stringByAppendingString:[self.selectedProduct objectForKey:@"pro_price"]]stringByAppendingString:@".00"];
-                priceLable.font = [UIFont systemFontOfSize:15.0];
-                [cell addSubview:priceLable];
+                self.priceLable.text = [[rmb stringByAppendingString:[self.selectedProduct objectForKey:@"pro_price"]]stringByAppendingString:@".00"];
+                self.priceLable.font = [UIFont systemFontOfSize:15.0];
                 //产品市场价
-                UILabel *marketPriceLable = [[UILabel alloc]initWithFrame:CGRectMake(103, 32, 150, 30)];
-                marketPriceLable.text = [[@"市场价:￥" stringByAppendingString:[self.selectedProduct objectForKey:@"mktPrice"]]stringByAppendingString :@".00" ];
-                marketPriceLable.textColor = [UIColor grayColor];
-                marketPriceLable.font = [UIFont systemFontOfSize:15.0];
-                [cell addSubview:marketPriceLable];
+                self.marketPriceLable.text = [[@"市场价:￥" stringByAppendingString:[self.selectedProduct objectForKey:@"mktPrice"]]stringByAppendingString :@".00" ];
+                self.marketPriceLable.textColor = [UIColor grayColor];
             }
             return cell;
         }else if (indexPath.row ==2)
@@ -463,10 +463,17 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 //为文本框绑定事件，获得焦点时弹出toolbar
                 numFeild.delegate = self;
                 //生成立即购买按钮
-                UIButton *quickBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                [quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtn"] forState:UIControlStateNormal];
-                [quickBuyBtn setFrame:CGRectMake(55, 45, 200, 40)];
-                [cell addSubview:quickBuyBtn];
+                self.quickBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtn"] forState:UIControlStateNormal];
+                [self.quickBuyBtn setFrame:CGRectMake(55, 45, 200, 40)];
+                [cell addSubview:self.quickBuyBtn];
+                
+            }else if ([self.selectedProduct count]>0){
+                if(buyBtnIsUseful == YES)
+                {
+                    [self.quickBuyBtn addTarget:self action:@selector(quickBuy:) forControlEvents:UIControlEventTouchUpInside];
+                }
+            }else{
                 
             }
             return cell;
@@ -558,6 +565,12 @@ NSInteger beforePressedParamBtnHeadNum =0;
     }
     [PressedBtn setBackgroundColor:[UIColor grayColor]];
     [self consistString:sender addString:content];
+}
+
+//绑定立即购买按钮事件
+-(void)quickBuy:(id)sender
+{
+    NSLog(@"OKBUY");
 }
 
 //颜色按钮绑定事件
@@ -687,12 +700,16 @@ NSInteger beforePressedParamBtnHeadNum =0;
             pinjie = [pinjie stringByAppendingString:o];
             pinjie = [pinjie stringByAppendingString:@"_"];
         }
-        NSLog(@"%@",pinjie);
-        
+        //判断用户选择的该product是否存在
         NSMutableDictionary *matchProduct = [self.goodsDictionary objectForKey:pinjie];
         if(matchProduct != nil)
         {
+            buyBtnIsUseful = YES;
             self.selectedProduct = matchProduct;
+            [self.goodsTableView reloadData];
+        }else{
+            buyBtnIsUseful = NO;
+            self.selectedProduct = nil;
             [self.goodsTableView reloadData];
         }
     }

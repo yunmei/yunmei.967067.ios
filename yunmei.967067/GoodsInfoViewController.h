@@ -21,7 +21,11 @@
     UITextFieldDelegate,
     UIScrollViewDelegate
 >
-
+//在用户选择完产品的规格以后，将需要更改显示的产品的属性作为该视图的一种属性
+@property(strong,nonatomic)UILabel *nameLable;
+@property(strong,nonatomic)UILabel *priceLable;
+@property(strong,nonatomic)UILabel *marketPriceLable;
+@property(strong,nonatomic)UIButton *quickBuyBtn;
 @property(strong,nonatomic)NSMutableDictionary *selectedProduct;
 //定义可选择属性
 @property(strong,nonatomic)NSMutableArray *specArr;
