@@ -432,7 +432,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 UITextField *numFeild = [[UITextField alloc]initWithFrame:CGRectMake(84, 0, 40, 26)];
                 [numFeild.layer setBorderWidth:1.0];
                 [numFeild.layer setBorderColor:[YMUIButton CreateCGColorRef:128 greenNumber:128 blueNumber:128 alphaNumber:1.0]];
-                [numFeild setText:@"0"];
+                [numFeild setText:@"1"];
                 [numFeild setKeyboardType:UIKeyboardTypeNumberPad];
                 self.firstResponderTextFeild = numFeild;
                 //设置内容水平垂直居中
@@ -667,6 +667,10 @@ NSInteger beforePressedParamBtnHeadNum =0;
 -(void)confirmBtnClick:(id)sender
 {
     if(self.firstResponderTextFeild.text == @"0")
+    {
+        [self.firstResponderTextFeild setText:@"1"];
+    }
+    if(self.firstResponderTextFeild.text == @"")
     {
         [self.firstResponderTextFeild setText:@"1"];
     }
