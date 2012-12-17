@@ -33,6 +33,8 @@
 @synthesize priceLable;
 @synthesize marketPriceLable;
 @synthesize quickBuyBtn;
+@synthesize goodsStore;
+@synthesize codeNumber;
 //判断立即购买是否可用
 bool buyBtnIsUseful =NO;
 //该私有变量用来存储上一次所选择的一个属性队形的拼接字符串的首部数字
@@ -52,7 +54,6 @@ NSInteger beforePressedParamBtnHeadNum =0;
     // Do any additional setup after loading the view from its nib.
     UIBarButtonItem *searchBtn = [[UIBarButtonItem alloc]initWithTitle:@"搜索" style:UIBarButtonItemStyleBordered target:nil action:nil];
     self.navigationItem.rightBarButtonItem = searchBtn;
-    //NSLog(@"%@",[self goodsId]);
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"goods_getBaseByGoodsId",@"act",[self goodsId],@"goodsId",nil];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
@@ -88,6 +89,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
            }
            self.specArr = [dataDic objectForKey:@"spec"];
            [self.goodsTableView reloadData];
+           [self.goodsDetailTableView reloadData];
        }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"Error:%@",error);
@@ -103,11 +105,6 @@ NSInteger beforePressedParamBtnHeadNum =0;
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);
     }];
-    self.goodsDetailTableView.tag =1;
-    self.goodsDetailTableView.delegate = self;
-    self.goodsDetailTableView.dataSource = self;
-    self.goodsDetailTableView.scrollEnabled = NO;
-    self.goodsDetailTableView.backgroundColor = [UIColor whiteColor];
     [hud hide:YES];
     [ApplicationDelegate.appEngine enqueueOperation:op];
     [ApplicationDelegate.appEngine enqueueOperation:imageOp];
@@ -408,8 +405,9 @@ NSInteger beforePressedParamBtnHeadNum =0;
                     paramCount ++;
                     [cell addSubview:paramLable];
                 }
-                NSLog(@"%@",self.keyToSpec);
-            }else{}
+            }else{
+                
+            }
             return cell;
             
         }else if (indexPath.row ==3)
@@ -434,7 +432,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 UITextField *numFeild = [[UITextField alloc]initWithFrame:CGRectMake(84, 0, 40, 26)];
                 [numFeild.layer setBorderWidth:1.0];
                 [numFeild.layer setBorderColor:[YMUIButton CreateCGColorRef:128 greenNumber:128 blueNumber:128 alphaNumber:1.0]];
-                [numFeild setText:@"1"];
+                [numFeild setText:@"0"];
                 [numFeild setKeyboardType:UIKeyboardTypeNumberPad];
                 self.firstResponderTextFeild = numFeild;
                 //设置内容水平垂直居中
@@ -447,6 +445,12 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 [plusBtn setFrame:CGRectMake(126, 0, 26, 26)];
                 [plusBtn addTarget:self action:@selector(plusBtnPress:) forControlEvents:UIControlEventTouchUpInside];
                 [cell addSubview:plusBtn];
+                UILabel *goodsStoreName = [[UILabel alloc]initWithFrame:CGRectMake(210, 2, 40, 20)];
+                goodsStoreName.text = @"库存:";
+                self.goodsStore = [[UILabel alloc]initWithFrame:CGRectMake(250, 2, 40, 20)];
+                self.goodsStore.text = self.goodsModel.store;
+                [cell addSubview:goodsStoreName];
+                [cell addSubview:self.goodsStore];
                 //为文本域输入添加一个控制键盘的toolbar
                 UIToolbar *keyBordTopBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 160, 320, 40)];
                 [keyBordTopBar setBarStyle:UIBarStyleBlackTranslucent];
@@ -464,17 +468,22 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 numFeild.delegate = self;
                 //生成立即购买按钮
                 self.quickBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtn"] forState:UIControlStateNormal];
+                [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtnDisable"] forState:UIControlStateNormal];
                 [self.quickBuyBtn setFrame:CGRectMake(55, 45, 200, 40)];
                 [cell addSubview:self.quickBuyBtn];
                 
             }else if ([self.selectedProduct count]>0){
+                self.goodsStore.text = [self.selectedProduct objectForKey:@"pro_store"];
                 if(buyBtnIsUseful == YES)
                 {
+                    [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtn"] forState:UIControlStateNormal];
+                    [self.quickBuyBtn removeTarget:self action:@selector(quickBuyDisable:) forControlEvents:UIControlEventTouchUpInside];
                     [self.quickBuyBtn addTarget:self action:@selector(quickBuy:) forControlEvents:UIControlEventTouchUpInside];
                 }
             }else{
-                
+                [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtnDisable"] forState:UIControlStateNormal];
+                [self.quickBuyBtn removeTarget:self action:@selector(quickBuy:) forControlEvents:UIControlEventTouchUpInside];
+                [self.quickBuyBtn addTarget:self action:@selector(quickBuyDisable:) forControlEvents:UIControlEventTouchUpInside];
             }
             return cell;
         }else
@@ -488,14 +497,25 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 UILabel *goodsDetailLable = [[UILabel alloc]initWithFrame:CGRectMake(14, 0, 74, 24)];
                 goodsDetailLable.textColor = [UIColor blackColor];
                 goodsDetailLable.text = @"商品详情";
-                UILabel *goodsCoding = [[UILabel alloc]initWithFrame:CGRectMake(172,3
-                                                                                , 120,22)];
-                goodsCoding.text = @"商品编码";
+                UILabel *goodsCoding = [[UILabel alloc]initWithFrame:CGRectMake(160,3,62,22)];
+                goodsCoding.text = @"商品编号:";
                 goodsCoding.font = [UIFont systemFontOfSize:12];
                 goodsCoding.textColor = [UIColor grayColor];
                 [cell addSubview:goodsCoding];
                 [cell addSubview:goodsDetailLable];
+                self.goodsDetailTableView.tag =1;
+                self.goodsDetailTableView.delegate = self;
+                self.goodsDetailTableView.dataSource = self;
+                self.goodsDetailTableView.scrollEnabled = NO;
+                self.goodsDetailTableView.backgroundColor = [UIColor whiteColor];
+                self.codeNumber = [[UILabel alloc]initWithFrame:CGRectMake(219, 3, 100, 22)];
+                self.codeNumber.font = [UIFont systemFontOfSize:12];
+                self.codeNumber.textColor = [UIColor grayColor];
+                 self.codeNumber.text = self.goodsModel.goodsCode;
+                [cell addSubview:self.codeNumber];
                 [cell addSubview:self.goodsDetailTableView];
+            }else{
+                 self.codeNumber.text = self.goodsModel.goodsCode;
             }
             return  cell;
         }
@@ -504,7 +524,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
         if(indexPath.section ==0)
         {
             //section上半部分
-            if(indexPath.row == 1)
+            if(indexPath.row == 0)
             {
                 static NSString *identifier = @"goodsintro1";
                 UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -512,6 +532,43 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 {
                     cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
                     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    if([self.goodsModel.property count] >0)
+                    {
+                        for(id o in self.goodsModel.property)
+                        {
+                            NSMutableDictionary *getDic = [self.goodsModel.property objectForKey:o];
+                            int count = 0;
+                            for(id i in getDic)
+                            {
+                                UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(20, 15+20*count, 260, 17)];
+                                title.font = [UIFont systemFontOfSize:12];
+                                title.text = [[i stringByAppendingString:@":"] stringByAppendingString:[getDic objectForKey:i]];
+                                [cell addSubview:title];
+                                count ++;
+                            }
+                        }
+                    }
+      
+                }else{
+                    for(UIView * subView in cell.subviews)
+                    {
+                        [subView removeFromSuperview];
+                        for(id o in self.goodsModel.property)
+                        {
+                            NSMutableDictionary *getDic = [self.goodsModel.property objectForKey:o];
+                            int count = 0;
+                            for(id i in getDic)
+                            {
+                                UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(20, 15+20*count, 260, 17)];
+                                title.font = [UIFont systemFontOfSize:12];
+                                title.text = [[i stringByAppendingString:@":"] stringByAppendingString:[getDic objectForKey:i]];
+                                [cell addSubview:title];
+                                count ++;
+                            }
+                        }
+                        
+                        
+                    }
                 }
                 return cell;
             }else{
@@ -570,23 +627,25 @@ NSInteger beforePressedParamBtnHeadNum =0;
 //绑定立即购买按钮事件
 -(void)quickBuy:(id)sender
 {
-    NSLog(@"OKBUY");
+    if(self.firstResponderTextFeild.text ==@"0")
+    {
+        UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请选择你的商品数量" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alertNum show];
+    }else{
+        //货品ID
+        NSLog(@"%@",[self.selectedProduct objectForKey:@"pro_id"]);
+        //商品ID
+        NSLog(@"%@",self.goodsId);
+        //购买数量
+        NSLog(@"%@",self.firstResponderTextFeild.text);
+    }
 }
 
 //颜色按钮绑定事件
--(void)colorBtnCliked:(id)sender
+-(void)quickBuyDisable:(id)sender
 {
-    if(self.colorBtn !=nil)
-    {
-        NSLog(@"notnil");
-        CGColorRef witeColor = [YMUIButton CreateCGColorRef:255 greenNumber:255 blueNumber:255 alphaNumber:1.0];
-        [self.colorBtn.layer setBorderColor:witeColor];
-    }
-    UIButton *PressedBtn = sender;
-    self.colorBtn = sender;
-    CGColorRef borderColor = [YMUIButton CreateCGColorRef:228 greenNumber:228 blueNumber:228 alphaNumber:1.0];
-    [PressedBtn.layer setBorderColor:borderColor];
-    
+    UIAlertView *alertBuy = [[UIAlertView alloc]initWithTitle:@"警告" message:@"您所选择的产品规格不存在或者存在未选择项" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [alertBuy show];
 }
 
 //点击数量文本域时候弹出toolbar事件
@@ -608,7 +667,14 @@ NSInteger beforePressedParamBtnHeadNum =0;
 //绑定toobar确认按钮
 -(void)confirmBtnClick:(id)sender
 {
-    NSLog(@"%@",self.firstResponderTextFeild.text);
+    if(self.firstResponderTextFeild.text == @"0")
+    {
+        [self.firstResponderTextFeild setText:@"1"];
+    }
+    if(self.firstResponderTextFeild.text.integerValue >=self.goodsStore.text.integerValue)
+    {
+        [self.firstResponderTextFeild setText:self.goodsStore.text];
+    }
     [self.firstResponderTextFeild resignFirstResponder];
     [self.textControlToolbar removeFromSuperview];
 }
@@ -617,7 +683,13 @@ NSInteger beforePressedParamBtnHeadNum =0;
 -(void)plusBtnPress:(id)sender
 {
     NSInteger i = [self.firstResponderTextFeild.text integerValue];
+    if(i>=self.goodsStore.text.integerValue)
+    {
+        i =self.goodsStore.text.integerValue;
+    }else{
         i++;
+    }
+        
     self.firstResponderTextFeild.text = [NSString stringWithFormat:@"%i",i];
     
 }

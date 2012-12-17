@@ -18,6 +18,16 @@
 @synthesize goodsMarketPrice;
 @synthesize store;
 @synthesize standard;
-@synthesize property;
+@synthesize property = _property;
 
+
+
+-(NSMutableDictionary *)property
+{
+    if(_property == nil)
+    {
+        _property = [[NSMutableDictionary alloc]init];
+    }
+    return _property;
+}
 @end
