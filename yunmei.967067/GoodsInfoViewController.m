@@ -346,7 +346,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 [cell addSubview:self.priceLable];
                 //产品市场价
                 self.marketPriceLable = [[UILabel alloc]initWithFrame:CGRectMake(103, 32, 150, 30)];
-                self.marketPriceLable.text = [[@"￥" stringByAppendingString:[self.goodsModel goodsMarketPrice]]stringByAppendingString:@".00"];
+                self.marketPriceLable.text = [[@"市场价:￥" stringByAppendingString:[self.goodsModel goodsMarketPrice]]stringByAppendingString:@".00"];
 
                 self.marketPriceLable.textColor = [UIColor grayColor];
                 self.marketPriceLable.font = [UIFont systemFontOfSize:15.0];
