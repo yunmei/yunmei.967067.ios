@@ -460,7 +460,6 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 [cancleBtn setWidth:60.0];
                 [flexibleSpace setWidth:190.0];
                 [confirmBtn setWidth:60.0];
-                [confirmBtn setAccessibilityActivationPoint:CGPointMake(282, 18)];
                 NSArray *buttons = [[NSArray alloc]initWithObjects:cancleBtn,flexibleSpace,confirmBtn, nil];
                 [keyBordTopBar setItems:buttons];
                 self.textControlToolbar = keyBordTopBar;
