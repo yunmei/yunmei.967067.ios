@@ -288,6 +288,17 @@ NSInteger beforePressedParamBtnHeadNum =0;
     }
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(tableView.tag ==1)
+    {
+        if(indexPath.section ==1)
+        {				
+            NSLog(@"sec1");
+        }else if(indexPath.section ==2){
+            NSLog(@"sec2");
+        }
+    }
+}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -531,6 +542,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 {
                     cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
                     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    [cell setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
                     if([self.goodsModel.property count] >0)
                     {
                         for(id o in self.goodsModel.property)
@@ -542,32 +554,13 @@ NSInteger beforePressedParamBtnHeadNum =0;
                                 UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(20, 15+20*count, 260, 17)];
                                 title.font = [UIFont systemFontOfSize:12];
                                 title.text = [[i stringByAppendingString:@":"] stringByAppendingString:[getDic objectForKey:i]];
+                                [title setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
                                 [cell addSubview:title];
                                 count ++;
                             }
                         }
                     }
       
-                }else{
-                    for(UIView * subView in cell.subviews)
-                    {
-                        [subView removeFromSuperview];
-                        for(id o in self.goodsModel.property)
-                        {
-                            NSMutableDictionary *getDic = [self.goodsModel.property objectForKey:o];
-                            int count = 0;
-                            for(id i in getDic)
-                            {
-                                UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(20, 15+20*count, 260, 17)];
-                                title.font = [UIFont systemFontOfSize:12];
-                                title.text = [[i stringByAppendingString:@":"] stringByAppendingString:[getDic objectForKey:i]];
-                                [cell addSubview:title];
-                                count ++;
-                            }
-                        }
-                        
-                        
-                    }
                 }
                 return cell;
             }else{
@@ -577,6 +570,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 {
                     cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
                     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    [cell setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
                 }
                 return cell;
             }
@@ -587,6 +581,12 @@ NSInteger beforePressedParamBtnHeadNum =0;
             {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                UILabel *newInforPage = [[UILabel alloc]initWithFrame:CGRectMake(18, 5, 150, 20)];
+                newInforPage.text = @"商品详情";
+                [newInforPage setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
+                [cell addSubview:newInforPage];
+                [cell setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             return cell;
         }else{
@@ -596,6 +596,12 @@ NSInteger beforePressedParamBtnHeadNum =0;
             {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                UILabel *goodsComment = [[UILabel alloc]initWithFrame:CGRectMake(18, 5, 150, 20)];
+                [goodsComment setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
+                goodsComment.text = @"商品评论";
+                [cell addSubview:goodsComment];
+                [cell setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             return cell;
         }
