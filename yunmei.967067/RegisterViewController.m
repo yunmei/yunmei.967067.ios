@@ -14,6 +14,13 @@
 
 @implementation RegisterViewController
 
+@synthesize usernameTextField;
+@synthesize passwordTextField;
+@synthesize repasswordTextField;
+@synthesize emailTextField;
+@synthesize registerBtn;
+@synthesize cancelBtn;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,7 +34,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    [self.registerBtn addTarget:self action:@selector(userRegister) forControlEvents:UIControlEventTouchUpInside];
+    [self.cancelBtn addTarget:self action:@selector(registerCancel) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning
@@ -36,4 +44,59 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)userRegister
+{
+    NSString *regEx = @"^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
+    NSRange r = [self.emailTextField.text rangeOfString:regEx options:NSRegularExpressionSearch];
+    
+    UIAlertView *alertView = [[UIAlertView alloc]init];
+    if ([self.usernameTextField.text isEqualToString:@""] || self.usernameTextField.text == nil) {
+        [self.usernameTextField becomeFirstResponder];
+        alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请填写用户名！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+        [alertView show];
+    } else if ([self.usernameTextField.text length] < 4 || [self.usernameTextField.text length] > 20) {
+        [self.usernameTextField becomeFirstResponder];
+        alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"用户名的长度应该为4-20个字符！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+        [alertView show];
+    } else if ([self.emailTextField.text isEqualToString:@""] || self.emailTextField.text == nil) {
+        [self.emailTextField becomeFirstResponder];
+        alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请填写您的邮箱！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+        [alertView show];
+    } else if (r.location == NSNotFound) {
+        [self.emailTextField becomeFirstResponder];
+        alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您填写的邮箱不正确！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+        [alertView show];
+    } else if ([self.passwordTextField.text isEqualToString:@""] || self.passwordTextField.text == nil) {
+        [self.passwordTextField becomeFirstResponder];
+        alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请填写您的密码！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+        [alertView show];
+    } else if ([self.passwordTextField.text length] < 6) {
+        [self.passwordTextField becomeFirstResponder];
+        alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"为了您的密码安全，请填写6位以上的密码！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+        [alertView show];
+    } else if (![self.passwordTextField.text isEqualToString:self.repasswordTextField.text]) {
+        [self.repasswordTextField becomeFirstResponder];
+        alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您的两次密码填写不一致！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+        [alertView show];
+    } else {
+        
+    }
+    return YES;
+}
+
+- (void)registerCancel
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserRespondsLogin" object:self userInfo:[NSMutableDictionary dictionaryWithObject:@"cancel" forKey:@"cancel"]];
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)viewDidUnload {
+    [self setUsernameTextField:nil];
+    [self setPasswordTextField:nil];
+    [self setRepasswordTextField:nil];
+    [self setEmailTextField:nil];
+    [self setRegisterBtn:nil];
+    [self setCancelBtn:nil];
+    [super viewDidUnload];
+}
 @end
