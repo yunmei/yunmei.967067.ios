@@ -13,6 +13,9 @@
 @end
 
 @implementation GoodsIntroductViewController
+@synthesize contentWebView = _contentWebView;
+@synthesize introTableView = _introTableView;
+@synthesize goodsIntroductTitle = _goodsIntroductTitle;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,6 +29,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.view addSubview:self.introTableView];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"goods_getInfoByGoodsId" forKey:@"act"];
+    MKNetworkOperation *op = [YMGlobal getOperation:params];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+        if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            NSMutableArray *goodsInfoArr = [object objectForKey:@"data"];
+            NSString *content = [[goodsInfoArr objectAtIndex:0]objectForKey:@"goodsInfo"];
+            NSLog(@"%@",content);
+            [self.contentWebView loadHTMLString:content baseURL:nil];
+            [self.introTableView reloadData];
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    [hud hide:YES];
+    [ApplicationDelegate.appEngine enqueueOperation:op];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -33,6 +56,84 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.section ==0)
+    {
+        return self.goodsIntroductTitle.frame.size.height+10;
+    }else{
+        return 285;
+    }
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.section == 0)
+    {
+        static NSString *cellIndentifier = @"goodsTitleCell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
+        if(cell == nil)
+        {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIndentifier];
+        }else{
+            [cell addSubview:self.goodsIntroductTitle];
+        }
+    return cell;
+    }else{
+        static NSString *cellIndentifier = @"goodsIntroCell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
+        if(cell == nil)
+        {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIndentifier];
+        }else{
+            [cell addSubview:self.contentWebView];
+        }
+        return cell;
+    }
+}
+
+-(UIWebView *)contentWebView
+{
+    if(_contentWebView == nil)
+    {
+        _contentWebView = [[UIWebView alloc]initWithFrame:CGRectMake(20, 5, 285, 275)];
+        _contentWebView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+    }
+    return _contentWebView;
+}
+
+-(UITableView *)introTableView
+{
+    if(_introTableView == nil)
+    {
+        _introTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 410) style:UITableViewStyleGrouped];
+        _introTableView.delegate = self;
+        _introTableView.dataSource = self;
+        //_introTableView. = UITableViewStylePlain;
+    }
+    return _introTableView;
+}
+
+-(UILabel *)goodsIntroductTitle
+{
+    if(_goodsIntroductTitle == nil)
+    {
+        _goodsIntroductTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 270, 60)];
+       //_goodsIntroductTitle setFont:[UIFont systemFontOfSize:50.0];
+    }
+    return _goodsIntroductTitle;
 }
 
 @end

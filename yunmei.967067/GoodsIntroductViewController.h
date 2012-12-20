@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
+#import "AppDelegate.h"
+#import "SBJson.h"
+#import "YMGlobal.h"
 
-@interface GoodsIntroductViewController : UIViewController
+@interface GoodsIntroductViewController : UIViewController<
+    UITableViewDelegate,
+    UITableViewDataSource,
+    UIWebViewDelegate
+>
+
+@property(strong,nonatomic)UITableView *introTableView;
+@property(strong,nonatomic)UIWebView *contentWebView;
+@property(strong,nonatomic)UILabel *goodsIntroductTitle;
 
 @end

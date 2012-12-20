@@ -14,6 +14,7 @@
 #import "GoodsModel.h"
 #import <QuartzCore/QuartzCore.h>
 #import "YMUIButton.h"
+#import "GoodsIntroductViewController.h"
 @interface GoodsInfoViewController : UIViewController<
     UITableViewDataSource,
     UITableViewDelegate,

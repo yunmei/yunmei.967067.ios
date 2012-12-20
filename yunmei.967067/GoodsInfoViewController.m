@@ -293,7 +293,12 @@ NSInteger beforePressedParamBtnHeadNum =0;
     {
         if(indexPath.section ==1)
         {				
-            NSLog(@"sec1");
+            UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+            [backBtn setTitle:@"返回"];
+            self.navigationItem.backBarButtonItem = backBtn;
+            GoodsIntroductViewController *goodsIntroductView = [[GoodsIntroductViewController alloc]init];
+            goodsIntroductView.goodsIntroductTitle.text = self.goodsModel.goodsName;
+            [self.navigationController pushViewController:goodsIntroductView animated:YES];
         }else if(indexPath.section ==2){
             NSLog(@"sec2");
         }
