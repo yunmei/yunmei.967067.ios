@@ -21,5 +21,5 @@
 @property(strong,nonatomic)UITableView *introTableView;
 @property(strong,nonatomic)UIWebView *contentWebView;
 @property(strong,nonatomic)UILabel *goodsIntroductTitle;
-
+@property(strong,nonatomic)NSString *goodsId;
 @end

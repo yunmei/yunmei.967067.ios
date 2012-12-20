@@ -16,7 +16,7 @@
 @synthesize contentWebView = _contentWebView;
 @synthesize introTableView = _introTableView;
 @synthesize goodsIntroductTitle = _goodsIntroductTitle;
-
+@synthesize goodsId;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,7 +32,7 @@
     [self.view addSubview:self.introTableView];
     [self.navigationController setTitle:@"商品详情介绍"];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"goods_getInfoByGoodsId" forKey:@"act"];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"goods_getInfoByGoodsId", @"act",self.goodsId,@"id",nil];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         SBJsonParser *parser = [[SBJsonParser alloc]init];

@@ -297,6 +297,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
             [backBtn setTitle:@"返回"];
             self.navigationItem.backBarButtonItem = backBtn;
             GoodsIntroductViewController *goodsIntroductView = [[GoodsIntroductViewController alloc]init];
+            goodsIntroductView.goodsId = self.goodsId;
             goodsIntroductView.goodsIntroductTitle.text = self.goodsModel.goodsName;
             [self.navigationController pushViewController:goodsIntroductView animated:YES];
         }else if(indexPath.section ==2){
