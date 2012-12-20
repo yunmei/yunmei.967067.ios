@@ -7,6 +7,7 @@
 //
 
 #import "MyViewController.h"
+#import "UserModel.h"
 
 @interface MyViewController ()
 
@@ -30,13 +31,18 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    // 如果用户没有登陆弹出登陆的View
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToLogin" object:self];
+    if (![UserModel checkLogin]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToLogin" object:self];
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"注销"
+                                                                              style:UIBarButtonItemStyleBordered
+                                                                             target:self
+                                                                             action:@selector(userLogout)];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -46,4 +52,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)userLogout
+{
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您确定要退出吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [self.tabBarController setSelectedIndex:0];
+        [UserModel logout];
+    }
+}
 @end
