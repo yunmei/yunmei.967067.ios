@@ -30,6 +30,7 @@
 {
     [super viewDidLoad];
     [self.view addSubview:self.introTableView];
+    [self.navigationController setTitle:@"商品详情介绍"];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"goods_getInfoByGoodsId" forKey:@"act"];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
@@ -87,6 +88,7 @@
         if(cell == nil)
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIndentifier];
+            [cell setSelectionStyle:UITableViewCellEditingStyleNone];
         }else{
             [cell addSubview:self.goodsIntroductTitle];
         }
@@ -97,6 +99,7 @@
         if(cell == nil)
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIndentifier];
+            [cell setSelectionStyle:UITableViewCellEditingStyleNone];
         }else{
             [cell addSubview:self.contentWebView];
         }
@@ -110,6 +113,7 @@
     {
         _contentWebView = [[UIWebView alloc]initWithFrame:CGRectMake(20, 5, 285, 275)];
         _contentWebView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+        [_contentWebView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust = '50%'"];
     }
     return _contentWebView;
 }
@@ -121,7 +125,7 @@
         _introTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 410) style:UITableViewStyleGrouped];
         _introTableView.delegate = self;
         _introTableView.dataSource = self;
-        //_introTableView. = UITableViewStylePlain;
+        //_introTableView. = UITableViewStysePlain;
     }
     return _introTableView;
 }
@@ -131,7 +135,8 @@
     if(_goodsIntroductTitle == nil)
     {
         _goodsIntroductTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 270, 60)];
-       //_goodsIntroductTitle setFont:[UIFont systemFontOfSize:50.0];
+        [_goodsIntroductTitle setFont:[UIFont systemFontOfSize:14.0]];
+        [_goodsIntroductTitle setNumberOfLines:2];
     }
     return _goodsIntroductTitle;
 }
