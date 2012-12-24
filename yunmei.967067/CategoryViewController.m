@@ -39,6 +39,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"category_getList" forKey:@"act"];
     MKNetworkOperation * op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSLog(@"%@",[completedOperation responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
         if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
@@ -94,7 +95,6 @@
     }
    
     CategoryModel *cellItemCat = [self.catItemList objectAtIndex:indexPath.row];
-    NSLog(@"%@",cellItemCat.catDesc);
     if(!(cellItemCat==nil))
     {
         cell.categoryName.font = [UIFont systemFontOfSize:20.0];

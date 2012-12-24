@@ -137,6 +137,8 @@
 		AAD37D3F16815C6A00C06D6F /* GoodsIntroductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD37D3D16815C6A00C06D6F /* GoodsIntroductViewController.xib */; };
 		AAD7542E1666EEAE0059962D /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD7542D1666EEAE0059962D /* CategoryCell.m */; };
 		AAD754301666EEED0059962D /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD7542F1666EEED0059962D /* CategoryCell.xib */; };
+		AAD7C1491682F8360033014E /* CategoryThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD7C1471682F8360033014E /* CategoryThirdViewController.m */; };
+		AAD7C14A1682F8360033014E /* CategoryThirdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD7C1481682F8360033014E /* CategoryThirdViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -351,6 +353,9 @@
 		AAD7542C1666EEAE0059962D /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
 		AAD7542D1666EEAE0059962D /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCell.m; sourceTree = "<group>"; };
 		AAD7542F1666EEED0059962D /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
+		AAD7C1461682F8360033014E /* CategoryThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryThirdViewController.h; sourceTree = "<group>"; };
+		AAD7C1471682F8360033014E /* CategoryThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryThirdViewController.m; sourceTree = "<group>"; };
+		AAD7C1481682F8360033014E /* CategoryThirdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryThirdViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -554,6 +559,9 @@
 				AA8DBAAD1669ED53003291D2 /* CategorySecViewController.h */,
 				AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */,
 				AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */,
+				AAD7C1461682F8360033014E /* CategoryThirdViewController.h */,
+				AAD7C1471682F8360033014E /* CategoryThirdViewController.m */,
+				AAD7C1481682F8360033014E /* CategoryThirdViewController.xib */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -915,6 +923,7 @@
 				AAC24419167EB9BB00080AAC /* quickBuyBtn.png in Resources */,
 				AAC2441B167EB9C200080AAC /* quickBuyBtnDisable.png in Resources */,
 				AAD37D3F16815C6A00C06D6F /* GoodsIntroductViewController.xib in Resources */,
+				AAD7C14A1682F8360033014E /* CategoryThirdViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -995,6 +1004,7 @@
 				4603B7A016785BDE00B8AFD4 /* YMDbClass.m in Sources */,
 				46D958761680135400D4A1CC /* UserModel.m in Sources */,
 				AAD37D3E16815C6A00C06D6F /* GoodsIntroductViewController.m in Sources */,
+				AAD7C1491682F8360033014E /* CategoryThirdViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

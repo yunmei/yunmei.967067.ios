@@ -7,6 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CategoryThirdViewController.h"
+#import "MBProgressHUD.h"
+#import "CategoryModel.h"
+#import "SBJson.h"
+#import "YMGlobal.h"
+#import "AppDelegate.h"
 
 @interface CategorySecViewController : UIViewController<UITableViewDelegate,
     UITableViewDataSource
