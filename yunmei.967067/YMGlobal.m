@@ -15,6 +15,7 @@
 + (MKNetworkOperation *)getOperation:(NSMutableDictionary *)params
 {
     [params setObject:@"2.0" forKey:@"api_version"];
+    [params setObject:@"2" forKey:@"return_data"];
     return [ApplicationDelegate.appEngine operationWithPath:API_BASEURL params:params httpMethod:API_METHOD ssl:NO];
 }
 
