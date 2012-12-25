@@ -37,6 +37,7 @@
 @synthesize codeNumber;
 //判断立即购买是否可用
 bool buyBtnIsUseful =NO;
+bool multipalSpec = NO;
 //该私有变量用来存储上一次所选择的一个属性队形的拼接字符串的首部数字
 NSInteger beforePressedParamBtnHeadNum =0;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -58,10 +59,12 @@ NSInteger beforePressedParamBtnHeadNum =0;
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"goods_getBaseByGoodsId",@"act",[self goodsId],@"goodsId",nil];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSLog(@"%@",[completedOperation responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+        
        if([(NSString *)[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
-       {                    
+       {
            NSMutableArray *dataArr = [object objectForKey:@"data"];
            NSMutableDictionary *dataDic = [dataArr objectAtIndex:0];
            self.goodsModel.goodsCode = [dataDic objectForKey:@"goodsCode"];
@@ -73,21 +76,54 @@ NSInteger beforePressedParamBtnHeadNum =0;
            self.goodsModel.standard = [dataDic objectForKey:@"standard"];
            self.goodsModel.store = [dataDic objectForKey:@"store"];
            NSMutableArray *productCheck = [dataDic objectForKey:@"products"];
-           //将商品的spec_id和spec_key组合成一个唯一的字符串，将该商品存到字典中，并以该唯一的字符串作为key值
-           for(id o in productCheck)
+           //判断该商品是否为多规格商品
+           if([productCheck count]>1)
            {
-               NSString * idConstruct = @"";
-               NSMutableArray *specArr = [o objectForKey:@"spec_value"];
-               for(id i in specArr)
-               {
-                   idConstruct = [idConstruct stringByAppendingString:[i objectForKey:@"spec_id"]];
-                   idConstruct = [idConstruct stringByAppendingString:@"_"];
-                   idConstruct = [idConstruct stringByAppendingString:[i objectForKey:@"spec_value"]];
-                   idConstruct = [idConstruct stringByAppendingString:@"_"];
-               }
-               [self.goodsDictionary setObject:o forKey:idConstruct];
+               multipalSpec = YES;
+           }else{
+               multipalSpec = NO;
            }
-           self.specArr = [dataDic objectForKey:@"spec"];
+           //将商品的spec_id和spec_key组合成一个唯一的字符串，将该商品存到字典中，并以该唯一的字符串作为key值
+           if(multipalSpec == YES)
+           {
+               for(id o in productCheck)
+               {
+                   NSString * idConstruct = @"";
+                   NSMutableArray *spec_value = [o objectForKey:@"spec_value"];
+                   NSMutableArray *specArr = [[NSMutableArray alloc]init];
+                   for(id i in spec_value)
+                   {
+                       if([specArr count] == 0)
+                       {
+                           [specArr addObject:i];
+                       }else{
+                           int positionCount = 1;
+                           for(id k in specArr)
+                           {
+                               NSString *headIdNum = [k objectForKey:@"spec_id"];
+                               NSString *addIdNum = [i objectForKey:@"spec_id"];
+                               if(headIdNum.integerValue < addIdNum.integerValue)
+                               {
+                                   positionCount ++;
+                                   continue;
+                               }else{
+                                   [specArr insertObject:i atIndex:positionCount-1];
+                               }
+                           }
+                       }
+                   }
+                   for(id i in specArr)
+                   {
+                       idConstruct = [idConstruct stringByAppendingString:[i objectForKey:@"spec_id"]];
+                       
+                       idConstruct = [idConstruct stringByAppendingString:@"_"];
+                       idConstruct = [idConstruct stringByAppendingString:[i objectForKey:@"spec_value"]];
+                       idConstruct = [idConstruct stringByAppendingString:@"_"];
+                   }
+                   [self.goodsDictionary setObject:o forKey:idConstruct];
+               }
+               self.specArr = [dataDic objectForKey:@"spec"];
+           }
            [self.goodsTableView reloadData];
            [self.goodsDetailTableView reloadData];
        }
@@ -256,7 +292,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
             int i =1;
             if([self.specArr count] ==0)
             {
-                return  41;
+                return  0;
             }else{
                 i = (int)[self.specArr  count];
                     return  41*i;
@@ -358,12 +394,12 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 //产品价格
                 self.priceLable = [[UILabel alloc]initWithFrame:CGRectMake(15, 32, 101, 30)];
                 self.priceLable.textColor = [UIColor redColor];
-                self.priceLable.text = [[@"￥" stringByAppendingString:[self.goodsModel goodsPrice]]stringByAppendingString:@".00"];
+                self.priceLable.text = [@"￥" stringByAppendingString:[self.goodsModel goodsPrice]];
                 self.priceLable.font = [UIFont systemFontOfSize:15.0];
                 [cell addSubview:self.priceLable];
                 //产品市场价
                 self.marketPriceLable = [[UILabel alloc]initWithFrame:CGRectMake(103, 32, 150, 30)];
-                self.marketPriceLable.text = [[@"市场价:￥" stringByAppendingString:[self.goodsModel goodsMarketPrice]]stringByAppendingString:@".00"];
+                self.marketPriceLable.text = [@"市场价:￥" stringByAppendingString:[self.goodsModel goodsMarketPrice]];
 
                 self.marketPriceLable.textColor = [UIColor grayColor];
                 self.marketPriceLable.font = [UIFont systemFontOfSize:15.0];
@@ -371,10 +407,10 @@ NSInteger beforePressedParamBtnHeadNum =0;
             }else{
                 //产品价格
                 NSString *rmb = @"￥";
-                self.priceLable.text = [[rmb stringByAppendingString:[self.selectedProduct objectForKey:@"pro_price"]]stringByAppendingString:@".00"];
+                self.priceLable.text = [rmb stringByAppendingString:[self.selectedProduct objectForKey:@"pro_price"]];
                 self.priceLable.font = [UIFont systemFontOfSize:15.0];
                 //产品市场价
-                self.marketPriceLable.text = [[@"市场价:￥" stringByAppendingString:[self.selectedProduct objectForKey:@"mktPrice"]]stringByAppendingString :@".00" ];
+                self.marketPriceLable.text = [@"市场价:￥" stringByAppendingString:[self.selectedProduct objectForKey:@"mktPrice"]];
                 self.marketPriceLable.textColor = [UIColor grayColor];
             }
             return cell;
@@ -496,6 +532,12 @@ NSInteger beforePressedParamBtnHeadNum =0;
                     [self.quickBuyBtn removeTarget:self action:@selector(quickBuyDisable:) forControlEvents:UIControlEventTouchUpInside];
                     [self.quickBuyBtn addTarget:self action:@selector(quickBuy:) forControlEvents:UIControlEventTouchUpInside];
                 }
+            }else if (multipalSpec == NO){
+                self.goodsStore.text = self.goodsModel.store;
+                [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtn"] forState:UIControlStateNormal];
+                [self.quickBuyBtn removeTarget:self action:@selector(quickBuyDisable:) forControlEvents:UIControlEventTouchUpInside];
+                [self.quickBuyBtn addTarget:self action:@selector(quickBuy:) forControlEvents:UIControlEventTouchUpInside];
+
             }else{
                 [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtnDisable"] forState:UIControlStateNormal];
                 [self.quickBuyBtn removeTarget:self action:@selector(quickBuy:) forControlEvents:UIControlEventTouchUpInside];

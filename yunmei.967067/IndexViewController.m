@@ -60,7 +60,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"ad_getAdList" forKey:@"act"];
     MKNetworkOperation* op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        NSLog(@"%@",[completedOperation responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
         if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
@@ -122,6 +121,7 @@
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+        NSLog(@"%@",[completedOperation responseString]);
         if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
             NSString *imageUrl = [[object objectForKey:@"data"]objectForKey:@"imageUrl"];
             UIButton *adImageBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(160, 0, 160, 80)];
@@ -320,7 +320,7 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
     self.navigationItem.backBarButtonItem = backItem;	
     goodsInfoView.navigationItem.title = @"商品详情";
-    goodsInfoView.goodsId = @"1";
+    goodsInfoView.goodsId = @"3988";//2572
     [self.navigationController pushViewController:goodsInfoView animated:YES];
 }
 

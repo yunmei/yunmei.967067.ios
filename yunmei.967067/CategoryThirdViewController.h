@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GoodsListViewController.h"
 
 @interface CategoryThirdViewController : UIViewController<
     UITableViewDataSource,

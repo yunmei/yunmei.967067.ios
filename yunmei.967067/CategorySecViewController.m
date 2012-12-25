@@ -79,23 +79,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    NSUInteger row = [indexPath row];
-//    NSString *subCatId = [[self.subCateList objectAtIndex:row] objectForKey:@"catId"];
-//    NSString *subCatName = [[self.subCateList objectAtIndex:row] objectForKey:@"catName"];
-//    // pushView到GoodsListView
-//    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
-//    self.navigationItem.backBarButtonItem = backItem;
-//    GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
-//    goodsListViewController.requestId = subCatId;
-//    goodsListViewController.requestDataType = @"category";
-//    UILabel *itemTitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
-//    itemTitle.textAlignment = UITextAlignmentCenter;
-//    itemTitle.text = [NSString stringWithFormat:@"\"%@\"下的产品列表", subCatName];
-//    itemTitle.font = [UIFont systemFontOfSize:14.0];
-//    itemTitle.backgroundColor = [UIColor clearColor];
-//    itemTitle.textColor = [UIColor whiteColor];
-//    goodsListViewController.navigationItem.titleView = itemTitle;
-//    [self.navigationController pushViewController:goodsListViewController animated:(YES)];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSString *catId = [[self.subCateList objectAtIndex:indexPath.row]objectForKey:@"catId"];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"category_getSubList",@"act",catId,@"catId", nil];
@@ -108,10 +91,7 @@
               CategoryThirdViewController *thirdCatView = [[CategoryThirdViewController alloc]init];
               for(id o in [objectForCat objectForKey:@"data"])
               {
-                  CategoryModel *cat = [[CategoryModel alloc]init];
-                  cat.catId = [o objectForKey:@"catId"];
-                  cat.catName= [o objectForKey:@"catName"];
-                  [thirdCatView.thirdSubCatArr addObject:cat];
+                  [thirdCatView.thirdSubCatArr addObject:o];
               }
           UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
           self.navigationItem.backBarButtonItem = backItem;
@@ -121,8 +101,9 @@
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);
     }];
-   [ApplicationDelegate.appEngine enqueueOperation:op];
     [hud hide:YES];
+    [ApplicationDelegate.appEngine enqueueOperation:op];
+    
 }
 
 @end

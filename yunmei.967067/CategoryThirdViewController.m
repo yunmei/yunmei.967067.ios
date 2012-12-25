@@ -37,7 +37,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 40;
+    return 60;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -47,14 +47,33 @@
     if(cell == nil)
     {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        UILabel *content = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 320, 39)];
-        content.font = [UIFont boldSystemFontOfSize:17.0];
+        cell.textLabel.text = [[self.thirdSubCatArr objectAtIndex:indexPath.row] objectForKey:@"catName"];
+        cell.textLabel.font = [UIFont systemFontOfSize:18.0];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        [cell addSubview:content];
     }
-//UILabel *content2 = [cell.subviews objectAtIndex:1];
-//NSLog(@"%@",[[self.thirdSubCatArr objectAtIndex:indexPath.row] objectForKey:@"catName"]);
 return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSUInteger row = [indexPath row];
+    NSString *subCatId = [[self.thirdSubCatArr objectAtIndex:row] objectForKey:@"catId"];
+    NSString *subCatName = [[self.thirdSubCatArr objectAtIndex:row] objectForKey:@"catName"];
+    // pushView到GoodsListView
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
+    GoodsListViewController *goodsListViewController = [[GoodsListViewController alloc]init];
+    goodsListViewController.requestId = subCatId;
+    goodsListViewController.requestDataType = @"category";
+    UILabel *itemTitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
+    itemTitle.textAlignment = UITextAlignmentCenter;
+    itemTitle.text = [NSString stringWithFormat:@"\"%@\"下的产品列表", subCatName];
+    itemTitle.font = [UIFont systemFontOfSize:14.0];
+    itemTitle.backgroundColor = [UIColor clearColor];
+    itemTitle.textColor = [UIColor whiteColor];
+    goodsListViewController.navigationItem.titleView = itemTitle;
+    [self.navigationController pushViewController:goodsListViewController animated:(YES)];
 }
 - (void)didReceiveMemoryWarning
 {
