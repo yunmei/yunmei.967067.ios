@@ -300,7 +300,13 @@ NSInteger beforePressedParamBtnHeadNum =0;
             return 500;
         }
     }else{
+        if(indexPath.section ==0)
+        {
+            NSMutableDictionary *value = self.goodsModel.property;
+            return [value count]*25;
+        }else{
             return  30;
+        }     
     }
 }
 
@@ -308,7 +314,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
 {
     if(tableView.tag == 1)
     {
-        return 2;
+        return 3;
     }else{
         return 1;
     }
@@ -569,7 +575,33 @@ NSInteger beforePressedParamBtnHeadNum =0;
         }
     }else
     {
-            if(indexPath.section == 0){
+        if(indexPath.section == 0)
+        {
+            static NSString *identifier = @"properCell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            [cell setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
+            if(cell == nil)
+            {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            }
+                if([self.goodsModel.property count]>0)
+                {
+                    int i = 15;
+                    for(id o in self.goodsModel.property)
+                    {
+                        UILabel *content = [[UILabel alloc]initWithFrame:CGRectMake(15, i, 270, 15)];
+                        content.font = [UIFont systemFontOfSize:14.0];
+                        [content setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
+                        content.text = [[o stringByAppendingString:@":"] stringByAppendingString:[self.goodsModel.property objectForKey:o]];
+                        i +=20;
+                        [cell addSubview:content];
+                    }
+                }
+            
+            return cell;
+        }else if(indexPath.section == 1)
+        {
             static NSString *identifier = @"bottomCell1";
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
             if(cell == nil)

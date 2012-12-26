@@ -136,7 +136,6 @@ int chooseNum = 1;
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"goods_getInfoByGoodsId", @"act",self.goodsId,@"goodsId",nil];
         MKNetworkOperation *op = [YMGlobal getOperation:params];
         [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-            NSLog(@"%@",[completedOperation responseString]);
             SBJsonParser *parser = [[SBJsonParser alloc]init];
             NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
             if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
@@ -162,7 +161,6 @@ int chooseNum = 1;
             //将获取的商品评论存入属性；
             self.commentArr = [objectTable objectForKey:@"data"];
             [self.goodsIntroductTableView reloadData];
-            NSLog(@"%@",self.commentArr);
         }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);
@@ -186,7 +184,6 @@ int chooseNum = 1;
     //根据内容来确定每个row的高度
     NSString *comValue = [[self.commentArr objectAtIndex:indexPath.row]objectForKey:@"commentContent"];
     CGSize sizeToFit = [comValue sizeWithFont:[UIFont systemFontOfSize:14.0] constrainedToSize:CGSizeMake(280.0, 999.0) lineBreakMode:UILineBreakModeCharacterWrap];
-    NSLog(@"%f",sizeToFit.height+50);
     return  sizeToFit.height+60;
 }
 
@@ -201,7 +198,6 @@ int chooseNum = 1;
     }
     NSString *comValue = [[self.commentArr objectAtIndex:indexPath.row]objectForKey:@"commentContent"];
     CGSize sizeToFit = [comValue sizeWithFont:[UIFont systemFontOfSize:14.0] constrainedToSize:CGSizeMake(280.0, 999.0) lineBreakMode:UILineBreakModeCharacterWrap];
-    NSLog(@"%f",sizeToFit.height);
     UILabel * comContent = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, 280, sizeToFit.height)];
     [comContent setTextColor:[UIColor grayColor]];
     comContent.text = comValue;
