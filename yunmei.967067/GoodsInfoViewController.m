@@ -323,7 +323,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(tableView.tag ==1)
     {
-        if(indexPath.section ==0)
+        if(indexPath.section ==1)
         {				
             UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
             [backBtn setTitle:@"返回"];
@@ -336,7 +336,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
             goodsIntroductView.mkPrice = self.goodsModel.goodsMarketPrice;
             goodsIntroductView.navigationItem.title = @"商品详情";
             [self.navigationController pushViewController:goodsIntroductView animated:YES];
-        }else if(indexPath.section ==1){
+        }else if(indexPath.section ==2){
             NSLog(@"sec2");
         }
     }
