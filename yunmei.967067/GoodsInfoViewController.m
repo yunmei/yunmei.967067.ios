@@ -267,12 +267,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
     {
         return 5;
     }else{
-        if(section == 0)
-        {
-            return 2;
-        }else{
             return 1;
-        }
     }
 }
 
@@ -305,12 +300,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
             return 500;
         }
     }else{
-        if(indexPath.section == 0)
-        {
-            return 130;
-        }else{
             return  30;
-        }
     }
 }
 
@@ -318,7 +308,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
 {
     if(tableView.tag == 1)
     {
-        return 3;
+        return 2;
     }else{
         return 1;
     }
@@ -327,16 +317,20 @@ NSInteger beforePressedParamBtnHeadNum =0;
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(tableView.tag ==1)
     {
-        if(indexPath.section ==1)
+        if(indexPath.section ==0)
         {				
             UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
             [backBtn setTitle:@"返回"];
             self.navigationItem.backBarButtonItem = backBtn;
             GoodsIntroductViewController *goodsIntroductView = [[GoodsIntroductViewController alloc]init];
             goodsIntroductView.goodsId = self.goodsId;
-            goodsIntroductView.goodsIntroductTitle.text = self.goodsModel.goodsName;
+            goodsIntroductView.goodsName = self.goodsModel.goodsName;
+            goodsIntroductView.proPrice = self.goodsModel.goodsPrice;
+            goodsIntroductView.proCode = self.goodsModel.goodsCode;
+            goodsIntroductView.mkPrice = self.goodsModel.goodsMarketPrice;
+            goodsIntroductView.navigationItem.title = @"商品详情";
             [self.navigationController pushViewController:goodsIntroductView animated:YES];
-        }else if(indexPath.section ==2){
+        }else if(indexPath.section ==1){
             NSLog(@"sec2");
         }
     }
@@ -552,15 +546,11 @@ NSInteger beforePressedParamBtnHeadNum =0;
             {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierDetail];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                UILabel *goodsDetailLable = [[UILabel alloc]initWithFrame:CGRectMake(14, 0, 74, 24)];
-                goodsDetailLable.textColor = [UIColor blackColor];
-                goodsDetailLable.text = @"商品详情";
                 UILabel *goodsCoding = [[UILabel alloc]initWithFrame:CGRectMake(160,3,62,22)];
                 goodsCoding.text = @"商品编号:";
                 goodsCoding.font = [UIFont systemFontOfSize:12];
                 goodsCoding.textColor = [UIColor grayColor];
                 [cell addSubview:goodsCoding];
-                [cell addSubview:goodsDetailLable];
                 self.goodsDetailTableView.tag =1;
                 self.goodsDetailTableView.delegate = self;
                 self.goodsDetailTableView.dataSource = self;
@@ -579,50 +569,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
         }
     }else
     {
-        if(indexPath.section ==0)
-        {
-            //section上半部分
-            if(indexPath.row == 0)
-            {
-                static NSString *identifier = @"goodsintro1";
-                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-                if(cell == nil)
-                {
-                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                    [cell setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
-                    if([self.goodsModel.property count] >0)
-                    {
-                        for(id o in self.goodsModel.property)
-                        {
-                            NSMutableDictionary *getDic = [self.goodsModel.property objectForKey:o];
-                            int count = 0;
-                            for(id i in getDic)
-                            {
-                                UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(20, 15+20*count, 260, 17)];
-                                title.font = [UIFont systemFontOfSize:12];
-                                title.text = [[i stringByAppendingString:@":"] stringByAppendingString:[getDic objectForKey:i]];
-                                [title setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
-                                [cell addSubview:title];
-                                count ++;
-                            }
-                        }
-                    }
-      
-                }
-                return cell;
-            }else{
-                static NSString *identifier = @"goodsintro2";
-                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-                if(cell == nil)
-                {
-                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                    [cell setBackgroundColor:[UIColor colorWithRed:236/255.0 green:236/255.0 blue:236/255.0 alpha:1.0]];
-                }
-                return cell;
-            }
-        }else if(indexPath.section == 1){
+            if(indexPath.section == 0){
             static NSString *identifier = @"bottomCell1";
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
             if(cell == nil)

@@ -11,6 +11,8 @@
 #import "AppDelegate.h"
 #import "SBJson.h"
 #import "YMGlobal.h"
+#import <QuartzCore/QuartzCore.h>
+#import "YMUIButton.h"
 
 @interface GoodsIntroductViewController : UIViewController<
     UITableViewDelegate,
@@ -18,8 +20,13 @@
     UIWebViewDelegate
 >
 
-@property(strong,nonatomic)UITableView *introTableView;
-@property(strong,nonatomic)UIWebView *contentWebView;
-@property(strong,nonatomic)UILabel *goodsIntroductTitle;
 @property(strong,nonatomic)NSString *goodsId;
+@property(strong,nonatomic)NSString *goodsName;
+@property(strong,nonatomic)NSString *proPrice;
+@property(strong,nonatomic)NSString *mkPrice;
+@property(strong,nonatomic)NSString *proCode;
+@property(strong,nonatomic)UIWebView *goodsIntroductWebView;
+@property(strong,nonatomic)UITableView *goodsIntroductTableView;
+@property(strong,nonatomic)UIButton *infoBtn;
+@property(strong,nonatomic)UIButton *comBtn;
 @end
