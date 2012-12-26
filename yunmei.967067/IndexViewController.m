@@ -318,9 +318,13 @@
 {
     GoodsInfoViewController *goodsInfoView = [[GoodsInfoViewController alloc]init];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
-    self.navigationItem.backBarButtonItem = backItem;	
+    self.navigationItem.backBarButtonItem = backItem;
+	UIButton *imageBtn = sender;
+    NSInteger position = imageBtn.tag -1;
+    GoodsModel *goodsModel = [self.goodsList objectAtIndex:position];
     goodsInfoView.navigationItem.title = @"商品详情";
-    goodsInfoView.goodsId = @"3988";//2572
+    goodsInfoView.goodsId = goodsModel.goodsId;//2572
+    NSLog(@"%@",goodsModel.goodsId);
     [self.navigationController pushViewController:goodsInfoView animated:YES];
 }
 

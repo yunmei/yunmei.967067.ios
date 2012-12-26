@@ -334,10 +334,22 @@ NSInteger beforePressedParamBtnHeadNum =0;
             goodsIntroductView.proPrice = self.goodsModel.goodsPrice;
             goodsIntroductView.proCode = self.goodsModel.goodsCode;
             goodsIntroductView.mkPrice = self.goodsModel.goodsMarketPrice;
+            goodsIntroductView.chooseNum =1;
             goodsIntroductView.navigationItem.title = @"商品详情";
             [self.navigationController pushViewController:goodsIntroductView animated:YES];
         }else if(indexPath.section ==2){
-            NSLog(@"sec2");
+            UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+            [backBtn setTitle:@"返回"];
+            self.navigationItem.backBarButtonItem = backBtn;
+            GoodsIntroductViewController *goodsIntroductView = [[GoodsIntroductViewController alloc]init];
+            goodsIntroductView.goodsId = self.goodsId;
+            goodsIntroductView.goodsName = self.goodsModel.goodsName;
+            goodsIntroductView.proPrice = self.goodsModel.goodsPrice;
+            goodsIntroductView.proCode = self.goodsModel.goodsCode;
+            goodsIntroductView.mkPrice = self.goodsModel.goodsMarketPrice;
+            goodsIntroductView.chooseNum =2;
+            goodsIntroductView.navigationItem.title = @"商品评论";
+            [self.navigationController pushViewController:goodsIntroductView animated:YES];
         }
     }
 }

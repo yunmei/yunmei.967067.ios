@@ -30,4 +30,5 @@
 @property(strong,nonatomic)UIButton *infoBtn;
 @property(strong,nonatomic)UIButton *comBtn;
 @property(strong,nonatomic)NSMutableArray *commentArr;
+@property(assign,nonatomic)int chooseNum;
 @end

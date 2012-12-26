@@ -23,7 +23,7 @@
 @synthesize infoBtn;
 @synthesize comBtn;
 @synthesize commentArr =_commentArr;
-int chooseNum = 1;
+@synthesize chooseNum;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -224,6 +224,7 @@ int chooseNum = 1;
     [self.infoBtn  setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]];
     [self.comBtn  setBackgroundColor:[UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0]];
     [self.goodsIntroductTableView removeFromSuperview];
+    self.navigationItem.title  =  @"商品详情";
     [self.view addSubview:self.goodsIntroductWebView];
 }
 
@@ -234,6 +235,7 @@ int chooseNum = 1;
     [self.infoBtn.layer setBorderWidth:1.0];
     [self.infoBtn  setBackgroundColor:[UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0]];
     [self.goodsIntroductWebView removeFromSuperview];
+    self.navigationItem.title = @"商品评论";
     [self.view addSubview:self.goodsIntroductTableView ];
 }
 
