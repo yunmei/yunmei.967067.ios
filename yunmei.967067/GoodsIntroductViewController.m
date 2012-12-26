@@ -22,6 +22,7 @@
 @synthesize goodsIntroductWebView = _goodsIntroductWebView;
 @synthesize infoBtn;
 @synthesize comBtn;
+@synthesize commentArr =_commentArr;
 int chooseNum = 1;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,11 +42,22 @@ int chooseNum = 1;
     return _goodsIntroductWebView;
 }
 
+-(NSMutableArray *)commentArr
+{
+    if(_commentArr == nil)
+    {
+        _commentArr = [[NSMutableArray alloc]init];
+    }
+    return _commentArr;
+}
+
 -(UITableView *)goodsIntroductTableView
 {
     if(_goodsIntroductTableView == nil)
     {
-        _goodsIntroductTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 133, 320, 475) style:UITableViewStylePlain];
+        _goodsIntroductTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 133, 320, 275) style:UITableViewStylePlain];
+        _goodsIntroductTableView.delegate = self;
+        _goodsIntroductTableView.dataSource = self;
     }
     return _goodsIntroductTableView;
 }
@@ -95,7 +107,7 @@ int chooseNum = 1;
     if(chooseNum ==1)
     {
         [self.infoBtn .layer setBorderWidth:0.0];
-        [self.infoBtn  setBackgroundColor:[UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0]];
+        [self.infoBtn  setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]];
         [self.view addSubview:self.goodsIntroductWebView];
     }
     [self.infoBtn .layer setBorderColor:[YMUIButton CreateCGColorRef:170 greenNumber:170 blueNumber:170 alphaNumber:1.0]];
@@ -122,7 +134,6 @@ int chooseNum = 1;
     //请求webView数据
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"goods_getInfoByGoodsId", @"act",self.goodsId,@"goodsId",nil];
-    NSLog(@"%@",self.goodsId);
         MKNetworkOperation *op = [YMGlobal getOperation:params];
         [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
             NSLog(@"%@",[completedOperation responseString]);
@@ -131,7 +142,7 @@ int chooseNum = 1;
             if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
             {
                 NSMutableDictionary *goodsInfoDic = [object objectForKey:@"data"];
-                NSString * intro = [[goodsInfoDic objectForKey:@"data_info"]objectForKey:@"intro"];
+                NSString * intro = [goodsInfoDic objectForKey:@"goodsInfo"];
                 [self.goodsIntroductWebView loadHTMLString:intro baseURL:nil];
                 [self.goodsIntroductWebView reload];
             }
@@ -140,6 +151,23 @@ int chooseNum = 1;
         }];
         [hud hide:YES];
         [ApplicationDelegate.appEngine enqueueOperation:op];
+    //请求tableView数据
+    NSMutableDictionary *tableParams = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"goods_getCommentList",@"act",self.goodsId,@"goodsId",nil];
+    MKNetworkOperation *tableOp = [YMGlobal getOperation:tableParams];
+    [tableOp addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parserTable = [[SBJsonParser alloc]init];
+        NSMutableDictionary *objectTable = [parserTable objectWithData:[completedOperation responseData]];
+        if([[objectTable objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            //将获取的商品评论存入属性；
+            self.commentArr = [objectTable objectForKey:@"data"];
+            [self.goodsIntroductTableView reloadData];
+            NSLog(@"%@",self.commentArr);
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    [ApplicationDelegate.appEngine enqueueOperation:tableOp];
 }
 
 - (void)didReceiveMemoryWarning
@@ -148,14 +176,56 @@ int chooseNum = 1;
     // Dispose of any resources that can be recreated.
 }
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return  [self.commentArr count];
+}
 
+-(GLfloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //根据内容来确定每个row的高度
+    NSString *comValue = [[self.commentArr objectAtIndex:indexPath.row]objectForKey:@"commentContent"];
+    CGSize sizeToFit = [comValue sizeWithFont:[UIFont systemFontOfSize:14.0] constrainedToSize:CGSizeMake(280.0, 999.0) lineBreakMode:UILineBreakModeCharacterWrap];
+    NSLog(@"%f",sizeToFit.height+50);
+    return  sizeToFit.height+60;
+}
 
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifier  = @"cellForCom";
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if(cell == nil)
+    {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        
+    }
+    NSString *comValue = [[self.commentArr objectAtIndex:indexPath.row]objectForKey:@"commentContent"];
+    CGSize sizeToFit = [comValue sizeWithFont:[UIFont systemFontOfSize:14.0] constrainedToSize:CGSizeMake(280.0, 999.0) lineBreakMode:UILineBreakModeCharacterWrap];
+    NSLog(@"%f",sizeToFit.height);
+    UILabel * comContent = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, 280, sizeToFit.height)];
+    [comContent setTextColor:[UIColor grayColor]];
+    comContent.text = comValue;
+    comContent.font = [UIFont systemFontOfSize:14.0];
+    comContent.lineBreakMode = UILineBreakModeCharacterWrap;
+    comContent.numberOfLines = 0;
+    UILabel *nickLable = [[UILabel alloc]initWithFrame:CGRectMake(10, sizeToFit.height+25, 160, 32)];
+    nickLable.text = [[self.commentArr objectAtIndex:indexPath.row]objectForKey:@"nickname"];
+    nickLable.font = [UIFont systemFontOfSize:15.0];
+    UILabel *dateTime = [[UILabel alloc]initWithFrame:CGRectMake(170, sizeToFit.height+25, 160, 32)];
+    dateTime.text = [[self.commentArr objectAtIndex:indexPath.row]objectForKey:@"commentTime"];
+    dateTime.font = [UIFont systemFontOfSize:14.0];
+    [dateTime setTextColor:[UIColor grayColor]];
+    [cell addSubview:comContent];
+    [cell addSubview:nickLable];
+    [cell addSubview:dateTime];
+    return cell;
+}
 
 -(void)infoPressed:(id)sender
 {
     [self.comBtn.layer setBorderWidth:1.0];
     [self.infoBtn.layer setBorderWidth:0.0];
-    [self.infoBtn  setBackgroundColor:[UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0]];
+    [self.infoBtn  setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]];
     [self.comBtn  setBackgroundColor:[UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0]];
     [self.goodsIntroductTableView removeFromSuperview];
     [self.view addSubview:self.goodsIntroductWebView];
@@ -164,7 +234,7 @@ int chooseNum = 1;
 -(void)comPressed:(id)sender
 {
     [self.comBtn.layer setBorderWidth:0.0];
-    [self.comBtn  setBackgroundColor:[UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0]];
+    [self.comBtn  setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]];
     [self.infoBtn.layer setBorderWidth:1.0];
     [self.infoBtn  setBackgroundColor:[UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0]];
     [self.goodsIntroductWebView removeFromSuperview];

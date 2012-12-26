@@ -29,4 +29,5 @@
 @property(strong,nonatomic)UITableView *goodsIntroductTableView;
 @property(strong,nonatomic)UIButton *infoBtn;
 @property(strong,nonatomic)UIButton *comBtn;
+@property(strong,nonatomic)NSMutableArray *commentArr;
 @end
