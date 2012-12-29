@@ -14,6 +14,7 @@
 #import "SBJson.h"
 #import "GoodsModel.h"
 
+
 @interface IndexViewController ()
 
 @end
@@ -156,7 +157,8 @@
         NSLog(@"Error:%@", error);
     }];
     [ApplicationDelegate.appEngine enqueueOperation: op];
-    // Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view from its nib
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -377,4 +379,6 @@
     }
     return adPageProgressView;
 }
+
+
 @end

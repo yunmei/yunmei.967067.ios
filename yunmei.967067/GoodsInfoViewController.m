@@ -52,6 +52,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [GoodsModel creatTable];
     // Do any additional setup after loading the view from its nib.
     UIBarButtonItem *searchBtn = [[UIBarButtonItem alloc]initWithTitle:@"搜索" style:UIBarButtonItemStyleBordered target:nil action:nil];
     self.navigationItem.rightBarButtonItem = searchBtn;
@@ -671,18 +672,42 @@ NSInteger beforePressedParamBtnHeadNum =0;
 //绑定立即购买按钮事件
 -(void)quickBuy:(id)sender
 {
+
     if(self.firstResponderTextFeild.text ==@"0")
     {
         UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请选择你的商品数量" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alertNum show];
     }else{
-        //货品ID
-        NSLog(@"%@",[self.selectedProduct objectForKey:@"pro_id"]);
-        //商品ID
-        NSLog(@"%@",self.goodsId);
-        //购买数量
-        NSLog(@"%@",self.firstResponderTextFeild.text);
+        GoodsModel *goodsOne = [[GoodsModel alloc]init];
+        goodsOne.goodsId = self.goodsId;
+        goodsOne.goodsName = self.goodsModel.goodsName;
+        goodsOne.goodsCode = self.goodsModel.goodsCode;
+        goodsOne.buyCount = self.firstResponderTextFeild.text.integerValue;
+        if([self.selectedProduct count] > 0)
+        {
+            goodsOne.proId = [self.selectedProduct objectForKey:@"pro_id"];
+            goodsOne.store = [self.selectedProduct objectForKey:@"pro_store"];
+            goodsOne.goodsPrice = [self.selectedProduct objectForKey:@"pro_price"];
+        }else{
+            goodsOne.proId = @"0";
+            goodsOne.store = self.goodsModel.store;
+            goodsOne.goodsPrice = self.goodsModel.goodsPrice;
+            
+        }
+        [GoodsModel AddCar:goodsOne];
+        [self statisGoodsCar];
     }
+}
+
+//统计购物车数量
+-(void)statisGoodsCar
+{
+    YMDbClass *db = [[YMDbClass alloc]init];
+    if([db connect])
+    {
+        [[self.tabBarController.tabBar.items objectAtIndex:2] setBadgeValue:[db count_sum:@"goodslist_car" tablefiled:@"goods_count"]];
+    }
+    [db close];
 }
 
 //颜色按钮绑定事件

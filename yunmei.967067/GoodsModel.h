@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "YMDbClass.h"
 
 @interface GoodsModel : NSObject
 
@@ -19,4 +20,9 @@
 @property(strong, nonatomic)NSString *store;
 @property(strong, nonatomic)NSString *standard;
 @property(strong, nonatomic)NSMutableDictionary *property;
+@property(strong,nonatomic)NSString *proId;
+@property(assign,nonatomic)NSInteger buyCount;
+
++(void)creatTable;
++(void)AddCar:(GoodsModel*)goodsItem;
 @end

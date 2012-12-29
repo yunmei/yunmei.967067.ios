@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YMDbClass.h"
+#import "CarCell.h"
+@interface CartViewController : UIViewController<
+    UITableViewDataSource,
+    UITableViewDelegate,
+    UITextFieldDelegate
+>
 
-@interface CartViewController : UIViewController
-
+@property(strong,nonatomic)NSMutableArray *goodsList;
+@property(strong,nonatomic)UITableView *goodsTableView;
+@property(strong,nonatomic)NSMutableArray *textFieldList;
 @end

@@ -119,6 +119,7 @@
 		46FDFFE2167836320075A644 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46FDFFE0167836320075A644 /* LoginViewController.xib */; };
 		46FDFFE61678368E0075A644 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FDFFE41678368E0075A644 /* RegisterViewController.m */; };
 		46FDFFE71678368E0075A644 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46FDFFE51678368E0075A644 /* RegisterViewController.xib */; };
+		AA8BC3FA168EBA6F005C03E1 /* CarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BC3F9168EBA6F005C03E1 /* CarCell.m */; };
 		AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */; };
 		AA8DBAB11669ED53003291D2 /* CategorySecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */; };
 		AABB243516780C7300008F6B /* moveRight.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243416780C7300008F6B /* moveRight.png */; };
@@ -333,6 +334,8 @@
 		46FDFFE31678368E0075A644 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		46FDFFE41678368E0075A644 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		46FDFFE51678368E0075A644 /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
+		AA8BC3F8168EBA6F005C03E1 /* CarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarCell.h; sourceTree = "<group>"; };
+		AA8BC3F9168EBA6F005C03E1 /* CarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarCell.m; sourceTree = "<group>"; };
 		AA8DBAAD1669ED53003291D2 /* CategorySecViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySecViewController.h; sourceTree = "<group>"; };
 		AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySecViewController.m; sourceTree = "<group>"; };
 		AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategorySecViewController.xib; sourceTree = "<group>"; };
@@ -782,6 +785,8 @@
 				46BD188A166880AB007E72EB /* GoodsCell.h */,
 				46BD188B166880AB007E72EB /* GoodsCell.m */,
 				46BD188C166880AB007E72EB /* GoodsCell.xib */,
+				AA8BC3F8168EBA6F005C03E1 /* CarCell.h */,
+				AA8BC3F9168EBA6F005C03E1 /* CarCell.m */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -1005,6 +1010,7 @@
 				46D958761680135400D4A1CC /* UserModel.m in Sources */,
 				AAD37D3E16815C6A00C06D6F /* GoodsIntroductViewController.m in Sources */,
 				AAD7C1491682F8360033014E /* CategoryThirdViewController.m in Sources */,
+				AA8BC3FA168EBA6F005C03E1 /* CarCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

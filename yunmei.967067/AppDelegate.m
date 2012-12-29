@@ -82,6 +82,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToSearch:) name:@"GoToSearch" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openLoginView:) name:@"INeedToLogin" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRespondsLogin:) name:@"UserRespondsLogin" object:nil];
+    [self statisGoodsCar:self.tabBarController];
     return YES;
 }
 
@@ -128,6 +129,16 @@
     }
 }
 
+//统计购物车数量
+-(void)statisGoodsCar:(UITabBarController *)tabBarController
+{
+    YMDbClass *db = [[YMDbClass alloc]init];
+    if([db connect])
+    {
+        [[tabBarController.tabBar.items objectAtIndex:2] setBadgeValue:[db count_sum:@"goodslist_car" tablefiled:@"goods_count"]];
+    }
+    [db close];
+}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
