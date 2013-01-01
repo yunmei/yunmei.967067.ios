@@ -13,6 +13,7 @@
 #import "SBJson.h"
 #import "GoodsModel.h"
 #import "AppDelegate.h"
+#import "GoodsInfoViewController.h"
 
 @interface GoodsListViewController ()
 
@@ -164,6 +165,17 @@
     [YMGlobal loadImage:goodsModel.imageUrl andImageView:cell.goodsImageView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GoodsInfoViewController *goodsInfoView = [[GoodsInfoViewController alloc]init];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
+	GoodsModel *goodsModel = [self.goodsList objectAtIndex:indexPath.row];
+    goodsInfoView.navigationItem.title = goodsModel.goodsName;
+    goodsInfoView.goodsId = goodsModel.goodsId;
+    [self.navigationController pushViewController:goodsInfoView animated:YES];
 }
 
 - (PullToRefreshTableView *)refreshTableView
