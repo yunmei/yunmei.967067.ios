@@ -57,12 +57,19 @@
     }
     return  _goodsPrice;
 }
--(UILabel *)buyCount
+-(UITextField *)buyCount
 {
     if(_buyCount == nil)
     {
-        _buyCount = [[UILabel alloc]initWithFrame:CGRectMake(190, 65, 100, 30)];
+        _buyCount = [[UITextField alloc]initWithFrame:CGRectMake(180, 68, 60, 25)];
         [_buyCount setFont:[UIFont systemFontOfSize:13.0]];
+        //设置内容水平垂直居中
+        [_buyCount setTextAlignment:UITextAlignmentCenter];
+        [_buyCount setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+        [_buyCount setKeyboardType:UIKeyboardTypeNumberPad];
+        [_buyCount setEnabled:NO];
+
+
     }
     return  _buyCount;
 }

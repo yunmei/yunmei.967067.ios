@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "YMDbClass.h"
 #import "CarCell.h"
+#import <QuartzCore/QuartzCore.h>
 @interface CartViewController : UIViewController<
     UITableViewDataSource,
     UITableViewDelegate,
@@ -18,4 +19,8 @@
 @property(strong,nonatomic)NSMutableArray *goodsList;
 @property(strong,nonatomic)UITableView *goodsTableView;
 @property(strong,nonatomic)NSMutableArray *textFieldList;
+@property(strong,nonatomic)UIToolbar *controlInput;
+@property(strong,nonatomic)UITextField *fistReTextFeild;
+@property(strong,nonatomic)NSMutableArray *deleteBtnArr;
+@property(strong,nonatomic)NSMutableArray *indexArr;
 @end

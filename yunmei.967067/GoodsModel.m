@@ -67,7 +67,6 @@
         }
 
         [db exec:querysql];
-        NSLog(@"%@",[db count_sum:@"goodslist_car" tablefiled:@"goods_count"]);
         [db close];
     }
 }

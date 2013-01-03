@@ -399,7 +399,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
             {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierMiddle];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            }else if([self.selectedProduct count]==0){
+            }else if(([self.selectedProduct count]==0)&&(self.goodsModel.goodsName !=nil)){
                 //产品名字
                self.nameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 0, 320, 43)];
                 self.nameLable .text = self.goodsModel.goodsName;
@@ -407,7 +407,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 //产品价格
                 self.priceLable = [[UILabel alloc]initWithFrame:CGRectMake(15, 32, 101, 30)];
                 self.priceLable.textColor = [UIColor redColor];
-                self.priceLable.text = [@"￥" stringByAppendingString:[self.goodsModel goodsPrice]];
+                self.priceLable.text = [@"￥" stringByAppendingString:self.goodsModel.goodsPrice];
                 self.priceLable.font = [UIFont systemFontOfSize:15.0];
                 [cell addSubview:self.priceLable];
                 //产品市场价

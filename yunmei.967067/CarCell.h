@@ -12,6 +12,6 @@
 
 @property(strong,nonatomic)UILabel *goodsName;
 @property(strong,nonatomic)UILabel *goodsCode;
-@property(strong,nonatomic)UILabel *buyCount;
+@property(strong,nonatomic)UITextField *buyCount;
 @property(strong,nonatomic)UILabel *goodsPrice;
 @end
