@@ -246,7 +246,6 @@ bool cancleBuPressed = NO;
             [self.payCount reloadInputViews];
             [self.view reloadInputViews];
         }
-        [self.goodsList removeObjectAtIndex:row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self.textFieldList removeAllObjects];
         [tableView reloadData];
