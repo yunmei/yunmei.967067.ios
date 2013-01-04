@@ -18,6 +18,7 @@
 @synthesize textFieldList = _textFieldList;
 @synthesize controlInput;
 @synthesize fistReTextFeild;
+@synthesize payCount = _payCount;
 //是否编辑或者取消编辑，YES为点击后开始编辑
 bool canBeEdited = YES;
 bool cancleBuPressed = NO;
@@ -50,9 +51,15 @@ bool cancleBuPressed = NO;
     UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"结算" style:UIBarButtonItemStyleBordered target:self action:@selector(cartListPay:)];
     self.navigationItem.leftBarButtonItem = leftBtn;
     self.navigationItem.rightBarButtonItem = rightBtn;
+    UILabel *countString = [[UILabel alloc]initWithFrame:CGRectMake(90, 288, 30, 15)];
+    countString.text = @"共计:";
+    countString.font = [UIFont systemFontOfSize:12.0];
+    countString.textColor= [UIColor grayColor];
      UIButton * carBuy = [[UIButton alloc]initWithFrame:CGRectMake(70, 310, 180, 35)];
     [carBuy setBackgroundImage:[UIImage imageNamed:@"CarBuy"] forState:UIControlStateNormal];
     [self.view addSubview:carBuy];
+    [self.view addSubview:countString];
+    [self.view addSubview:self.payCount];
     if(self.goodsList.count > 0)
     {
         self.navigationItem.leftBarButtonItem.enabled =YES;
@@ -69,6 +76,36 @@ bool cancleBuPressed = NO;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 
+}
+
+-(UILabel *)payCount
+{
+    if(_payCount == nil)
+    {
+        //页脚价格总计
+        _payCount = [[UILabel alloc]initWithFrame:CGRectMake(120, 288, 80, 15)];
+        _payCount.text = [NSString stringWithFormat:@"￥%.2f",[self statisPay]];
+        _payCount.font = [UIFont systemFontOfSize:12.0];
+        _payCount.textColor= [UIColor redColor];
+    }else{
+        _payCount.text = [NSString stringWithFormat:@"￥%.2f",[self statisPay]];
+    }
+    return _payCount;
+}
+-(CGFloat)statisPay
+{
+    if([self.goodsList count]>0)
+    {
+        CGFloat i = 0.00;
+        for(NSMutableDictionary *o in self.goodsList)
+        {
+            CGFloat multiPal = (CGFloat)([[o objectForKey:@"goods_count"] integerValue] *[[o objectForKey:@"goods_price"] integerValue]);
+            i += multiPal;
+        }
+        return i;
+    }else{
+        return  0.00;
+    }
 }
 
 //
@@ -205,6 +242,9 @@ bool cancleBuPressed = NO;
             {
                 [[self.tabBarController.tabBar.items objectAtIndex:2] setBadgeValue:[db count_sum:@"goodslist_car" tablefiled:@"goods_count"]];
             }
+            [self bindCarWithGoodsList];
+            [self.payCount reloadInputViews];
+            [self.view reloadInputViews];
         }
         [self.goodsList removeObjectAtIndex:row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -296,6 +336,7 @@ bool cancleBuPressed = NO;
             [db exec:query];
         }
         [self bindCarWithGoodsList];
+        [self.payCount reloadInputViews];
         [[self.tabBarController.tabBar.items objectAtIndex:2] setBadgeValue:[db count_sum:@"goodslist_car" tablefiled:@"goods_count"]];
         [self.goodsTableView reloadData];
         
