@@ -20,7 +20,6 @@
 @synthesize fistReTextFeild;
 @synthesize payCount = _payCount;
 //是否编辑或者取消编辑，YES为点击后开始编辑
-bool canBeEdited = YES;
 bool cancleBuPressed = NO;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +38,7 @@ bool cancleBuPressed = NO;
 -(void)viewWillAppear:(BOOL)animated
 {
     [self bindCarWithGoodsList];
+    [self.payCount reloadInputViews];
     [self.goodsTableView reloadData];			
 }
 
@@ -191,7 +191,8 @@ bool cancleBuPressed = NO;
         [cell.contentView  addSubview:cell.goodsName];
         [cell.contentView  addSubview:cell.goodsPrice];
         [cell.contentView  addSubview:cell.buyCount];
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];      
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     NSString * ident = @"￥";
     cell.goodsCode.text = [[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_code"];
@@ -213,9 +214,14 @@ bool cancleBuPressed = NO;
         [o setBorderStyle:UITextBorderStyleNone];
         [o setEnabled:NO];
     }
-    canBeEdited = YES;
+
     self.navigationItem.leftBarButtonItem.title = @"编辑";
     self.navigationItem.rightBarButtonItem.title = @"结算";
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -259,8 +265,8 @@ bool cancleBuPressed = NO;
 -(void)carListEdit:(id)sender
 {
     [self.goodsTableView setEditing:!self.goodsTableView.editing animated:YES];
-    if (canBeEdited ==YES)
-    {
+    if (self.goodsTableView.editing)
+    { 
         for(UITextField *o in self.textFieldList)
         {
             [o setBorderStyle:UITextBorderStyleRoundedRect];
@@ -268,7 +274,7 @@ bool cancleBuPressed = NO;
         }
         self.navigationItem.leftBarButtonItem.title = @"取消";
         self.navigationItem.rightBarButtonItem.title = @"完成";
-        canBeEdited = NO;
+
     }else{
             cancleBuPressed = YES;
         for(UITextField *o in self.textFieldList)
@@ -277,7 +283,6 @@ bool cancleBuPressed = NO;
             [o setEnabled:NO];
         }
         [self.goodsTableView reloadData];
-         canBeEdited = YES;
         self.navigationItem.leftBarButtonItem.title = @"编辑";
         self.navigationItem.rightBarButtonItem.title = @"结算";
     }
@@ -286,7 +291,7 @@ bool cancleBuPressed = NO;
 //点击结算的时候
 -(void)cartListPay:(id)sender
 {
-    if(canBeEdited == YES)
+    if(self.goodsTableView.editing == NO)
     {
         NSLog(@"结算");
     }else{
@@ -297,7 +302,6 @@ bool cancleBuPressed = NO;
             [o setEnabled:NO];
             [o resignFirstResponder];
         }
-        canBeEdited = YES;
         self.navigationItem.leftBarButtonItem.title = @"编辑";
         self.navigationItem.rightBarButtonItem.title = @"结算";
     }
