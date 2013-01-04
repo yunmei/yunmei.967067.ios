@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CartViewController.h"
 
 #define ApplicationDelegate ((AppDelegate *)[UIApplication sharedApplication].delegate)
 

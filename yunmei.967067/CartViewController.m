@@ -37,9 +37,7 @@ bool cancleBuPressed = NO;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self bindCarWithGoodsList];
-    [self.payCount reloadInputViews];
-    [self.goodsTableView reloadData];			
+    
 }
 
 - (void)viewDidLoad
@@ -68,6 +66,8 @@ bool cancleBuPressed = NO;
         self.navigationItem.leftBarButtonItem.enabled = NO;
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
+    [self.goodsTableView setFrame:CGRectMake(0, 0, 320, 280)];
+    [self.view addSubview:self.goodsTableView];
 
 }
 
@@ -120,9 +120,6 @@ bool cancleBuPressed = NO;
         self.goodsList = [db fetchAll:query];
         [db close];
     }
-    [self.goodsTableView setFrame:CGRectMake(0, 0, 320, 280)];
-    [self.view addSubview:self.goodsTableView];
-    NSLog(@"%@",self.goodsList);
     
 }
 
@@ -202,7 +199,16 @@ bool cancleBuPressed = NO;
     cell.buyCount.layer.cornerRadius = 0.8;
     cell.buyCount.tag = indexPath.row;
     cell.buyCount.delegate = self;
-    [self.textFieldList addObject:cell.buyCount];
+    if(self.textFieldList.count < self.goodsList.count)
+    {
+        if(tableView.editing)
+        {
+            cell.buyCount.enabled = YES;
+            [cell.buyCount setBorderStyle:UITextBorderStyleRoundedRect];
+        }
+        [self.textFieldList addObject:cell.buyCount];
+    }
+    NSLog(@"%i",[self.textFieldList count]);
     return cell;
 }
 
@@ -347,6 +353,19 @@ bool cancleBuPressed = NO;
         cancleBuPressed = NO;
         [self.goodsTableView reloadData];
     }
+}
+
+-(void)setDataSource
+{
+    [self bindCarWithGoodsList];
+    if(self.goodsList.count >self.textFieldList.count)
+    {
+        [self.textFieldList removeAllObjects];
+        [self.goodsTableView reloadData];
+    }
+    [self.payCount reloadInputViews];
+    [self.goodsTableView reloadData];
+    
 }
 
 @end

@@ -22,4 +22,6 @@
 @property(strong,nonatomic)UIToolbar *controlInput;
 @property(strong,nonatomic)UITextField *fistReTextFeild;
 @property(strong,nonatomic)UILabel *payCount;
+
+-(void)setDataSource;
 @end

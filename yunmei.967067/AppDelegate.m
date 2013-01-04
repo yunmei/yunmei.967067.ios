@@ -10,7 +10,6 @@
 
 #import "IndexViewController.h"
 #import "CategoryViewController.h"
-#import "CartViewController.h"
 #import "MyViewController.h"
 #import "MoreViewController.h"
 #import "GoodsSearchViewController.h"
@@ -45,6 +44,7 @@
     UINavigationController *indexNavController = [[UINavigationController alloc] initWithRootViewController:[[IndexViewController alloc] initWithNibName:@"IndexViewController" bundle:nil]];
     UINavigationController *categoryNavController = [[UINavigationController alloc] initWithRootViewController:[[CategoryViewController alloc] initWithNibName:@"CategoryViewController" bundle:nil]];
     UINavigationController *cartNavController = [[UINavigationController alloc] initWithRootViewController:[[CartViewController alloc] initWithNibName:@"CartViewController" bundle:nil]];
+    cartNavController.tabBarItem.tag =3;
     UINavigationController *myNavController = [[UINavigationController alloc] initWithRootViewController:[[MyViewController alloc] initWithNibName:@"MyViewController" bundle:nil]];
     UINavigationController *moreNavController = [[UINavigationController alloc] initWithRootViewController:[[MoreViewController alloc] initWithNibName:@"MoreViewController" bundle:nil]];
     
@@ -73,7 +73,7 @@
     // 初始化UITabBarController
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = @[indexNavController, categoryNavController, cartNavController, myNavController, moreNavController];
-
+        self.tabBarController.delegate = self;
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     
@@ -166,12 +166,22 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-/*
+
+
+
  // Optional UITabBarControllerDelegate method.
  - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
  {
+     if(viewController.tabBarItem.tag ==3)
+     {
+        
+         UINavigationController *CarNavigation = (UINavigationController *)viewController;
+         [CarNavigation popToRootViewControllerAnimated:YES];
+         CartViewController *carView = (CartViewController *)CarNavigation.topViewController;
+         [carView setDataSource];
+     }
  }
- */
+
 
 /*
  // Optional UITabBarControllerDelegate method.

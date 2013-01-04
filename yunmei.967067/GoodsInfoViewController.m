@@ -420,10 +420,13 @@ NSInteger beforePressedParamBtnHeadNum =0;
             }else{
                 //产品价格
                 NSString *rmb = @"￥";
-                self.priceLable.text = [rmb stringByAppendingString:[self.selectedProduct objectForKey:@"pro_price"]];
-                self.priceLable.font = [UIFont systemFontOfSize:15.0];
-                //产品市场价
-                self.marketPriceLable.text = [@"市场价:￥" stringByAppendingString:[self.selectedProduct objectForKey:@"mktPrice"]];
+                if([self.selectedProduct count]>0)
+                {
+                    self.priceLable.text = [rmb stringByAppendingString:[self.selectedProduct objectForKey:@"pro_price"]];
+                    self.priceLable.font = [UIFont systemFontOfSize:15.0];
+                    //产品市场价
+                    self.marketPriceLable.text = [@"市场价:￥" stringByAppendingString:[self.selectedProduct objectForKey:@"mktPrice"]];
+                }
                 self.marketPriceLable.textColor = [UIColor grayColor];
             }
             return cell;
