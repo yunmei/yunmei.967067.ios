@@ -61,7 +61,7 @@
 {
     if(_buyCount == nil)
     {
-        _buyCount = [[UITextField alloc]initWithFrame:CGRectMake(180, 68, 60, 25)];
+        _buyCount = [[UITextField alloc]initWithFrame:CGRectMake(183, 68, 40, 25)];
         [_buyCount setFont:[UIFont systemFontOfSize:13.0]];
         //设置内容水平垂直居中
         [_buyCount setTextAlignment:UITextAlignmentCenter];

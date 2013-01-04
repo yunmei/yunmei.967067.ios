@@ -21,6 +21,4 @@
 @property(strong,nonatomic)NSMutableArray *textFieldList;
 @property(strong,nonatomic)UIToolbar *controlInput;
 @property(strong,nonatomic)UITextField *fistReTextFeild;
-@property(strong,nonatomic)NSMutableArray *deleteBtnArr;
-@property(strong,nonatomic)NSMutableArray *indexArr;
 @end

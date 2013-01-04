@@ -16,10 +16,8 @@
 @synthesize goodsList = _goodsList;
 @synthesize goodsTableView = _goodsTableView;
 @synthesize textFieldList = _textFieldList;
-@synthesize deleteBtnArr = _deleteBtnArr;
 @synthesize controlInput;
 @synthesize fistReTextFeild;
-@synthesize indexArr = _indexArr;
 //是否编辑或者取消编辑，YES为点击后开始编辑
 bool canBeEdited = YES;
 bool cancleBuPressed = NO;
@@ -87,6 +85,7 @@ bool cancleBuPressed = NO;
     }
     [self.goodsTableView setFrame:CGRectMake(0, 0, 320, 280)];
     [self.view addSubview:self.goodsTableView];
+    NSLog(@"%@",self.goodsList);
     
 }
 
@@ -116,22 +115,7 @@ bool cancleBuPressed = NO;
     }
     return _textFieldList;
 }
--(NSMutableArray *)deleteBtnArr
-{
-    if(_deleteBtnArr == nil)
-    {
-        _deleteBtnArr = [[NSMutableArray alloc]init];
-    }
-    return _deleteBtnArr;
-}
--(NSMutableArray *)indexArr
-{
-    if(_indexArr == nil)
-    {
-        _indexArr = [[NSMutableArray alloc]init];
-    }
-    return _indexArr;
-}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return  100;
@@ -163,36 +147,24 @@ bool cancleBuPressed = NO;
         [stringPrice setText:@"价格:"];
         [stringPrice setTextColor:[UIColor grayColor]];
         [stringPrice setFont:[UIFont systemFontOfSize:13.0]];
-        [cell addSubview:stringNum];
-        [cell addSubview:stringCode];
-        [cell addSubview:stringPrice];
-        [cell addSubview:cell.goodsCode];
-        [cell addSubview:cell.goodsName];
-        [cell addSubview:cell.goodsPrice];
-        [cell addSubview:cell.buyCount];
-        cell.buyCount.tag = indexPath.row;
-        cell.buyCount.delegate = self;
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        [self.textFieldList addObject:cell.buyCount];
-        //添加删除按钮
-        UIButton * deleteBtn = [[UIButton alloc]initWithFrame:CGRectMake(250, 40, 50, 26)];
-        [deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
-        [deleteBtn setBackgroundColor:[UIColor colorWithRed:230/255.0 green:115/255.0 blue:0 alpha:1.0]];
-        [deleteBtn.layer setCornerRadius:3.0];
-        deleteBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
-        deleteBtn.titleLabel.textColor = [UIColor whiteColor];
-        deleteBtn.tag = indexPath.row;
-        [deleteBtn addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
-        deleteBtn.hidden = YES;
-        [self.deleteBtnArr addObject:deleteBtn];
-        [cell addSubview:deleteBtn];
-        [self.indexArr addObject:indexPath];
+        [cell.contentView addSubview:stringNum];
+        [cell.contentView  addSubview:stringCode];
+        [cell.contentView  addSubview:stringPrice];
+        [cell.contentView  addSubview:cell.goodsCode];
+        [cell.contentView  addSubview:cell.goodsName];
+        [cell.contentView  addSubview:cell.goodsPrice];
+        [cell.contentView  addSubview:cell.buyCount];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];      
     }
     NSString * ident = @"￥";
     cell.goodsCode.text = [[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_code"];
     cell.goodsName.text = [[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_name"];
     cell.goodsPrice.text = [ident stringByAppendingString:[[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_price"]];
     cell.buyCount.text = [[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_count"];
+    cell.buyCount.layer.cornerRadius = 0.8;
+    cell.buyCount.tag = indexPath.row;
+    cell.buyCount.delegate = self;
+    [self.textFieldList addObject:cell.buyCount];
     return cell;
 }
 
@@ -208,19 +180,52 @@ bool cancleBuPressed = NO;
     self.navigationItem.leftBarButtonItem.title = @"编辑";
     self.navigationItem.rightBarButtonItem.title = @"结算";
 }
+
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        NSUInteger row = indexPath.row;
+        NSMutableDictionary *deleteObject = [self.goodsList objectAtIndex:row];
+        YMDbClass *db = [[YMDbClass alloc]init];
+        if([db connect])
+        {
+            NSString *query = [NSString stringWithFormat:@"DELETE FROM goodslist_car WHERE goodsId = '%@' AND proid = '%@';",[deleteObject objectForKey:@"goodsid"],[deleteObject objectForKey:@"proid"]];
+            if([db exec:query])
+            {
+                [[self.tabBarController.tabBar.items objectAtIndex:2] setBadgeValue:[db count_sum:@"goodslist_car" tablefiled:@"goods_count"]];
+            }
+        }
+        [self.goodsList removeObjectAtIndex:row];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.textFieldList removeAllObjects];
+        [tableView reloadData];
+    }
+}
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
 //点击编辑的时候
 -(void)carListEdit:(id)sender
 {
+    [self.goodsTableView setEditing:!self.goodsTableView.editing animated:YES];
     if (canBeEdited ==YES)
     {
         for(UITextField *o in self.textFieldList)
         {
-            [o setBorderStyle:UITextBorderStyleLine];
+            [o setBorderStyle:UITextBorderStyleRoundedRect];
             [o setEnabled:YES];
-        }
-        for(UIButton * k in self.deleteBtnArr)
-        {
-            [k setHidden:NO];
         }
         self.navigationItem.leftBarButtonItem.title = @"取消";
         self.navigationItem.rightBarButtonItem.title = @"完成";
@@ -231,10 +236,6 @@ bool cancleBuPressed = NO;
         {
             [o setBorderStyle:UITextBorderStyleNone];
             [o setEnabled:NO];
-        }
-        for(UIButton * k in self.deleteBtnArr)
-        {
-            [k setHidden:YES];
         }
         [self.goodsTableView reloadData];
          canBeEdited = YES;
@@ -250,6 +251,7 @@ bool cancleBuPressed = NO;
     {
         NSLog(@"结算");
     }else{
+        [self.goodsTableView setEditing:!self.goodsTableView.editing animated:YES];
         for(UITextField *o in self.textFieldList)
         {
             [o setBorderStyle:UITextBorderStyleNone];
@@ -303,14 +305,4 @@ bool cancleBuPressed = NO;
     }
 }
 
-//绑定删除按钮事件
--(void)deleteCell:(id)sender
-{
-    [sender setBackgroundColor:[UIColor colorWithRed:210/255.0 green:120/255.0 blue:70/255.0 alpha:1.0]];
-    UIButton *del = sender;
-//    NSIndexPath *indexPath = [self.goodsTableView indexPathForSelectedRow];
-//    NSLog(@"%i",indexPath.row);
-//    [self.goodsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[self.indexArr objectAtIndex:del.tag]]withRowAnimation:UITableViewRowAnimationFade];
-//    [self.goodsTableView reloadData];
-}
 @end
