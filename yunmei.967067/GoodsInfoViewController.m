@@ -575,7 +575,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 
             }else if ([self.selectedProduct count]>0){
                 self.goodsStore.text = [self.selectedProduct objectForKey:@"pro_store"];
-                if(buyBtnIsUseful == YES)
+                if((buyBtnIsUseful == YES)&&([[self.selectedProduct objectForKey:@"pro_store"]integerValue] >0))
                 {
                     [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtn"] forState:UIControlStateNormal];
                     [self.quickBuyBtn removeTarget:self action:@selector(quickBuyDisable:) forControlEvents:UIControlEventTouchUpInside];
@@ -695,6 +695,9 @@ NSInteger beforePressedParamBtnHeadNum =0;
             [[self.paramBtnDictionary objectForKey:o] setBackgroundColor:[UIColor whiteColor]];
         }
         [self.selectedProduct removeAllObjects];
+        [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtnDisable"] forState:UIControlStateNormal];
+        [self.quickBuyBtn removeTarget:self action:@selector(quickBuy:) forControlEvents:UIControlEventTouchUpInside];
+        [self.quickBuyBtn addTarget:self action:@selector(quickBuyDisable:) forControlEvents:UIControlEventTouchUpInside];
     }
     UIButton *PressedBtn = sender;
     NSString *key = [NSString stringWithFormat:@"%i",[sender tag]];

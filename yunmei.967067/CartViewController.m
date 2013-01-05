@@ -49,15 +49,6 @@ bool cancleBuPressed = NO;
     UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"结算" style:UIBarButtonItemStyleBordered target:self action:@selector(cartListPay:)];
     self.navigationItem.leftBarButtonItem = leftBtn;
     self.navigationItem.rightBarButtonItem = rightBtn;
-    UILabel *countString = [[UILabel alloc]initWithFrame:CGRectMake(90, 288, 30, 15)];
-    countString.text = @"共计:";
-    countString.font = [UIFont systemFontOfSize:12.0];
-    countString.textColor= [UIColor grayColor];
-     UIButton * carBuy = [[UIButton alloc]initWithFrame:CGRectMake(70, 310, 180, 35)];
-    [carBuy setBackgroundImage:[UIImage imageNamed:@"CarBuy"] forState:UIControlStateNormal];
-    [self.view addSubview:carBuy];
-    [self.view addSubview:countString];
-    [self.view addSubview:self.payCount];
     if(self.goodsList.count > 0)
     {
         self.navigationItem.leftBarButtonItem.enabled =YES;
@@ -66,7 +57,6 @@ bool cancleBuPressed = NO;
         self.navigationItem.leftBarButtonItem.enabled = NO;
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
-    [self.goodsTableView setFrame:CGRectMake(0, 0, 320, 280)];
     [self.view addSubview:self.goodsTableView];
 
 }
@@ -120,6 +110,8 @@ bool cancleBuPressed = NO;
         self.goodsList = [db fetchAll:query];
         [db close];
     }
+    NSInteger height = [self.goodsList count]*100+100;
+    [self.goodsTableView setFrame:CGRectMake(0, 0, 320, height)];
     
 }
 
@@ -150,6 +142,27 @@ bool cancleBuPressed = NO;
     return _textFieldList;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *rootView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 90)];
+    UILabel *countString = [[UILabel alloc]initWithFrame:CGRectMake(90, 288, 30, 15)];
+    countString.text = @"共计:";
+    countString.font = [UIFont systemFontOfSize:12.0];
+    countString.textColor= [UIColor grayColor];
+    UIButton * carBuy = [[UIButton alloc]initWithFrame:CGRectMake(70, 50, 180, 35)];
+    [carBuy setBackgroundImage:[UIImage imageNamed:@"CarBuy"] forState:UIControlStateNormal];
+    [rootView addSubview:carBuy];
+    [rootView addSubview:countString];
+    [rootView addSubview:self.payCount];
+    return rootView;
+
+
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 100;
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return  100;
@@ -363,6 +376,7 @@ bool cancleBuPressed = NO;
         [self.goodsTableView reloadData];
         
     }else if (cancleBuPressed ==YES){
+        NSLog(@"相等");
         cancleBuPressed = NO;
         [self.goodsTableView reloadData];
     }
