@@ -35,9 +35,13 @@
 @synthesize quickBuyBtn;
 @synthesize goodsStore;
 @synthesize codeNumber;
+@synthesize carBackToInfo = _carBackToInfo;
+@synthesize carBackSpecArr = _carBackSpecArr;
 //判断立即购买是否可用
 bool buyBtnIsUseful =NO;
 bool multipalSpec = NO;
+bool firstDisplayCarGoods = NO;
+bool firstPressSpecBtn = NO;
 //该私有变量用来存储上一次所选择的一个属性队形的拼接字符串的首部数字
 NSInteger beforePressedParamBtnHeadNum =0;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -60,7 +64,6 @@ NSInteger beforePressedParamBtnHeadNum =0;
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"goods_getBaseByGoodsId",@"act",[self goodsId],@"goodsId",nil];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        NSLog(@"%@",[completedOperation responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
         
@@ -125,6 +128,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                }
                self.specArr = [dataDic objectForKey:@"spec"];
            }
+            [self carBack];
            [self.goodsTableView reloadData];
            [self.goodsDetailTableView reloadData];
        }
@@ -272,6 +276,24 @@ NSInteger beforePressedParamBtnHeadNum =0;
     }
 }
 
+-(NSMutableDictionary *)carBackToInfo
+{
+    if(_carBackToInfo == nil)
+    {
+        _carBackToInfo = [[NSMutableDictionary alloc]init];
+    }
+    return  _carBackToInfo;
+}
+
+-(NSMutableArray *)carBackSpecArr
+{
+    if(_carBackSpecArr == nil)
+    {
+        _carBackSpecArr = [[NSMutableArray alloc]init];
+    }
+    return  _carBackSpecArr;
+}
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -399,7 +421,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
             {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierMiddle];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            }else if(([self.selectedProduct count]==0)&&(self.goodsModel.goodsName !=nil)){
+            }else if((([self.selectedProduct count]==0)&&(self.goodsModel.goodsName !=nil))||firstDisplayCarGoods ==YES){
                 //产品名字
                self.nameLable = [[UILabel alloc]initWithFrame:CGRectMake(5, 0, 320, 43)];
                 self.nameLable .text = self.goodsModel.goodsName;
@@ -417,6 +439,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 self.marketPriceLable.textColor = [UIColor grayColor];
                 self.marketPriceLable.font = [UIFont systemFontOfSize:15.0];
                 [cell addSubview:self.marketPriceLable];
+                firstDisplayCarGoods = NO;
             }else{
                 //产品价格
                 NSString *rmb = @"￥";
@@ -425,7 +448,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                     self.priceLable.text = [rmb stringByAppendingString:[self.selectedProduct objectForKey:@"pro_price"]];
                     self.priceLable.font = [UIFont systemFontOfSize:15.0];
                     //产品市场价
-                    self.marketPriceLable.text = [@"市场价:￥" stringByAppendingString:[self.selectedProduct objectForKey:@"mktPrice"]];
+//                    self.marketPriceLable.text = [@"市场价:￥" stringByAppendingString:[self.selectedProduct objectForKey:@"mktPrice"]];
                 }
                 self.marketPriceLable.textColor = [UIColor grayColor];
             }
@@ -461,6 +484,16 @@ NSInteger beforePressedParamBtnHeadNum =0;
                         //将该属性的ID设置为其tag
                         [paramBtn setTag:tagCount];
                         [self.keyToSpec setObject:specToSpecValue forKey:[NSString stringWithFormat:@"%i",tagCount]];
+                        if([self.carBackSpecArr count]>0)
+                        {
+                            for(id o in self.carBackSpecArr)
+                            {
+                                if([o isEqualToString:specToSpecValue])
+                                {
+                                    [paramBtn setBackgroundColor:[UIColor grayColor]];
+                                }
+                            }
+                        }
                         tagCount++;
                         //设置该按钮字体
                         paramBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
@@ -655,6 +688,14 @@ NSInteger beforePressedParamBtnHeadNum =0;
 //尺码按钮绑定的事件
 -(void)chiMaCliked:(id)sender
 {
+    if (firstPressSpecBtn == YES) {
+        firstPressSpecBtn = NO;
+        for(NSString *o in self.paramBtnDictionary)
+        {
+            [[self.paramBtnDictionary objectForKey:o] setBackgroundColor:[UIColor whiteColor]];
+        }
+        [self.selectedProduct removeAllObjects];
+    }
     UIButton *PressedBtn = sender;
     NSString *key = [NSString stringWithFormat:@"%i",[sender tag]];
     NSString *content = [self.keyToSpec objectForKey:key];
@@ -676,7 +717,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
 -(void)quickBuy:(id)sender
 {
 
-    if(self.firstResponderTextFeild.text ==@"0")
+    if(self.firstResponderTextFeild.text.integerValue == 0)
     {
         UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请选择你的商品数量" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alertNum show];
@@ -868,5 +909,33 @@ NSInteger beforePressedParamBtnHeadNum =0;
     NSRange stringIdentifier = [addString rangeOfString:@"_"];
     return [[addString substringToIndex:stringIdentifier.location] integerValue];
     
+}
+
+//判断是否是由购物车传回的数据
+-(void)carBack
+{
+    if([self.carBackToInfo count] >0)
+    {
+        NSLog(@"%@",self.carBackToInfo);
+        NSString *proid = [self.carBackToInfo objectForKey:@"pro_id"];
+        self.selectedProduct = self.carBackToInfo;
+        buyBtnIsUseful = YES;
+        firstDisplayCarGoods =YES;
+        firstPressSpecBtn = YES;
+        for(id o in self.goodsDictionary)
+        {
+            NSMutableDictionary *goods = [self.goodsDictionary objectForKey:o];
+            if([proid isEqualToString:[goods objectForKey:@"pro_id"]])
+            {
+                NSMutableArray *specArr = [goods objectForKey:@"spec_value"];
+                for(NSMutableDictionary *o in specArr)
+                {
+                    NSString *statisAppend = [[[o objectForKey:@"spec_id"]stringByAppendingString:@"_"]stringByAppendingString:[o objectForKey:@"spec_value"]];
+                    [self.carBackSpecArr addObject:statisAppend];
+                }
+            }
+        }
+        NSLog(@"%@",self.carBackSpecArr);
+    }
 }
 @end

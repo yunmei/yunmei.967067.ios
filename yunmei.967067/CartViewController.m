@@ -214,15 +214,26 @@ bool cancleBuPressed = NO;
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.fistReTextFeild resignFirstResponder];
-    for(UITextField *o in self.textFieldList)
-    {
-        [o setBorderStyle:UITextBorderStyleNone];
-        [o setEnabled:NO];
-    }
-
-    self.navigationItem.leftBarButtonItem.title = @"编辑";
-    self.navigationItem.rightBarButtonItem.title = @"结算";
+     if(self.goodsList.count >0)
+     {
+         
+         NSMutableDictionary *goods = [self.goodsList objectAtIndex:indexPath.row];
+         NSString *goodsId = [goods objectForKey:@"goodsid"];
+         GoodsInfoViewController *goodsInfo = [[GoodsInfoViewController alloc]init];
+         goodsInfo.goodsId = goodsId;
+         if([[goods objectForKey:@"proid"] integerValue] == 0)
+         {
+             goodsInfo.carBackToInfo = nil;
+         }else{
+             [goodsInfo.carBackToInfo setObject:[goods objectForKey:@"goods_price"] forKey:@"pro_price"];
+             [goodsInfo.carBackToInfo setObject:[goods objectForKey:@"goods_store"] forKey:@"pro_store"];
+             [goodsInfo.carBackToInfo setObject:[goods objectForKey:@"proid"] forKey:@"pro_id"];
+         }
+         goodsInfo.firstResponderTextFeild.text =[goods objectForKey:@"goods_count"];
+         UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+         self.navigationItem.backBarButtonItem = backItem;
+         [self.navigationController pushViewController:goodsInfo animated:YES];
+     }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -267,6 +278,7 @@ bool cancleBuPressed = NO;
 {
     return YES;
 }
+
 //点击编辑的时候
 -(void)carListEdit:(id)sender
 {
@@ -322,15 +334,16 @@ bool cancleBuPressed = NO;
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSInteger i;
-    if(textField.text.integerValue == 0)
+    if([textField.text isEqualToString:@"0"])
     {
         i =1;
     }else{
         i = textField.text.integerValue;
     }
     NSMutableDictionary *goodsInSqlite = [self.goodsList objectAtIndex:textField.tag];
-    if((textField.text != [goodsInSqlite objectForKey:@"goods_count"])&&(cancleBuPressed == NO))
+    if((![textField.text isEqualToString:[goodsInSqlite objectForKey:@"goods_count"]])&&(cancleBuPressed == NO))
     {
+        NSLog(@"不等");
         if(textField.text.integerValue >[[goodsInSqlite objectForKey:@"goods_store"] integerValue])
         {
             i = [[goodsInSqlite objectForKey:@"goods_store"] integerValue];

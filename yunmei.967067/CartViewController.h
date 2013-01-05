@@ -10,6 +10,7 @@
 #import "YMDbClass.h"
 #import "CarCell.h"
 #import <QuartzCore/QuartzCore.h>
+#import "GoodsInfoViewController.h"
 @interface CartViewController : UIViewController<
     UITableViewDataSource,
     UITableViewDelegate,
