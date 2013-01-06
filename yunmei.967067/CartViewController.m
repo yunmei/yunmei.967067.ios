@@ -7,7 +7,7 @@
 //
 
 #import "CartViewController.h"
-
+#import "YMUIButton.h"
 @interface CartViewController ()
 
 @end
@@ -47,10 +47,6 @@ bool cancleBuPressed = NO;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self bindCarWithGoodsList];
-    UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStyleBordered target:self action:@selector(carListEdit:)];
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"结算" style:UIBarButtonItemStyleBordered target:self action:@selector(cartListPay:)];
-    self.navigationItem.leftBarButtonItem = leftBtn;
-    self.navigationItem.rightBarButtonItem = rightBtn;
     if(self.goodsList.count > 0)
     {
         self.navigationItem.leftBarButtonItem.enabled =YES;
@@ -130,9 +126,19 @@ bool cancleBuPressed = NO;
     [self.goodsTableView setFrame:CGRectMake(0, 0, 320, 363)];
     if(self.goodsList.count >0)
     {
+        emptyCar = NO;
+        UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStyleBordered target:self action:@selector(carListEdit:)];
+        UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"结算" style:UIBarButtonItemStyleBordered target:self action:@selector(cartListPay:)];
+        self.navigationItem.leftBarButtonItem = leftBtn;
+        self.navigationItem.rightBarButtonItem = rightBtn;
         self.navigationItem.leftBarButtonItem.enabled =YES;
         self.navigationItem.rightBarButtonItem.enabled = YES;
-    }  
+        self.goodsTableView.scrollEnabled = YES;
+    }else{
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = nil;
+        emptyCar =YES;
+    }
 }
 
 -(UITableView *)goodsTableView
@@ -173,7 +179,7 @@ bool cancleBuPressed = NO;
     {
         return  100;
     }else{
-        return  200;
+        return  290;
     }
 }
 
@@ -183,7 +189,7 @@ bool cancleBuPressed = NO;
     {
         return self.goodsList.count+1;
     }else{
-        return 2;
+        return 1;
     }
     
 }
@@ -222,7 +228,6 @@ bool cancleBuPressed = NO;
                     [cell addSubview:self.payCountAnother];
                     [cell  addSubview:yuanshiString];
                     [cell addSubview:fanxian];
-                    
                 }
                 return cell;
             }else{
@@ -284,10 +289,36 @@ bool cancleBuPressed = NO;
             }
         }
     }else{
-        if(indexPath.row == 0)
-        {
-            
-        }
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"image"];
+            if(cell == nil)
+            {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"image"];
+                UIView *container = [[UIView alloc]initWithFrame:CGRectMake(20, 20, 280, 200)];
+                [container.layer setCornerRadius:8.0];
+                [container.layer setBorderWidth:1.0];
+                [container.layer setBorderColor:[YMUIButton CreateCGColorRef:186 greenNumber:186 blueNumber:186 alphaNumber:1.0]];
+                UIImageView * centerPic = [[UIImageView alloc]initWithFrame:CGRectMake(97, 60, 85, 80)];
+                [centerPic setImage:[UIImage imageNamed:@"empty_cart_bg.png"]];
+                UILabel *emptyString = [[UILabel alloc]initWithFrame:CGRectMake(50, 160, 200, 15)];
+                [emptyString setText:@"购物车里是空的，快去选购吧！"];
+                [emptyString setFont:[UIFont systemFontOfSize:12.0]];
+                [emptyString setTextColor:[UIColor grayColor]];
+                [container addSubview:centerPic];
+                [container addSubview:emptyString];
+                //去逛逛
+                //去逛逛
+                UIButton * goToSee = [UIButton buttonWithType:UIButtonTypeCustom];
+                [goToSee setFrame:CGRectMake(100, 250, 110, 30)];
+                [goToSee setTitle:@"去逛逛" forState:UIControlStateNormal];
+                [goToSee setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
+                [goToSee setBackgroundColor:[UIColor redColor]];
+                [cell addSubview:container];
+                [cell  addSubview:goToSee];
+            }
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            [tableView setScrollEnabled:NO];
+            [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+            return cell;
     }
 }
 
@@ -362,13 +393,18 @@ bool cancleBuPressed = NO;
                 [[self.tabBarController.tabBar.items objectAtIndex:2] setBadgeValue:[db count_sum:@"goodslist_car" tablefiled:@"goods_count"]];
             }
             [self bindCarWithGoodsList];
+            if(self.goodsList.count >0)
+            {
+                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }else{
+                [self.goodsTableView reloadData];
+            }
             [self.payCount reloadInputViews];
             [self.payCountAnother reloadInputViews];
             [self.view reloadInputViews];
         }
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self.textFieldList removeAllObjects];
-        [tableView reloadData];
+        
     }
 }
 -(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath

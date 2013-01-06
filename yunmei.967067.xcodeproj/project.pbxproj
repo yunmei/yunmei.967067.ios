@@ -141,6 +141,7 @@
 		AAD754301666EEED0059962D /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD7542F1666EEED0059962D /* CategoryCell.xib */; };
 		AAD7C1491682F8360033014E /* CategoryThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD7C1471682F8360033014E /* CategoryThirdViewController.m */; };
 		AAD7C14A1682F8360033014E /* CategoryThirdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD7C1481682F8360033014E /* CategoryThirdViewController.xib */; };
+		AAF3451016993EEF00B4AD24 /* empty_cart_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AAF3450F16993EEF00B4AD24 /* empty_cart_bg.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -361,6 +362,7 @@
 		AAD7C1461682F8360033014E /* CategoryThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryThirdViewController.h; sourceTree = "<group>"; };
 		AAD7C1471682F8360033014E /* CategoryThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryThirdViewController.m; sourceTree = "<group>"; };
 		AAD7C1481682F8360033014E /* CategoryThirdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryThirdViewController.xib; sourceTree = "<group>"; };
+		AAF3450F16993EEF00B4AD24 /* empty_cart_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_cart_bg.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -504,6 +506,7 @@
 		4635DFCE1643A47000C7B445 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AAF3450F16993EEF00B4AD24 /* empty_cart_bg.png */,
 				AA7B0ED4168ED6DD007045CE /* carBuy.png */,
 				AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */,
 				AAC24418167EB9BB00080AAC /* quickBuyBtn.png */,
@@ -933,6 +936,7 @@
 				AAD37D3F16815C6A00C06D6F /* GoodsIntroductViewController.xib in Resources */,
 				AAD7C14A1682F8360033014E /* CategoryThirdViewController.xib in Resources */,
 				AA7B0ED5168ED6DD007045CE /* carBuy.png in Resources */,
+				AAF3451016993EEF00B4AD24 /* empty_cart_bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
