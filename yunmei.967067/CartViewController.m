@@ -8,6 +8,7 @@
 
 #import "CartViewController.h"
 #import "YMUIButton.h"
+#import "CategoryViewController.h"
 @interface CartViewController ()
 
 @end
@@ -310,6 +311,7 @@ bool cancleBuPressed = NO;
                 UIButton * goToSee = [UIButton buttonWithType:UIButtonTypeCustom];
                 [goToSee setFrame:CGRectMake(100, 250, 110, 30)];
                 [goToSee setTitle:@"去逛逛" forState:UIControlStateNormal];
+                [goToSee addTarget:self action:@selector(goTooSee:) forControlEvents:UIControlStateNormal];
                 [goToSee setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
                 [goToSee setBackgroundColor:[UIColor redColor]];
                 [cell addSubview:container];
@@ -515,6 +517,13 @@ bool cancleBuPressed = NO;
     [self.payCountAnother reloadInputViews];
     [self.goodsTableView reloadData];
     
+}
+
+-(void)goTooSee:(id)sender
+{
+    CategoryViewController *categoryView = [[CategoryViewController alloc]init];
+    [self presentModalViewController:categoryView animated:YES];
+    //[self dismissModalViewControllerAnimated:YES];
 }
 
 @end
