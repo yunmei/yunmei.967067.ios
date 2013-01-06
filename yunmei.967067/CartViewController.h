@@ -23,6 +23,6 @@
 @property(strong,nonatomic)UIToolbar *controlInput;
 @property(strong,nonatomic)UITextField *fistReTextFeild;
 @property(strong,nonatomic)UILabel *payCount;
-
+@property(strong,nonatomic)UILabel *payCountAnother;
 -(void)setDataSource;
 @end

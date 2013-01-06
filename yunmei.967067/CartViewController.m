@@ -19,6 +19,8 @@
 @synthesize controlInput;
 @synthesize fistReTextFeild;
 @synthesize payCount = _payCount;
+@synthesize payCountAnother = _payCountAnother;
+bool emptyCar = NO;
 //是否编辑或者取消编辑，YES为点击后开始编辑
 bool cancleBuPressed = NO;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -73,7 +75,7 @@ bool cancleBuPressed = NO;
     if(_payCount == nil)
     {
         //页脚价格总计
-        _payCount = [[UILabel alloc]initWithFrame:CGRectMake(120, 288, 80, 15)];
+        _payCount = [[UILabel alloc]initWithFrame:CGRectMake(150, 30, 70, 15)];
         _payCount.text = [NSString stringWithFormat:@"￥%.2f",[self statisPay]];
         _payCount.font = [UIFont systemFontOfSize:12.0];
         _payCount.textColor= [UIColor redColor];
@@ -81,6 +83,21 @@ bool cancleBuPressed = NO;
         _payCount.text = [NSString stringWithFormat:@"￥%.2f",[self statisPay]];
     }
     return _payCount;
+}
+
+-(UILabel *)payCountAnother
+{
+    if(_payCountAnother == nil)
+    {
+        //页脚价格总计
+        _payCountAnother = [[UILabel alloc]initWithFrame:CGRectMake(120, 12, 70, 15)];
+        _payCountAnother.text = [NSString stringWithFormat:@"￥%.2f",[self statisPay]];
+        _payCountAnother.font = [UIFont systemFontOfSize:12.0];
+        _payCountAnother.textColor= [UIColor redColor];
+    }else{
+        _payCountAnother.text = [NSString stringWithFormat:@"￥%.2f",[self statisPay]];
+    }
+    return _payCountAnother;
 }
 -(CGFloat)statisPay
 {
@@ -110,9 +127,12 @@ bool cancleBuPressed = NO;
         self.goodsList = [db fetchAll:query];
         [db close];
     }
-    NSInteger height = [self.goodsList count]*100+100;
-    [self.goodsTableView setFrame:CGRectMake(0, 0, 320, height)];
-    
+    [self.goodsTableView setFrame:CGRectMake(0, 0, 320, 363)];
+    if(self.goodsList.count >0)
+    {
+        self.navigationItem.leftBarButtonItem.enabled =YES;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }  
 }
 
 -(UITableView *)goodsTableView
@@ -142,116 +162,179 @@ bool cancleBuPressed = NO;
     return _textFieldList;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    UIView *rootView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 90)];
-    UILabel *countString = [[UILabel alloc]initWithFrame:CGRectMake(90, 288, 30, 15)];
-    countString.text = @"共计:";
-    countString.font = [UIFont systemFontOfSize:12.0];
-    countString.textColor= [UIColor grayColor];
-    UIButton * carBuy = [[UIButton alloc]initWithFrame:CGRectMake(70, 50, 180, 35)];
-    [carBuy setBackgroundImage:[UIImage imageNamed:@"CarBuy"] forState:UIControlStateNormal];
-    [rootView addSubview:carBuy];
-    [rootView addSubview:countString];
-    [rootView addSubview:self.payCount];
-    return rootView;
-
-
+    
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 100;
-}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return  100;
+    if(emptyCar == NO)
+    {
+        return  100;
+    }else{
+        return  200;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.goodsList.count;
+    if(emptyCar == NO)
+    {
+        return self.goodsList.count+1;
+    }else{
+        return 2;
+    }
+    
 }
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"cellForCar";
-    CarCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if(cell == nil)
+    if(emptyCar == NO)
     {
-        cell = [[CarCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        UILabel *stringCode = [[UILabel alloc]initWithFrame:CGRectMake(10, 36, 60, 30)];
-        [stringCode setText:@"商品编码:"];
-        [stringCode setTextColor:[UIColor grayColor]];
-        [stringCode setFont:[UIFont systemFontOfSize:13.0]];
-        
-        UILabel *stringNum = [[UILabel alloc]initWithFrame:CGRectMake(150, 65, 60, 30)];
-        [stringNum setText:@"数量:"];
-        [stringNum setTextColor:[UIColor grayColor]];
-        [stringNum setFont:[UIFont systemFontOfSize:13.0]];
-        UILabel *stringPrice = [[UILabel alloc]initWithFrame:CGRectMake(10, 65, 60, 30)];
-        [stringPrice setText:@"价格:"];
-        [stringPrice setTextColor:[UIColor grayColor]];
-        [stringPrice setFont:[UIFont systemFontOfSize:13.0]];
-        [cell.contentView addSubview:stringNum];
-        [cell.contentView  addSubview:stringCode];
-        [cell.contentView  addSubview:stringPrice];
-        [cell.contentView  addSubview:cell.goodsCode];
-        [cell.contentView  addSubview:cell.goodsName];
-        [cell.contentView  addSubview:cell.goodsPrice];
-        [cell.contentView  addSubview:cell.buyCount];
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    NSString * ident = @"￥";
-    cell.goodsCode.text = [[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_code"];
-    cell.goodsName.text = [[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_name"];
-    cell.goodsPrice.text = [ident stringByAppendingString:[[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_price"]];
-    cell.buyCount.text = [[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_count"];
-    cell.buyCount.layer.cornerRadius = 0.8;
-    cell.buyCount.tag = indexPath.row;
-    cell.buyCount.delegate = self;
-    if(self.textFieldList.count < self.goodsList.count)
-    {
-        if(tableView.editing)
         {
-            cell.buyCount.enabled = YES;
-            [cell.buyCount setBorderStyle:UITextBorderStyleRoundedRect];
+            if(indexPath.row == self.goodsList.count)
+            {
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"footer"];
+                if(cell == nil)
+                {
+                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"footer"];
+                    UILabel *yuanshiString = [[UILabel alloc]initWithFrame:CGRectMake(60, 12, 57, 15)];
+                    yuanshiString.text = @"原始金额:";
+                    yuanshiString.font = [UIFont systemFontOfSize:12.0];
+                    yuanshiString.textColor= [UIColor grayColor];
+                    
+                    UILabel *fanxian = [[UILabel alloc]initWithFrame:CGRectMake(187, 12, 100, 15)];
+                    fanxian.text = @"- 返现金额:￥0.00";
+                    fanxian.font = [UIFont systemFontOfSize:12.0];
+                    fanxian.textColor= [UIColor grayColor];
+                    
+                    UILabel *countString = [[UILabel alloc]initWithFrame:CGRectMake(120, 30, 30, 15)];
+                    countString.text = @"共计:";
+                    countString.font = [UIFont systemFontOfSize:12.0];
+                    countString.textColor= [UIColor grayColor];
+                    UIButton * carBuy = [[UIButton alloc]initWithFrame:CGRectMake(70, 50, 180, 35)];
+                    [carBuy setBackgroundImage:[UIImage imageNamed:@"CarBuy"] forState:UIControlStateNormal];
+                    [cell addSubview:carBuy];
+                    [cell addSubview:countString];
+                    [cell addSubview:self.payCount];
+                    [cell addSubview:self.payCountAnother];
+                    [cell  addSubview:yuanshiString];
+                    [cell addSubview:fanxian];
+                    
+                }
+                return cell;
+            }else{
+                static NSString *identifier = @"cellForCar";
+                CarCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+                if(cell == nil)
+                {
+                    cell = [[CarCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                    UILabel *stringCode = [[UILabel alloc]initWithFrame:CGRectMake(10, 36, 60, 30)];
+                    [stringCode setText:@"商品编码:"];
+                    [stringCode setTextColor:[UIColor grayColor]];
+                    [stringCode setFont:[UIFont systemFontOfSize:13.0]];
+                    
+                    UILabel *stringNum = [[UILabel alloc]initWithFrame:CGRectMake(150, 65, 60, 30)];
+                    [stringNum setText:@"数量:"];
+                    [stringNum setTextColor:[UIColor grayColor]];
+                    [stringNum setFont:[UIFont systemFontOfSize:13.0]];
+                    UILabel *stringPrice = [[UILabel alloc]initWithFrame:CGRectMake(10, 65, 60, 30)];
+                    [stringPrice setText:@"价格:"];
+                    [stringPrice setTextColor:[UIColor grayColor]];
+                    [stringPrice setFont:[UIFont systemFontOfSize:13.0]];
+                    stringNum.backgroundColor = [UIColor clearColor];
+                    stringCode.backgroundColor = [UIColor clearColor];
+                    stringNum.backgroundColor = [UIColor clearColor];
+                    stringPrice.backgroundColor = [UIColor clearColor];
+                    cell.goodsCode.backgroundColor = [UIColor clearColor];
+                    cell.goodsName.backgroundColor = [UIColor clearColor];
+                    cell.goodsPrice.backgroundColor = [UIColor clearColor];
+                    cell.buyCount.backgroundColor = [UIColor clearColor];
+                    [cell.contentView addSubview:stringNum];
+                    [cell.contentView  addSubview:stringCode];
+                    [cell.contentView  addSubview:stringPrice];
+                    [cell.contentView  addSubview:cell.goodsCode];
+                    [cell.contentView  addSubview:cell.goodsName];
+                    [cell.contentView  addSubview:cell.goodsPrice];
+                    [cell.contentView  addSubview:cell.buyCount];
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                }
+                NSString * ident = @"￥";
+                cell.goodsCode.text = [[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_code"];
+                cell.goodsName.text = [[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_name"];
+                cell.goodsPrice.text = [ident stringByAppendingString:[[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_price"]];
+                cell.buyCount.text = [[self.goodsList objectAtIndex:indexPath.row]objectForKey:@"goods_count"];
+                cell.buyCount.layer.cornerRadius = 0.8;
+                cell.buyCount.tag = indexPath.row;
+                cell.buyCount.delegate = self;
+                if(self.textFieldList.count < self.goodsList.count)
+                {
+                    if(tableView.editing)
+                    {
+                        cell.buyCount.enabled = YES;
+                        [cell.buyCount setBorderStyle:UITextBorderStyleRoundedRect];
+                    }
+                    [self.textFieldList addObject:cell.buyCount];
+                }
+                NSLog(@"%i",[self.textFieldList count]);
+                return cell;
+            }
         }
-        [self.textFieldList addObject:cell.buyCount];
+    }else{
+        if(indexPath.row == 0)
+        {
+            
+        }
     }
-    NSLog(@"%i",[self.textFieldList count]);
-    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-     if(self.goodsList.count >0)
-     {
-         
-         NSMutableDictionary *goods = [self.goodsList objectAtIndex:indexPath.row];
-         NSString *goodsId = [goods objectForKey:@"goodsid"];
-         GoodsInfoViewController *goodsInfo = [[GoodsInfoViewController alloc]init];
-         goodsInfo.goodsId = goodsId;
-         if([[goods objectForKey:@"proid"] integerValue] == 0)
-         {
-             goodsInfo.carBackToInfo = nil;
-         }else{
-             [goodsInfo.carBackToInfo setObject:[goods objectForKey:@"goods_price"] forKey:@"pro_price"];
-             [goodsInfo.carBackToInfo setObject:[goods objectForKey:@"goods_store"] forKey:@"pro_store"];
-             [goodsInfo.carBackToInfo setObject:[goods objectForKey:@"proid"] forKey:@"pro_id"];
-         }
-         goodsInfo.firstResponderTextFeild.text =[goods objectForKey:@"goods_count"];
-         UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
-         self.navigationItem.backBarButtonItem = backItem;
-         [self.navigationController pushViewController:goodsInfo animated:YES];
-     }
+    if(indexPath.row!=self.goodsList.count)
+    {
+        if(self.goodsList.count >0)
+        {
+            
+            NSMutableDictionary *goods = [self.goodsList objectAtIndex:indexPath.row];
+            NSString *goodsId = [goods objectForKey:@"goodsid"];
+            GoodsInfoViewController *goodsInfo = [[GoodsInfoViewController alloc]init];
+            goodsInfo.goodsId = goodsId;
+            if([[goods objectForKey:@"proid"] integerValue] == 0)
+            {
+                goodsInfo.carBackToInfo = nil;
+            }else{
+                [goodsInfo.carBackToInfo setObject:[goods objectForKey:@"goods_price"] forKey:@"pro_price"];
+                [goodsInfo.carBackToInfo setObject:[goods objectForKey:@"goods_store"] forKey:@"pro_store"];
+                [goodsInfo.carBackToInfo setObject:[goods objectForKey:@"proid"] forKey:@"pro_id"];
+            }
+            goodsInfo.firstResponderTextFeild.text =[goods objectForKey:@"goods_count"];
+            UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+            self.navigationItem.backBarButtonItem = backItem;
+            [self.navigationController pushViewController:goodsInfo animated:YES];
+        }
+    }
 }
 
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row != self.goodsList.count)
+    {
+        UIColor *color = ((indexPath.row %2) == 0)?[UIColor colorWithRed:255/255.0 green:228/255.0 blue:196/255.0 alpha:1.0]:[UIColor clearColor];
+        cell.backgroundColor = color;
+    }
+}
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    if(indexPath.row == self.goodsList.count)
+    {
+        return  NO;
+    }else{
+        return YES;
+    }
+
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -280,6 +363,7 @@ bool cancleBuPressed = NO;
             }
             [self bindCarWithGoodsList];
             [self.payCount reloadInputViews];
+            [self.payCountAnother reloadInputViews];
             [self.view reloadInputViews];
         }
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -372,6 +456,7 @@ bool cancleBuPressed = NO;
         }
         [self bindCarWithGoodsList];
         [self.payCount reloadInputViews];
+        [self.payCountAnother reloadInputViews];
         [[self.tabBarController.tabBar.items objectAtIndex:2] setBadgeValue:[db count_sum:@"goodslist_car" tablefiled:@"goods_count"]];
         [self.goodsTableView reloadData];
         
@@ -391,6 +476,7 @@ bool cancleBuPressed = NO;
         [self.goodsTableView reloadData];
     }
     [self.payCount reloadInputViews];
+    [self.payCountAnother reloadInputViews];
     [self.goodsTableView reloadData];
     
 }
