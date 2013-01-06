@@ -311,7 +311,7 @@ bool cancleBuPressed = NO;
                 UIButton * goToSee = [UIButton buttonWithType:UIButtonTypeCustom];
                 [goToSee setFrame:CGRectMake(100, 250, 110, 30)];
                 [goToSee setTitle:@"去逛逛" forState:UIControlStateNormal];
-                [goToSee addTarget:self action:@selector(goTooSee:) forControlEvents:UIControlStateNormal];
+                [goToSee addTarget:self action:@selector(goTooSee:) forControlEvents:UIControlEventTouchUpInside];
                 [goToSee setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
                 [goToSee setBackgroundColor:[UIColor redColor]];
                 [cell addSubview:container];
@@ -522,8 +522,9 @@ bool cancleBuPressed = NO;
 -(void)goTooSee:(id)sender
 {
     CategoryViewController *categoryView = [[CategoryViewController alloc]init];
-    [self presentModalViewController:categoryView animated:YES];
-    //[self dismissModalViewControllerAnimated:YES];
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+    self.navigationItem.backBarButtonItem = backBtn;
+    [self.navigationController pushViewController:categoryView animated:YES];
 }
 
 @end
