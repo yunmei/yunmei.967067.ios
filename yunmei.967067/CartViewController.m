@@ -521,10 +521,7 @@ bool cancleBuPressed = NO;
 
 -(void)goTooSee:(id)sender
 {
-    CategoryViewController *categoryView = [[CategoryViewController alloc]init];
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
-    self.navigationItem.backBarButtonItem = backBtn;
-    [self.navigationController pushViewController:categoryView animated:YES];
+    [self.tabBarController setSelectedIndex:1];
 }
 
 @end
