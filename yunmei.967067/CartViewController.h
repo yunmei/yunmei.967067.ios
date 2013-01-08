@@ -11,6 +11,7 @@
 #import "CarCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "GoodsInfoViewController.h"
+#import "OrderEditViewController.h"
 @interface CartViewController : UIViewController<
     UITableViewDataSource,
     UITableViewDelegate,

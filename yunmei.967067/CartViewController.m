@@ -223,6 +223,7 @@ bool cancleBuPressed = NO;
                     countString.textColor= [UIColor grayColor];
                     UIButton * carBuy = [[UIButton alloc]initWithFrame:CGRectMake(70, 50, 180, 35)];
                     [carBuy setBackgroundImage:[UIImage imageNamed:@"CarBuy"] forState:UIControlStateNormal];
+                    [carBuy addTarget:self action:@selector(orderEdit:) forControlEvents:UIControlEventTouchUpInside];
                     [cell addSubview:carBuy];
                     [cell addSubview:countString];
                     [cell addSubview:self.payCount];
@@ -446,7 +447,7 @@ bool cancleBuPressed = NO;
 {
     if(self.goodsTableView.editing == NO)
     {
-        NSLog(@"结算");
+        [self orderEdit:nil];
     }else{
         [self.goodsTableView setEditing:!self.goodsTableView.editing animated:YES];
         for(UITextField *o in self.textFieldList)
@@ -523,5 +524,18 @@ bool cancleBuPressed = NO;
 {
     [self.tabBarController setSelectedIndex:1];
 }
+
+-(void)orderEdit:(id)sender
+{
+    UINavigationController *orderNavController = [[UINavigationController alloc]initWithRootViewController:[[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil]];
+    [orderNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+    if([orderNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+    {
+        [orderNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+    }
+    [self.tabBarController.selectedViewController presentModalViewController:orderNavController animated:YES];
+}
+
+
 
 @end
