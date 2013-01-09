@@ -12,9 +12,13 @@
 
 @interface OrderEditViewController : UIViewController<
 UITableViewDataSource,
-UITableViewDelegate>
+UITableViewDelegate,
+UITextFieldDelegate
+>
 
 @property (strong, nonatomic) IBOutlet UITableView *orderTableView;
 @property (strong,nonatomic)NSMutableArray *goodsInfoList;
-
+@property(strong,nonatomic)NSMutableArray *checkRadioArray;
+@property(strong,nonatomic)UITextField *orderRemarkFeild;
+@property(strong,nonatomic)UITapGestureRecognizer *tapGestureRecgnizer;
 @end
