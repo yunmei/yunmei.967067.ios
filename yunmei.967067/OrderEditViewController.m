@@ -30,7 +30,6 @@
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"齐鲁直销商城";
     [self bindCar];
-    [self.orderTableView reloadData];
 }
 
 -(void)bindCar
@@ -54,7 +53,7 @@
 {
     if(indexPath.row ==1)
     {
-        return 30+self.goodsInfoList.count*50;
+        return 30+72*self.goodsInfoList.count;
     }else{
         return 80.0;
     }  
@@ -62,13 +61,6 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-////    static NSString *identifier = @"identifier";
-////    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-////    if(cell == nil)
-////    {
-////        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-////    }
-//    return cell;
     if(indexPath.row == 1)
     {
         static NSString *identifier = @"info";
@@ -76,25 +68,38 @@
         if(cell == nil)
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            UILabel *infoString = [[UILabel alloc]initWithFrame:CGRectMake(3, 5, 80, 25)];
+            UILabel *infoString = [[UILabel alloc]initWithFrame:CGRectMake(3, 5, 80, 30)];
             infoString.text = @"商品信息";
             [cell addSubview:infoString];
-        }else{
-            int i =1;
+            NSLog(@"cell xian");
+        }
+            CGFloat currentViewHeightInit =25;
             for(NSMutableDictionary *o in self.goodsInfoList)
             {
-                NSMutableDictionary *goodsDic = o;
-                UIView *goodsSubView = [[UIView alloc]initWithFrame:CGRectMake(3, 30+i*40, 160, 40)];
-                UILabel *goodsName = [[UILabel alloc]initWithFrame:CGRectMake(3, 30, 150, 10)];
-                [goodsName setText:[goodsDic objectForKey:@"goods_name"]];
-                goodsName setFont:[[UIFont systemFontOfSize:12.0]];
-                
-                [goodsSubView addSubview:goodsName];
+                goodsInfoView *goodsSubView = [[goodsInfoView alloc]init];
+                goodsSubView.goodsName.text = [o objectForKey:@"goods_name"];
+                goodsSubView.goodsCount.text = [o objectForKey:@"goods_count"];
+                NSString * formatPrice = [NSString stringWithFormat:@"%.2f",(float)[[o objectForKey:@"goods_count"] integerValue] *[[o objectForKey:@"goods_price"]floatValue]];
+                goodsSubView.codeNumber.text = [o objectForKey:@"goods_code"];
+                NSString *moneyType = @"￥";
+                goodsSubView.totalPrice.text = [moneyType stringByAppendingString:formatPrice];
+                [goodsSubView addChild];
+                NSLog(@"%f",goodsSubView.height);
+                [goodsSubView setFrame:CGRectMake(3, currentViewHeightInit, 320, 72)];
                 [cell addSubview:goodsSubView];
-                i++;
+                currentViewHeightInit += 72;
+                [cell addSubview:goodsSubView];
             }
+            
+        return cell;
+    }else{
+        static NSString *identifier = @"identifier";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if(cell == nil)
+        {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         }
-        
+        return cell;
     }
 }
 - (void)didReceiveMemoryWarning

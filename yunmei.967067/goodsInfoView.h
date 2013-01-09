@@ -16,4 +16,7 @@
 @property(strong,nonatomic)UILabel *goodsCount;
 @property(strong,nonatomic)UILabel *totalPriceString;
 @property(strong,nonatomic)UILabel *totalPrice;
+@property CGFloat height;
+
+-(void)addChild;
 @end

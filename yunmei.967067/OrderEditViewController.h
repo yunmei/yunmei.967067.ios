@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "YMDbClass.h"
+#import "goodsInfoView.h"
 
 @interface OrderEditViewController : UIViewController<
 UITableViewDataSource,
