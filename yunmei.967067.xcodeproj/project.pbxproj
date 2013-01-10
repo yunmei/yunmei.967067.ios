@@ -136,6 +136,8 @@
 		AAC2441B167EB9C200080AAC /* quickBuyBtnDisable.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */; };
 		AAC2D482169BCBC000CE4116 /* OrderEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC2D480169BCBC000CE4116 /* OrderEditViewController.m */; };
 		AAC2D483169BCBC000CE4116 /* OrderEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAC2D481169BCBC000CE4116 /* OrderEditViewController.xib */; };
+		AAC3FFDE169E49C700C6FA59 /* AddAdressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC3FFDC169E49C700C6FA59 /* AddAdressViewController.m */; };
+		AAC3FFDF169E49C700C6FA59 /* AddAdressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAC3FFDD169E49C700C6FA59 /* AddAdressViewController.xib */; };
 		AAC801601665BF8400F5D655 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8015F1665BF8400F5D655 /* CategoryModel.m */; };
 		AAC8016A1665F90000F5D655 /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69A7164B949E003ECB2F /* MoreViewController.xib */; };
 		AAC8016C1665F91700F5D655 /* MyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69AA164B949E003ECB2F /* MyViewController.xib */; };
@@ -363,6 +365,9 @@
 		AAC2D47F169BCBC000CE4116 /* OrderEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderEditViewController.h; sourceTree = "<group>"; };
 		AAC2D480169BCBC000CE4116 /* OrderEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderEditViewController.m; sourceTree = "<group>"; };
 		AAC2D481169BCBC000CE4116 /* OrderEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderEditViewController.xib; sourceTree = "<group>"; };
+		AAC3FFDB169E49C700C6FA59 /* AddAdressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddAdressViewController.h; sourceTree = "<group>"; };
+		AAC3FFDC169E49C700C6FA59 /* AddAdressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddAdressViewController.m; sourceTree = "<group>"; };
+		AAC3FFDD169E49C700C6FA59 /* AddAdressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddAdressViewController.xib; sourceTree = "<group>"; };
 		AAC8015E1665BF8400F5D655 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryModel.h; sourceTree = "<group>"; };
 		AAC8015F1665BF8400F5D655 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryModel.m; sourceTree = "<group>"; };
 		AAD37D3B16815C6A00C06D6F /* GoodsIntroductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsIntroductViewController.h; sourceTree = "<group>"; };
@@ -473,6 +478,7 @@
 				466C69AB164B949E003ECB2F /* CartViewController.h */,
 				466C69AC164B949E003ECB2F /* CartViewController.m */,
 				466C69AD164B949E003ECB2F /* CartViewController.xib */,
+				AAC3FFD9169E494900C6FA59 /* Cart */,
 				46FDFFDC167835EB0075A644 /* MyCenter */,
 				464E0650164BC4580090162A /* Goods */,
 				464E064F164BC37C0090162A /* Category */,
@@ -809,6 +815,16 @@
 			name = CustomView;
 			sourceTree = "<group>";
 		};
+		AAC3FFD9169E494900C6FA59 /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				AAC3FFDB169E49C700C6FA59 /* AddAdressViewController.h */,
+				AAC3FFDC169E49C700C6FA59 /* AddAdressViewController.m */,
+				AAC3FFDD169E49C700C6FA59 /* AddAdressViewController.xib */,
+			);
+			name = Cart;
+			sourceTree = "<group>";
+		};
 		AAD7542A1666EE0D0059962D /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -967,6 +983,7 @@
 				AAC2D483169BCBC000CE4116 /* OrderEditViewController.xib in Resources */,
 				AA3B63AC169D3562005A91C1 /* RadioButton-Selected.png in Resources */,
 				AA3B63AE169D356A005A91C1 /* RadioButton-Unselected.png in Resources */,
+				AAC3FFDF169E49C700C6FA59 /* AddAdressViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1051,6 +1068,7 @@
 				AA8BC3FA168EBA6F005C03E1 /* CarCell.m in Sources */,
 				AAC2D482169BCBC000CE4116 /* OrderEditViewController.m in Sources */,
 				AA7B8733169C090E00CF0121 /* goodsInfoView.m in Sources */,
+				AAC3FFDE169E49C700C6FA59 /* AddAdressViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
