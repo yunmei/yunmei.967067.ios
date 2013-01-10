@@ -205,6 +205,17 @@ bool payAfterCustomerGetGoods = YES;
         return cell;
     }
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row ==0)
+    {
+        AddAddressViewController *addressView = [[AddAddressViewController alloc]init];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+        self.navigationItem.backBarButtonItem = backItem;
+        [self.navigationController pushViewController:addressView animated:YES];
+    }
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
