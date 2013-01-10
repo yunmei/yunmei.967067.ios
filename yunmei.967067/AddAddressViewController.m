@@ -22,6 +22,16 @@
 @synthesize cityBtn = _cityBtn;
 @synthesize countyBtn = _countyBtn;
 @synthesize tapGestureRecgnizer = _tapGestureRecgnizer;
+@synthesize picker = _picker;
+@synthesize provinceArr = _provinceArr;
+@synthesize cityArr = _cityArr;
+@synthesize countyArr = _countyArr;
+@synthesize provinceIdArr = _provinceIdArr;
+@synthesize provinceNameArr = _provinceNameArr;
+@synthesize cityIdArr = _cityIdArr;
+@synthesize cityNameArr = _cityNameArr;
+@synthesize countyIdArr = _countyIdArr;
+@synthesize countyNameArr = _countyNameArr;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,8 +44,34 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     self.addressTableView.scrollEnabled = NO;
     // Do any additional setup after loading the view from its nib.
+    UIButton *submitBtn = [[UIButton alloc]initWithFrame:CGRectMake(110, 297, 104, 33)];
+    [submitBtn setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
+    [submitBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [submitBtn addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:submitBtn];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"system_getProvinceList",@"act",nil];
+    MKNetworkOperation * op = [YMGlobal getOperation:params];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *returnObj = [parser objectWithData:[completedOperation responseData]];
+        if([[returnObj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            self.provinceArr = [returnObj objectForKey:@"data"];
+            //获取省ID
+            self.provinceIdArr = [self getAllId:self.provinceArr identifier:@"provinceId"];
+            //获取省name
+            self.provinceNameArr = [self getAllName:self.provinceArr identifier:@"provinceName"];
+            [self.view addSubview:self.picker];
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"Error:%@",error);
+    }];
+    [ApplicationDelegate.appEngine enqueueOperation:op];
+    [HUD hide:YES];
+    
 }
 
 -(UITextField *)goodsOwner
@@ -51,6 +87,17 @@
     return  _goodsOwner;
 }
 
+-(UIPickerView *)picker
+{
+    if(_picker == nil)
+    {
+        _picker = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 480, 320, 290)];
+        _picker.dataSource = self;
+        _picker.delegate = self;
+        _picker.showsSelectionIndicator = YES;
+    }
+    return  _picker;
+}
 -(UITextField *)telephone
 {
     if(_telephone == nil)
@@ -64,6 +111,83 @@
     return  _telephone;
 }
 
+-(NSMutableArray *)provinceArr
+{
+    if(_provinceArr == nil)
+    {
+        _provinceArr = [[NSMutableArray alloc]init];
+    }
+    
+    return  _provinceArr;
+}
+
+-(NSMutableArray *)cityArr
+{
+    if(_cityArr == nil)
+    {
+        _cityArr = [[NSMutableArray alloc]init];
+    }
+    return  _cityArr;
+}
+
+-(NSMutableArray *)countyArr
+{
+    if(_countyArr == nil)
+    {
+        _countyArr = [[NSMutableArray alloc]init];
+    }
+    return _cityArr;
+}
+-(NSMutableArray *)provinceIdArr
+{
+    if(_provinceIdArr == nil)
+    {
+        _provinceIdArr = [[NSMutableArray alloc]init];
+    }
+    return _provinceIdArr;
+}
+-(NSMutableArray *)provinceNameArr
+{
+    if(_provinceNameArr == nil)
+    {
+        _provinceNameArr = [[NSMutableArray alloc]init];
+    }
+    return _provinceNameArr;
+}
+
+-(NSMutableArray *)cityNameArr
+{
+    if(_cityNameArr == nil)
+    {
+        _cityNameArr = [[NSMutableArray alloc]init];
+    }
+    return _cityNameArr;
+}
+-(NSMutableArray *)cityIdArr
+{
+    if(_cityIdArr == nil)
+    {
+        _cityIdArr = [[NSMutableArray alloc]init];
+    }
+    return _cityIdArr;
+}
+
+-(NSMutableArray *)countyNameArr
+{
+    if(_countyNameArr == nil)
+    {
+        _countyNameArr = [[NSMutableArray alloc]init];
+    }
+    return _countyNameArr;
+}
+-(NSMutableArray *)countyIdArr
+{
+    if(_countyIdArr == nil)
+    {
+        _countyIdArr = [[NSMutableArray alloc]init];
+    }
+    return _countyIdArr;
+}
 
 -(UITextField *)addressInDetail
 {
@@ -104,6 +228,7 @@
         _provinceBtn.layer.borderWidth = 2;
         _provinceBtn.layer.borderColor = [YMUIButton CreateCGColorRef:160 greenNumber:160 blueNumber:160 alphaNumber:1.0];
         [_provinceBtn setBackgroundImage:[UIImage imageNamed:@"btn_gray"] forState:UIControlStateNormal];
+        [_provinceBtn addTarget:self action:@selector(getPicker:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _provinceBtn;
 }
@@ -119,6 +244,7 @@
         _cityBtn.layer.borderWidth = 2;
         _cityBtn.layer.borderColor = [YMUIButton CreateCGColorRef:160 greenNumber:160 blueNumber:160 alphaNumber:1.0];
         [_cityBtn setBackgroundImage:[UIImage imageNamed:@"btn_gray"] forState:UIControlStateNormal];
+        [_cityBtn addTarget:self action:@selector(getPicker:) forControlEvents:UIControlEventTouchUpInside];
         _cityBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
     }
     return _cityBtn;
@@ -137,6 +263,7 @@
         _countyBtn.layer.borderColor = [YMUIButton CreateCGColorRef:160 greenNumber:160 blueNumber:160 alphaNumber:1.0];
         [_countyBtn setBackgroundImage:[UIImage imageNamed:@"btn_gray"] forState:UIControlStateNormal];
          _countyBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+        [_countyBtn addTarget:self action:@selector(getPicker:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _countyBtn;
 }
@@ -289,5 +416,124 @@
 - (void)viewDidUnload {
     [self setAddressTableView:nil];
     [super viewDidUnload];
+}
+
+-(void)submit:(id)sender
+{
+    NSLog(@"提交");
+}
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 3;
+}
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    if(component == 0)
+    {
+        return [self.provinceNameArr count];
+    }else if (component ==1)
+    {
+        return [self.cityNameArr count];
+    }else{
+        return 1;
+    }
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    if(component == 0)
+    {
+        return [self.provinceNameArr objectAtIndex:row];
+    }else if (component == 1)
+    {
+        return [self.cityNameArr objectAtIndex:row];
+    }else if(component ==2){
+        if([self.countyNameArr count] == 0)
+        {
+            return @"";
+        }else{
+            return [self.countyNameArr objectAtIndex:row];
+        }
+    }
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if(component == 0)
+    {
+        NSString *seletedProvinceId = [self.provinceIdArr objectAtIndex:row];
+        [self getchildArr:seletedProvinceId identifierForAct:@"system_getCityList" identifierForFatherName:@"province_id" isCity:NO];
+    }else if (component == 1)
+    {
+        NSString *seletedCityId = [self.cityIdArr objectAtIndex:row];
+        [self getchildArr:seletedCityId identifierForAct:@"system_getDistrictList" identifierForFatherName:@"city_id" isCity:YES];
+    }
+}
+
+-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+{
+    return 106;
+}
+
+-(NSMutableArray *)getAllId:(NSMutableArray *)fatherArr
+                 identifier:(NSString *)identifier
+{
+    NSMutableArray * idArr = [[NSMutableArray alloc]init];
+    for(NSMutableDictionary * o in fatherArr)
+    {
+        [idArr addObject:[o objectForKey:identifier]];
+    }
+    return idArr;
+}
+
+-(NSMutableArray *)getAllName:(NSMutableArray *)fatherArr
+                 identifier:(NSString *)identifier
+{
+    NSMutableArray * nameArr = [[NSMutableArray alloc]init];
+    for(NSMutableDictionary * o in fatherArr)
+    {
+        [nameArr addObject:[o objectForKey:identifier]];
+    }
+    return nameArr;
+}
+
+-(void)getPicker:(id)sender
+{
+    [self.picker setFrame:CGRectMake(0, 250, 320, 230)];
+}
+
+-(void)getchildArr:(NSString *)fatherId
+        identifierForAct:(NSString *)identifierForAct
+ identifierForFatherName:(NSString *)identifierForFatherName
+                isCity:(bool)isCity
+{
+    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithObjectsAndKeys:identifierForAct,@"act",fatherId,identifierForFatherName,nil];
+    MKNetworkOperation *op = [YMGlobal getOperation:param];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+        if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            NSMutableArray *cityData = [obj objectForKey:@"data"];
+            if(!isCity)
+            {
+                self.cityIdArr = [self getAllId:cityData identifier:@"city_id"];
+                self.cityNameArr = [self getAllName:cityData identifier:@"city_name"];
+                [self.picker reloadComponent:1];
+            }else{
+                self.countyIdArr = [self getAllId:cityData identifier:@"district_id"];
+                self.countyNameArr = [self getAllName:cityData identifier:@"district_name"];
+                NSLog(@"%@",self.countyNameArr);
+                [self.picker reloadComponent:2];
+            }
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    [ApplicationDelegate.appEngine enqueueOperation:op];
+    [HUD hide:YES];
 }
 @end

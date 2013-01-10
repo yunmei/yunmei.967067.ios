@@ -9,10 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "QuartzCore/QuartzCore.h"
 #import "YMUIButton.h"
+#import "YMGlobal.h"
+#import "MBProgressHUD.h"
+#import "SBJson.h"
+#import "AppDelegate.h"
 @interface AddAddressViewController : UIViewController<
     UITableViewDataSource,
     UITableViewDelegate,
-    UITextFieldDelegate
+    UITextFieldDelegate,
+    UIPickerViewDataSource,
+    UIPickerViewDelegate
 >
 @property (strong, nonatomic) IBOutlet UITableView *addressTableView;
 @property(strong,nonatomic)UITextField *goodsOwner;
@@ -23,4 +29,14 @@
 @property(strong,nonatomic)UIButton *cityBtn;
 @property(strong,nonatomic)UIButton *countyBtn;
 @property(strong,nonatomic)UITapGestureRecognizer *tapGestureRecgnizer;
+@property(strong,nonatomic)UIPickerView *picker;
+@property(strong,nonatomic)NSMutableArray *provinceArr;
+@property(strong,nonatomic)NSMutableArray *cityArr;
+@property(strong,nonatomic)NSMutableArray *countyArr;
+@property(strong,nonatomic)NSMutableArray *provinceIdArr;
+@property(strong,nonatomic)NSMutableArray *provinceNameArr;
+@property(strong,nonatomic)NSMutableArray *cityIdArr;
+@property(strong,nonatomic)NSMutableArray *cityNameArr;
+@property(strong,nonatomic)NSMutableArray *countyIdArr;
+@property(strong,nonatomic)NSMutableArray *countyNameArr;
 @end
