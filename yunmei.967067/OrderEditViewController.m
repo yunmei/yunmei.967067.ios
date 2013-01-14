@@ -368,17 +368,34 @@ bool payAfterCustomerGetGoods = YES;
        {
            getOrder.payOnline = YES;
        }
-       NSLog(@"%@",self.addressDic);
        [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_area"] forKey:@"ship_area"];
        [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_addr"] forKey:@"ship_addr"];
        [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_name"] forKey:@"ship_name"];
        [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_zip"] forKey:@"ship_zip"];
        [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_tel"] forKey:@"ship_tel"];
        [getOrder.orderParamsDic setObject:self.orderRemarkFeild.text forKey:@"memo"];
+       NSString *cart_goodids = @"";
+        NSString *cart_goodnums = @"";
+        NSString *productIds = @"";
+       int i =1;
+       NSLog(@"%@",self.goodsInfoList);
+       for(NSMutableDictionary *o in self.goodsInfoList)
+       {
+          cart_goodids = [cart_goodids stringByAppendingString:[o objectForKey:@"goodsid"]];
+          cart_goodnums = [cart_goodnums stringByAppendingString:[o objectForKey:@"goods_count"]];
+          productIds = [productIds stringByAppendingString:[o objectForKey:@"proid"]];
+           if(i != [self.goodsInfoList count])
+           {
+              cart_goodids = [cart_goodids stringByAppendingString:@","];
+              cart_goodnums = [cart_goodnums stringByAppendingString:@","];
+               productIds = [productIds stringByAppendingString:@","];
+           }
+           i++;
+       }
        [getOrder.orderParamsDic setObject:@"14" forKey:@"shipping_id"];
-       [getOrder.orderParamsDic setObject:@"1,2,3" forKey:@"cart_goodids"];
-       [getOrder.orderParamsDic setObject:@"1,2,3" forKey:@"cart_goodnums"];
-       [getOrder.orderParamsDic setObject:@"1,2,3" forKey:@"productIds"];
+       [getOrder.orderParamsDic setObject:cart_goodids forKey:@"cart_goodids"];
+       [getOrder.orderParamsDic setObject:cart_goodnums forKey:@"cart_goodnums"];
+       [getOrder.orderParamsDic setObject:productIds forKey:@"productIds"];
        UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:getOrder];
        [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
        if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
