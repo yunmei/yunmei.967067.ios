@@ -32,6 +32,7 @@
 @synthesize cityNameArr = _cityNameArr;
 @synthesize countyIdArr = _countyIdArr;
 @synthesize countyNameArr = _countyNameArr;
+@synthesize confirmToolBar;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -50,7 +51,7 @@
     UIButton *submitBtn = [[UIButton alloc]initWithFrame:CGRectMake(110, 297, 104, 33)];
     [submitBtn setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
     [submitBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [submitBtn addTarget:self action:@selector(submit:) forControlEvents:UIControlEventTouchUpInside];
+    [submitBtn addTarget:self action:@selector(addressSubmit:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:submitBtn];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"system_getProvinceList",@"act",nil];
     MKNetworkOperation * op = [YMGlobal getOperation:params];
@@ -256,7 +257,7 @@
     {
         _countyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_countyBtn setFrame:CGRectMake(70, 43, 182, 30)];
-        [_countyBtn setTitle:@"请选择县区" forState:UIControlStateNormal];
+        [_countyBtn setTitle:@"请选择地区" forState:UIControlStateNormal];
         [_countyBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         _countyBtn.layer.borderWidth = 1;
         _countyBtn.layer.borderWidth = 2;
@@ -407,20 +408,15 @@
 
 -(void)hideKeyBoard:(id)sender
 {
-    NSLog(@"1111");
     [self.goodsOwner resignFirstResponder];
     [self.telephone resignFirstResponder];
     [self.addressInDetail resignFirstResponder];
     [self.zipCode resignFirstResponder];
+    
 }
 - (void)viewDidUnload {
     [self setAddressTableView:nil];
     [super viewDidUnload];
-}
-
--(void)submit:(id)sender
-{
-    NSLog(@"提交");
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -437,7 +433,7 @@
     {
         return [self.cityNameArr count];
     }else{
-        return 1;
+        return [self.countyNameArr count];
     }
 }
 
@@ -449,7 +445,7 @@
     }else if (component == 1)
     {
         return [self.cityNameArr objectAtIndex:row];
-    }else if(component ==2){
+    }else{
         if([self.countyNameArr count] == 0)
         {
             return @"";
@@ -464,11 +460,19 @@
     if(component == 0)
     {
         NSString *seletedProvinceId = [self.provinceIdArr objectAtIndex:row];
+        self.provinceBtn.tag = [seletedProvinceId integerValue];
+        self.provinceBtn.titleLabel.text = [self.provinceNameArr objectAtIndex:row];
         [self getchildArr:seletedProvinceId identifierForAct:@"system_getCityList" identifierForFatherName:@"province_id" isCity:NO];
     }else if (component == 1)
     {
         NSString *seletedCityId = [self.cityIdArr objectAtIndex:row];
+        self.cityBtn.tag = [seletedCityId integerValue];
+        self.cityBtn.titleLabel.text = [self.cityNameArr objectAtIndex:row];
         [self getchildArr:seletedCityId identifierForAct:@"system_getDistrictList" identifierForFatherName:@"city_id" isCity:YES];
+    }else if (component == 2)
+    {
+        self.countyBtn.tag = [[self.countyIdArr objectAtIndex:row] integerValue];
+        self.countyBtn.titleLabel.text = [self.countyNameArr objectAtIndex:row];
     }
 }
 
@@ -502,6 +506,19 @@
 -(void)getPicker:(id)sender
 {
     [self.picker setFrame:CGRectMake(0, 250, 320, 230)];
+    //为文本域输入添加一个控制键盘的toolbar
+    UIToolbar *keyBordTopBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 210, 320, 40)];
+    [keyBordTopBar setBarStyle:UIBarStyleBlackTranslucent];
+    UIBarButtonItem *cancleBtn = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancleBtnClick:)];
+    UIBarButtonItem *confirmBtn = [[UIBarButtonItem alloc]initWithTitle:@"确认" style:UIBarButtonItemStyleBordered target:self action:@selector(confirmBtnClick:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    [cancleBtn setWidth:60.0];
+    [flexibleSpace setWidth:190.0];
+    [confirmBtn setWidth:60.0];
+    NSArray *buttons = [[NSArray alloc]initWithObjects:cancleBtn,flexibleSpace,confirmBtn, nil];
+    [keyBordTopBar setItems:buttons];
+    self.confirmToolBar = keyBordTopBar;
+    [self.view addSubview:keyBordTopBar];
 }
 
 -(void)getchildArr:(NSString *)fatherId
@@ -535,5 +552,68 @@
     }];
     [ApplicationDelegate.appEngine enqueueOperation:op];
     [HUD hide:YES];
+}
+
+-(void)cancleBtnClick:(id)sender
+{
+    self.provinceBtn.titleLabel.text = @"请选择省";
+    self.provinceBtn.tag = 0;
+    self.cityBtn.titleLabel.text = @"请选择市";
+    self.cityBtn.tag = 0;
+    self.countyBtn.tag = 0;
+    self.countyBtn.titleLabel.text = @"请选择地区";
+    [self.picker setFrame:CGRectMake(0, 480, 320, 290)];
+    [self.confirmToolBar removeFromSuperview];
+}
+
+-(void)confirmBtnClick:(id)sender
+{
+    [self.picker setFrame:CGRectMake(0, 480, 320, 290)];
+    [self.confirmToolBar removeFromSuperview];
+}
+
+-(void)addressSubmit:(id)sender
+{
+    if([self.goodsOwner.text isEqualToString:@""]||(self.goodsOwner.text == nil))
+    {
+        UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请填写收货人信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alertNum show];
+    }else if ((self.telephone.text == nil)||[self.telephone.text isEqualToString:@""]){
+        UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请填写联系电话" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alertNum show];
+    }else if((self.addressInDetail.text == nil)||[self.addressInDetail.text isEqualToString:@""]){
+        UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请填写详细地址" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alertNum show];
+    }else if((self.zipCode.text == nil)||[self.zipCode.text isEqualToString:@""])
+    {
+        UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请填写邮编" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alertNum show];
+    }else if([self.provinceBtn.titleLabel.text isEqualToString:@"请选择省"]){
+        UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请选择省" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alertNum show];
+    }else if ([self.cityBtn.titleLabel.text isEqualToString:@"请选择市"]){
+        UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请选择市" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alertNum show];
+    }else if ([self.countyBtn.titleLabel.text isEqualToString:@"请选择地区"]){
+        UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请选择地区" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alertNum show];
+    }else{
+        OrderEditViewController *orderEdit = [[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil];
+        NSString * area = [NSString stringWithFormat:@"mainland:%@/%@/%@:%i",self.provinceBtn.titleLabel.text,self.cityBtn.titleLabel.text,self.countyBtn.titleLabel.text,self.countyBtn.tag];
+        NSString *displayArea = [NSString stringWithFormat:@"%@%@%@%@",self.self.provinceBtn.titleLabel.text,self.cityBtn.titleLabel.text,self.countyBtn.titleLabel.text,self.addressInDetail.text];
+        [orderEdit.addressDic setObject:area forKey:@"ship_area"];
+        [orderEdit.addressDic setObject:self.addressInDetail.text forKey:@"ship_addr"];
+        [orderEdit.addressDic setObject:self.zipCode.text forKey:@"ship_zip"];
+        [orderEdit.addressDic setObject:self.goodsOwner.text forKey:@"ship_name"];
+        [orderEdit.addressDic setObject:self.telephone.text forKey:@"ship_tel"];
+        [orderEdit.addressDic setObject:displayArea forKey:@"displayArea"];
+        UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
+        [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+        if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+        {
+            [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+        }
+        [self.navigationController presentModalViewController:orderNav animated:YES];
+    }
 }
 @end

@@ -19,6 +19,8 @@ bool payAfterCustomerGetGoods = YES;
 @synthesize checkRadioArray = _checkRadioArray;
 @synthesize orderRemarkFeild;
 @synthesize tapGestureRecgnizer = _tapGestureRecgnizer;
+@synthesize addressDic = _addressDic;
+@synthesize countPay;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,6 +36,7 @@ bool payAfterCustomerGetGoods = YES;
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"齐鲁直销商城";
     [self bindCar];
+    self.countPay = [NSString stringWithFormat:@"%.2f",[self statisPay]];
 }
 
 -(void)bindCar
@@ -43,8 +46,8 @@ bool payAfterCustomerGetGoods = YES;
     {
         NSString *query = [NSString stringWithFormat:@"SELECT goodsid ,goods_code,goods_name,goods_price,goods_store,proid,goods_count FROM goodslist_car;"];
         self.goodsInfoList = [db fetchAll:query];
+        self.countPay = [db count_sum:@"goodslist_car" tablefiled:@"goods_count"];
         [db close];
-        NSLog(@"%@",self.goodsInfoList);
     }
 }
 
@@ -59,6 +62,8 @@ bool payAfterCustomerGetGoods = YES;
     {
         return 30+72*self.goodsInfoList.count;
     }else if (indexPath.row == 0){
+        if([self.addressDic count]>0)
+            return 110;
         return 50.0;
     }else if (indexPath.row == 5){
         return 80.0;
@@ -80,7 +85,6 @@ bool payAfterCustomerGetGoods = YES;
             infoString.text = @"商品信息";
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [cell addSubview:infoString];
-            NSLog(@"cell xian");
         }
             CGFloat currentViewHeightInit =25;
             for(NSMutableDictionary *o in self.goodsInfoList)
@@ -93,7 +97,6 @@ bool payAfterCustomerGetGoods = YES;
                 NSString *moneyType = @"￥";
                 goodsSubView.totalPrice.text = [moneyType stringByAppendingString:formatPrice];
                 [goodsSubView addChild];
-                NSLog(@"%f",goodsSubView.height);
                 [goodsSubView setFrame:CGRectMake(3, currentViewHeightInit, 320, 72)];
                 [cell addSubview:goodsSubView];
                 currentViewHeightInit += 72;
@@ -111,12 +114,36 @@ bool payAfterCustomerGetGoods = YES;
             writeInAddress.text = @"售货信息";
             writeInAddress.font = [UIFont systemFontOfSize:14.0];
             [cell addSubview:writeInAddress];
-            UILabel *pleaseWriteInAddress = [[UILabel alloc]initWithFrame:CGRectMake(3, 25, 100, 20)];
-            pleaseWriteInAddress.text = @"请填写收货地址";
-            pleaseWriteInAddress.font = [UIFont systemFontOfSize:12.0];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            [cell addSubview:pleaseWriteInAddress];
+            if([self.addressDic count] >0)
+            {
+                UILabel *goodsOwnerLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 25, 300, 20)];
+                UILabel *zipIdLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 45, 300, 20)];
+                UILabel *telephoneLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 65, 300, 20)];
+                UILabel *displayAreaLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 85, 300, 20)];
+                NSString *goodsOwner = [NSString stringWithFormat:@"收货人姓名:%@",[self.addressDic objectForKey:@"ship_name" ]];
+                NSString *zipId = [NSString stringWithFormat:@"收货人邮编:%@",[self.addressDic objectForKey:@"ship_zip" ]];
+                NSString *telephone = [NSString stringWithFormat:@"收货人电话:%@",[self.addressDic objectForKey:@"ship_tel" ]];
+                NSString *displayArea = [NSString stringWithFormat:@"收货地址:%@",[self.addressDic objectForKey:@"displayArea"]];
+                goodsOwnerLable.text = goodsOwner;
+                zipIdLable.text = zipId;
+                telephoneLable.text = telephone;
+                displayAreaLable.text = displayArea;
+                goodsOwnerLable.font = [UIFont systemFontOfSize:12.0];
+                zipIdLable.font = [UIFont systemFontOfSize:12.0];
+                telephoneLable.font = [UIFont systemFontOfSize:12.0];
+                displayAreaLable.font = [UIFont systemFontOfSize:12.0];
+                [cell addSubview:goodsOwnerLable];
+                [cell addSubview:zipIdLable];
+                [cell addSubview:telephoneLable];
+                [cell addSubview:displayAreaLable];
+            }else{
+                UILabel *pleaseWriteInAddress = [[UILabel alloc]initWithFrame:CGRectMake(3, 25, 100, 20)];
+                pleaseWriteInAddress.text = @"请填写收货地址";
+                pleaseWriteInAddress.font = [UIFont systemFontOfSize:12.0];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                [cell addSubview:pleaseWriteInAddress];
+            }
         }
         return cell;
     }else if(indexPath.row ==2){
@@ -191,14 +218,21 @@ bool payAfterCustomerGetGoods = YES;
         if(cell == nil)
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            UILabel *totalPayCountString = [[UILabel alloc]initWithFrame:CGRectMake(160, 10, 50, 30)];
+            UILabel *totalPayCountString = [[UILabel alloc]initWithFrame:CGRectMake(200, 5, 40, 30)];
             totalPayCountString.text = @"总金额:";
-            totalPayCountString.font = [UIFont systemFontOfSize:15.0];
-            UILabel *totalPayCount = [[UILabel alloc]initWithFrame:CGRectMake(215,10, 60, 30)];
-            totalPayCount.text = @"0.00";
+            totalPayCountString.font = [UIFont systemFontOfSize:12.0];
+            UILabel *totalPayCount = [[UILabel alloc]initWithFrame:CGRectMake(240,5,80,30)];
+            totalPayCount.text = [@"￥" stringByAppendingString:self.countPay];
             totalPayCount.font = [UIFont systemFontOfSize:15.0];
             totalPayCount.textColor = [UIColor redColor];
+            [totalPayCount setFont:[UIFont systemFontOfSize:12.0]];
+            UIButton *submitBtn = [[UIButton alloc]initWithFrame:CGRectMake(110, 5, 60, 30)];
+            [submitBtn setTitle:@"提交订单" forState:UIControlStateNormal];
+            submitBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
+            [submitBtn setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
+            [submitBtn addTarget:self action:@selector(submitOrder:) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:totalPayCountString];
+            [cell addSubview:submitBtn];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [cell addSubview:totalPayCount];
         }
@@ -243,6 +277,15 @@ bool payAfterCustomerGetGoods = YES;
         _checkRadioArray = [[NSMutableArray alloc]init];
     }
     return _checkRadioArray;
+}
+
+-(NSMutableDictionary *)addressDic
+{
+    if(_addressDic == nil)
+    {
+        _addressDic = [[NSMutableDictionary alloc]init];
+    }
+    return _addressDic;
 }
 -(void)payAfterGetGoodsPressed:(id)sender
 {
@@ -292,5 +335,57 @@ bool payAfterCustomerGetGoods = YES;
 -(void)hideKeyBoard:(id)sender
 {
     [self.orderRemarkFeild resignFirstResponder];
+}
+
+-(CGFloat)statisPay
+{
+    if([self.goodsInfoList count]>0)
+    {
+        CGFloat i = 0.00;
+        for(NSMutableDictionary *o in self.goodsInfoList)
+        {
+            CGFloat multiPal = (CGFloat)([[o objectForKey:@"goods_count"] integerValue] *[[o objectForKey:@"goods_price"] integerValue]);
+            i += multiPal;
+        }
+        return i;
+    }else{
+        return  0.00;
+    }
+}
+
+-(void)submitOrder:(id)sender
+{
+   if([self.addressDic count] == 0)
+   {
+      UIAlertView *alertAddress = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请填写售货人信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+       [alertAddress show];
+   }else if ([self.orderRemarkFeild.text isEqualToString:@""]||(self.orderRemarkFeild.text == nil)){
+       UIAlertView *alertAddress = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请填写订单备注" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+       [alertAddress show];
+   }else{
+       GetOrderIdViewController *getOrder = [[GetOrderIdViewController alloc]initWithNibName:@"GetOrderIdViewController" bundle:nil];
+       if(payAfterCustomerGetGoods == NO)
+       {
+           getOrder.payOnline = YES;
+       }
+       NSLog(@"%@",self.addressDic);
+       [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_area"] forKey:@"ship_area"];
+       [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_addr"] forKey:@"ship_addr"];
+       [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_name"] forKey:@"ship_name"];
+       [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_zip"] forKey:@"ship_zip"];
+       [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_tel"] forKey:@"ship_tel"];
+       [getOrder.orderParamsDic setObject:self.orderRemarkFeild.text forKey:@"memo"];
+       [getOrder.orderParamsDic setObject:@"14" forKey:@"shipping_id"];
+       [getOrder.orderParamsDic setObject:@"1,2,3" forKey:@"cart_goodids"];
+       [getOrder.orderParamsDic setObject:@"1,2,3" forKey:@"cart_goodnums"];
+       [getOrder.orderParamsDic setObject:@"1,2,3" forKey:@"productIds"];
+       UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:getOrder];
+       [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+       if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+       {
+           [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+       }
+       [self.navigationController presentModalViewController:orderNav animated:YES];
+   }
 }
 @end

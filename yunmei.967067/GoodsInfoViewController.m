@@ -66,9 +66,9 @@ NSInteger beforePressedParamBtnHeadNum =0;
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
-        
        if([(NSString *)[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
        {
+           NSLog(@"%@",[object objectForKey:@"data"]);
            NSMutableArray *dataArr = [object objectForKey:@"data"];
            NSMutableDictionary *dataDic = [dataArr objectAtIndex:0];
            self.goodsModel.goodsCode = [dataDic objectForKey:@"goodsCode"];
@@ -79,6 +79,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
            self.goodsModel.property = [dataDic objectForKey:@"property"];
            self.goodsModel.standard = [dataDic objectForKey:@"standard"];
            self.goodsModel.store = [dataDic objectForKey:@"store"];
+           self.goodsModel.proId = [dataDic objectForKey:@"pro_id"];
            NSMutableArray *productCheck = [dataDic objectForKey:@"products"];
            //判断该商品是否为多规格商品
            if([productCheck count]>1)
@@ -736,7 +737,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
             goodsOne.store = [self.selectedProduct objectForKey:@"pro_store"];
             goodsOne.goodsPrice = [self.selectedProduct objectForKey:@"pro_price"];
         }else{
-            goodsOne.proId = @"0";
+            goodsOne.proId = self.goodsModel.proId;
             goodsOne.store = self.goodsModel.store;
             goodsOne.goodsPrice = self.goodsModel.goodsPrice;
             

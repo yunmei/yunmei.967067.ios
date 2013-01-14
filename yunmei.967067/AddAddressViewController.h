@@ -13,6 +13,7 @@
 #import "MBProgressHUD.h"
 #import "SBJson.h"
 #import "AppDelegate.h"
+#import "OrderEditViewController.h"
 @interface AddAddressViewController : UIViewController<
     UITableViewDataSource,
     UITableViewDelegate,
@@ -39,4 +40,5 @@
 @property(strong,nonatomic)NSMutableArray *cityNameArr;
 @property(strong,nonatomic)NSMutableArray *countyIdArr;
 @property(strong,nonatomic)NSMutableArray *countyNameArr;
+@property(strong,nonatomic)UIToolbar *confirmToolBar;
 @end

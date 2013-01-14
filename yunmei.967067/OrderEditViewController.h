@@ -10,7 +10,8 @@
 #import "YMDbClass.h"
 #import "goodsInfoView.h"
 #import "AddAddressViewController.h"
-
+#import "YMGlobal.h"
+#import "GetOrderIdViewController.h"
 @interface OrderEditViewController : UIViewController<
 UITableViewDataSource,
 UITableViewDelegate,
@@ -22,4 +23,6 @@ UITextFieldDelegate
 @property(strong,nonatomic)NSMutableArray *checkRadioArray;
 @property(strong,nonatomic)UITextField *orderRemarkFeild;
 @property(strong,nonatomic)UITapGestureRecognizer *tapGestureRecgnizer;
+@property(strong,nonatomic)NSMutableDictionary *addressDic;
+@property(strong,nonatomic)NSString *countPay;
 @end
