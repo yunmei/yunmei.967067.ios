@@ -129,6 +129,8 @@
 		AA8BC3FA168EBA6F005C03E1 /* CarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BC3F9168EBA6F005C03E1 /* CarCell.m */; };
 		AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */; };
 		AA8DBAB11669ED53003291D2 /* CategorySecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */; };
+		AA91D28716A5355B005BB248 /* GetAddressListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA91D28516A5355B005BB248 /* GetAddressListViewController.m */; };
+		AA91D28816A5355B005BB248 /* GetAddressListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA91D28616A5355B005BB248 /* GetAddressListViewController.xib */; };
 		AABB243516780C7300008F6B /* moveRight.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243416780C7300008F6B /* moveRight.png */; };
 		AABB243816780C7B00008F6B /* moveLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243716780C7B00008F6B /* moveLeft.png */; };
 		AABB243A16780C8600008F6B /* plusBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243916780C8600008F6B /* plusBtn.png */; };
@@ -360,6 +362,9 @@
 		AA8DBAAD1669ED53003291D2 /* CategorySecViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySecViewController.h; sourceTree = "<group>"; };
 		AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySecViewController.m; sourceTree = "<group>"; };
 		AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategorySecViewController.xib; sourceTree = "<group>"; };
+		AA91D28416A5355B005BB248 /* GetAddressListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAddressListViewController.h; sourceTree = "<group>"; };
+		AA91D28516A5355B005BB248 /* GetAddressListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetAddressListViewController.m; sourceTree = "<group>"; };
+		AA91D28616A5355B005BB248 /* GetAddressListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetAddressListViewController.xib; sourceTree = "<group>"; };
 		AABB243416780C7300008F6B /* moveRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveRight.png; sourceTree = "<group>"; };
 		AABB243716780C7B00008F6B /* moveLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveLeft.png; sourceTree = "<group>"; };
 		AABB243916780C8600008F6B /* plusBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusBtn.png; sourceTree = "<group>"; };
@@ -832,6 +837,9 @@
 				AA856ACB16A3DF8E004108DE /* GetOrderIdViewController.h */,
 				AA856ACC16A3DF8E004108DE /* GetOrderIdViewController.m */,
 				AA856ACD16A3DF8E004108DE /* GetOrderIdViewController.xib */,
+				AA91D28416A5355B005BB248 /* GetAddressListViewController.h */,
+				AA91D28516A5355B005BB248 /* GetAddressListViewController.m */,
+				AA91D28616A5355B005BB248 /* GetAddressListViewController.xib */,
 			);
 			name = Cart;
 			sourceTree = "<group>";
@@ -997,6 +1005,7 @@
 				AAC3FFDF169E49C700C6FA59 /* AddAddressViewController.xib in Resources */,
 				AA856ACF16A3DF8E004108DE /* GetOrderIdViewController.xib in Resources */,
 				AA856AD216A3E045004108DE /* ordersuccesslogo.png in Resources */,
+				AA91D28816A5355B005BB248 /* GetAddressListViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1083,6 +1092,7 @@
 				AA7B8733169C090E00CF0121 /* goodsInfoView.m in Sources */,
 				AAC3FFDE169E49C700C6FA59 /* AddAddressViewController.m in Sources */,
 				AA856ACE16A3DF8E004108DE /* GetOrderIdViewController.m in Sources */,
+				AA91D28716A5355B005BB248 /* GetAddressListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
