@@ -378,7 +378,6 @@ bool payAfterCustomerGetGoods = YES;
         NSString *cart_goodnums = @"";
         NSString *productIds = @"";
        int i =1;
-       NSLog(@"%@",self.goodsInfoList);
        for(NSMutableDictionary *o in self.goodsInfoList)
        {
           cart_goodids = [cart_goodids stringByAppendingString:[o objectForKey:@"goodsid"]];

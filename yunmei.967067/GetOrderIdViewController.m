@@ -15,6 +15,7 @@
 @synthesize orderId;
 @synthesize payOnline;
 @synthesize orderParamsDic = _orderParamsDic;
+@synthesize orderIdLable = _orderIdLable;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,8 +28,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"%@",self.orderParamsDic);
     // Do any additional setup after loading the view from its nib.
+    NSMutableDictionary *params = self.orderParamsDic;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [params setObject:@"order_addOrder" forKey:@"act"];
+    if([UserModel checkLogin])
+    {
+        UserModel *user = [UserModel getUserModel];
+        [params setObject:user.userid forKey:@"userId"];
+        [params setObject:user.session forKey:@"sessionId"];
+    }
+    MKNetworkOperation * op = [YMGlobal getOperation:params];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+        if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            NSMutableDictionary *data = [obj objectForKey:@"data"];
+            [self.orderIdLable setText:[data objectForKey:@"orderid"]];
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    [ApplicationDelegate.appEngine enqueueOperation:op];
+    [hud hide:YES];
     UIImageView *orderSuccessImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ordersuccesslogo"]];
     UIView *imageContainer = [[UIView alloc]initWithFrame:CGRectMake(70, 60, 140, 140)];
     [imageContainer addSubview:orderSuccessImg];
@@ -40,10 +63,7 @@
     [getOrderIdLable setFont:[UIFont systemFontOfSize:14.0]];
     [getOrderIdLable setTextColor:[UIColor grayColor]];
     [getOrderIdLable setText:@"订单号:"];
-    UILabel *OrderIdLable = [[UILabel alloc]initWithFrame:CGRectMake(75, 210, 210, 30)];
-    [OrderIdLable setFont:[UIFont systemFontOfSize:14.0]];
-    [OrderIdLable setTextColor:[UIColor redColor]];
-    [OrderIdLable setText:self.orderId];
+
     if(self.payOnline == YES){
         UIButton *goToPay = [[UIButton alloc]initWithFrame:CGRectMake(30, 290, 260, 30)];
         [goToPay setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
@@ -53,7 +73,7 @@
     [self.view addSubview:imageContainer];
     [self.view addSubview:orderSubmitSuccessLable];
     [self.view addSubview:getOrderIdLable];
-    [self.view addSubview:OrderIdLable];
+    [self.view addSubview:self.orderIdLable];
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,4 +91,14 @@
     return _orderParamsDic;
 }
 
+-(UILabel *)orderIdLable
+{
+    if(_orderIdLable == nil)
+    {
+        _orderIdLable = [[UILabel alloc]initWithFrame:CGRectMake(78, 210, 210, 30)];
+        [_orderIdLable setFont:[UIFont systemFontOfSize:14.0]];
+        [_orderIdLable setTextColor:[UIColor redColor]];
+    }
+    return _orderIdLable;
+}
 @end
