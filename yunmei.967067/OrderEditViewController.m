@@ -21,6 +21,7 @@ bool payAfterCustomerGetGoods = YES;
 @synthesize tapGestureRecgnizer = _tapGestureRecgnizer;
 @synthesize addressDic = _addressDic;
 @synthesize countPay;
+@synthesize userAddressArr = _userAddressArr;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -132,6 +133,7 @@ bool payAfterCustomerGetGoods = YES;
                 zipIdLable.font = [UIFont systemFontOfSize:12.0];
                 telephoneLable.font = [UIFont systemFontOfSize:12.0];
                 displayAreaLable.font = [UIFont systemFontOfSize:12.0];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 [cell addSubview:goodsOwnerLable];
                 [cell addSubview:zipIdLable];
                 [cell addSubview:telephoneLable];
@@ -244,6 +246,10 @@ bool payAfterCustomerGetGoods = YES;
 {
     if(indexPath.row ==0)
     {
+        if([UserModel checkLogin])
+        {
+            
+        }
         AddAddressViewController *addressView = [[AddAddressViewController alloc]init];
         UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
         self.navigationItem.backBarButtonItem = backItem;
@@ -322,6 +328,14 @@ bool payAfterCustomerGetGoods = YES;
     
 }
 
+-(NSMutableArray *)userAddressArr
+{
+    if(_userAddressArr == nil)
+    {
+        _userAddressArr = [[NSMutableArray alloc]init];
+    }
+    return  _userAddressArr;
+}
 -(UITapGestureRecognizer *)tapGestureRecgnizer
 {
     if(_tapGestureRecgnizer == nil)

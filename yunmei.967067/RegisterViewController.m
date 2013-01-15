@@ -20,7 +20,7 @@
 @synthesize emailTextField;
 @synthesize registerBtn;
 @synthesize cancelBtn;
-
+@synthesize tapGestureRecgnizer = _tapGestureRecgnizer;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -98,5 +98,34 @@
     [self setRegisterBtn:nil];
     [self setCancelBtn:nil];
     [super viewDidUnload];
+}
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if(textField.tag !=0)
+    self.view.center = CGPointMake(160, 160);
+    [self.view addGestureRecognizer:self.tapGestureRecgnizer];
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    self.view.center = CGPointMake(160, 205);
+    [self.view removeGestureRecognizer:self.tapGestureRecgnizer];
+}
+-(UITapGestureRecognizer *)tapGestureRecgnizer
+{
+    if(_tapGestureRecgnizer == nil)
+    {
+        _tapGestureRecgnizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyBoard:)];
+        _tapGestureRecgnizer.numberOfTapsRequired = 1;
+    }
+    return  _tapGestureRecgnizer;
+}
+
+-(void)hideKeyBoard:(id)sender
+{
+    [self.usernameTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+    [self.repasswordTextField resignFirstResponder];
+    [self.emailTextField resignFirstResponder];
 }
 @end

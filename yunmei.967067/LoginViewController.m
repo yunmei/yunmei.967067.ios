@@ -65,6 +65,8 @@
     MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"user_login" forKey:@"act"];
     [params setObject:usernameTextField.text forKey:@"username"];
+    NSLog(@"%@",usernameTextField.text);
+    NSLog(@"%@",passwordTextField.text);
     [params setObject:[passwordTextField.text md5] forKey:@"password"];
     NSLog(@"%@", params);
     MKNetworkOperation* op = [YMGlobal getOperation:params];

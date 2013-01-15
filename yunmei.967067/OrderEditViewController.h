@@ -12,6 +12,7 @@
 #import "AddAddressViewController.h"
 #import "YMGlobal.h"
 #import "GetOrderIdViewController.h"
+#import "UserModel.h"
 @interface OrderEditViewController : UIViewController<
 UITableViewDataSource,
 UITableViewDelegate,
@@ -25,4 +26,5 @@ UITextFieldDelegate
 @property(strong,nonatomic)UITapGestureRecognizer *tapGestureRecgnizer;
 @property(strong,nonatomic)NSMutableDictionary *addressDic;
 @property(strong,nonatomic)NSString *countPay;
+@property(strong,nonatomic)NSMutableArray *userAddressArr;
 @end

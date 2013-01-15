@@ -12,10 +12,16 @@
 #import <QuartzCore/QuartzCore.h>
 #import "GoodsInfoViewController.h"
 #import "OrderEditViewController.h"
+#import "UserModel.h"
+#import "YMGlobal.h"
+#import "SBJson.h"
+#import "AppDelegate.h"
+#import "MBProgressHUD.h"
 @interface CartViewController : UIViewController<
     UITableViewDataSource,
     UITableViewDelegate,
-    UITextFieldDelegate
+    UITextFieldDelegate,
+    UIActionSheetDelegate
 >
 
 @property(strong,nonatomic)NSMutableArray *goodsList;

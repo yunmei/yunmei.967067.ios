@@ -527,13 +527,64 @@ bool cancleBuPressed = NO;
 
 -(void)orderEdit:(id)sender
 {
-    UINavigationController *orderNavController = [[UINavigationController alloc]initWithRootViewController:[[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil]];
-    [orderNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
-    if([orderNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+//    UINavigationController *orderNavController = [[UINavigationController alloc]initWithRootViewController:[[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil]];
+//    [orderNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+//    if([orderNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+//    {
+//        [orderNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+//    }
+//    [self.tabBarController.selectedViewController presentModalViewController:orderNavController animated:YES];
+    if([UserModel checkLogin])
     {
-        [orderNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+        OrderEditViewController *Order = [[OrderEditViewController alloc]init];
+        UserModel *user = [UserModel getUserModel];
+        NSMutableDictionary *params = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_getAddressList",@"act",user.session,@"sessionId",user.userid,@"userId",nil];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MKNetworkOperation *op = [YMGlobal getOperation:params];
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            SBJsonParser *parser = [[SBJsonParser alloc]init];
+            NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+            if([[obj objectForKey:@"errorMessage"] isEqualToString:@"success"])
+            {
+                Order.userAddressArr = [obj objectForKey:@"data"];
+                if([Order.userAddressArr count]>0)
+                {
+                    NSMutableDictionary *oneAddress = [Order.userAddressArr objectAtIndex:0];
+                    [Order.addressDic setObject:[oneAddress objectForKey:@"name"] forKey:@"ship_name"];
+                    [Order.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"ship_area"];
+                    [Order.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"ship_addr"];
+                    [Order.addressDic setObject:[oneAddress objectForKey:@"zip"] forKey:@"ship_zip"];
+                    [Order.addressDic setObject:[[oneAddress objectForKey:@"mobile"]isEqualToString:@"" ]? [oneAddress objectForKey:@"telphone"]:[oneAddress objectForKey:@"mobile"]forKey:@"ship_tel"];
+                    [Order.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"displayArea"];
+                }
+                UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+                self.navigationItem.backBarButtonItem = leftBtn;
+                [self.navigationController pushViewController:Order animated:YES];
+            }
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            NSLog(@"%@",error);
+        }];
+        [ApplicationDelegate.appEngine enqueueOperation:op];
+        [hud hide:YES];
+    }else{
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"请选择是否登陆" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"匿名购买" otherButtonTitles:@"去登陆", nil];
+        [actionSheet showInView:self.view];
     }
-    [self.tabBarController.selectedViewController presentModalViewController:orderNavController animated:YES];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == [actionSheet cancelButtonIndex])
+    {
+        
+    }else if (buttonIndex == [actionSheet destructiveButtonIndex]){
+        OrderEditViewController *Order = [[OrderEditViewController alloc]init];
+        UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+        self.navigationItem.backBarButtonItem = leftBtn;
+        [self.navigationController pushViewController:Order animated:YES];
+    }else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToLogin" object:self];
+    }
 }
 
 
