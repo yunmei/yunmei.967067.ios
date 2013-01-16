@@ -29,6 +29,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.navigationItem.backBarButtonItem.title = @"返回";
     self.navigationItem.title = @"收货人信息";
     UIBarButtonItem *addBtn = [[UIBarButtonItem alloc]initWithTitle:@"添加" style:UIBarButtonItemStyleBordered target:self action:@selector(addAddress:)];
     self.navigationItem.rightBarButtonItem = addBtn;

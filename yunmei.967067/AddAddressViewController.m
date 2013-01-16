@@ -45,6 +45,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(cancle:)];
+    self.navigationItem.leftBarButtonItem = leftBtn;
     MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     self.addressTableView.scrollEnabled = NO;
     // Do any additional setup after loading the view from its nib.
@@ -398,7 +400,8 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     [self.view removeGestureRecognizer:self.tapGestureRecgnizer];
-    self.view.center = CGPointMake(160, 183);
+    CGFloat height = self.view.frame.size.height/2;
+    self.view.center = CGPointMake(160, height);
 }
 - (void)didReceiveMemoryWarning
 {
@@ -654,5 +657,10 @@
         }
 
     }
+}
+
+-(void)cancle:(id)sender
+{
+    [self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 @end
