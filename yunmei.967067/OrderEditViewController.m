@@ -281,6 +281,8 @@ bool payAfterCustomerGetGoods = YES;
 //                    [orderNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
 //                }
 //            [self.tabBarController.selectedViewController presentModalViewController:orderNavController animated:YES];
+            UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+            self.navigationItem.backBarButtonItem =backBtn;
             [self.navigationController pushViewController:getAddressList animated:YES];
         }else{
             AddAddressViewController *addressView = [[AddAddressViewController alloc]init];

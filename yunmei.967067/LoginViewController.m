@@ -65,13 +65,9 @@
     MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:@"user_login" forKey:@"act"];
     [params setObject:usernameTextField.text forKey:@"username"];
-    NSLog(@"%@",usernameTextField.text);
-    NSLog(@"%@",passwordTextField.text);
     [params setObject:[passwordTextField.text md5] forKey:@"password"];
-    NSLog(@"%@", params);
     MKNetworkOperation* op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        NSLog(@"%@", [completedOperation responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
         [HUD hide:YES];

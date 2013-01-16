@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YMGlobal.h"
+#import "MBProgressHUD.h"
+#import "AppDelegate.h"
+#import "UserModel.h"
+@interface MyViewController : UIViewController <
+UIAlertViewDelegate,
+UITableViewDataSource,
+UITableViewDelegate>
 
-@interface MyViewController : UIViewController <UIAlertViewDelegate>
-
+@property(strong,nonatomic)UIView *imageContainer;
+@property(strong,nonatomic)UILabel *nameLable;
+@property(strong,nonatomic)UILabel *pointLable;
+@property(strong,nonatomic)UILabel *moneyLable;
+@property(strong,nonatomic)UIImageView *headImageView;
+@property(strong,nonatomic)UITableView *selectTable;
 @end

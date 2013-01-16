@@ -126,6 +126,7 @@
 		AA856ACE16A3DF8E004108DE /* GetOrderIdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA856ACC16A3DF8E004108DE /* GetOrderIdViewController.m */; };
 		AA856ACF16A3DF8E004108DE /* GetOrderIdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA856ACD16A3DF8E004108DE /* GetOrderIdViewController.xib */; };
 		AA856AD216A3E045004108DE /* ordersuccesslogo.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856AD116A3E045004108DE /* ordersuccesslogo.png */; };
+		AA8B31DB16A69B3E00C20A32 /* user.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA8B31DA16A69B3D00C20A32 /* user.jpg */; };
 		AA8BC3FA168EBA6F005C03E1 /* CarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BC3F9168EBA6F005C03E1 /* CarCell.m */; };
 		AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */; };
 		AA8DBAB11669ED53003291D2 /* CategorySecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */; };
@@ -357,6 +358,7 @@
 		AA856ACC16A3DF8E004108DE /* GetOrderIdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetOrderIdViewController.m; sourceTree = "<group>"; };
 		AA856ACD16A3DF8E004108DE /* GetOrderIdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetOrderIdViewController.xib; sourceTree = "<group>"; };
 		AA856AD116A3E045004108DE /* ordersuccesslogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ordersuccesslogo.png; sourceTree = "<group>"; };
+		AA8B31DA16A69B3D00C20A32 /* user.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = user.jpg; sourceTree = "<group>"; };
 		AA8BC3F8168EBA6F005C03E1 /* CarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarCell.h; sourceTree = "<group>"; };
 		AA8BC3F9168EBA6F005C03E1 /* CarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarCell.m; sourceTree = "<group>"; };
 		AA8DBAAD1669ED53003291D2 /* CategorySecViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySecViewController.h; sourceTree = "<group>"; };
@@ -539,6 +541,7 @@
 		4635DFCE1643A47000C7B445 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AA8B31DA16A69B3D00C20A32 /* user.jpg */,
 				AA856AD116A3E045004108DE /* ordersuccesslogo.png */,
 				AA3B63AD169D356A005A91C1 /* RadioButton-Unselected.png */,
 				AA3B63AB169D3562005A91C1 /* RadioButton-Selected.png */,
@@ -1016,6 +1019,7 @@
 				AA856ACF16A3DF8E004108DE /* GetOrderIdViewController.xib in Resources */,
 				AA856AD216A3E045004108DE /* ordersuccesslogo.png in Resources */,
 				AA91D28816A5355B005BB248 /* GetAddressListViewController.xib in Resources */,
+				AA8B31DB16A69B3E00C20A32 /* user.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

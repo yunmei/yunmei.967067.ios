@@ -29,7 +29,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.navigationItem.backBarButtonItem.title = @"返回";
     self.navigationItem.title = @"收货人信息";
     UIBarButtonItem *addBtn = [[UIBarButtonItem alloc]initWithTitle:@"添加" style:UIBarButtonItemStyleBordered target:self action:@selector(addAddress:)];
     self.navigationItem.rightBarButtonItem = addBtn;
@@ -56,7 +55,7 @@
     }
     NSMutableDictionary *oneAddress = [self.userAddressArr objectAtIndex:indexPath.row];
     UILabel * addrLable = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 270, 30)];
-    [addrLable setText:[@"地址" stringByAppendingString:[oneAddress objectForKey:@"addr"]]];
+    [addrLable setText:[@"地址:" stringByAppendingString:[oneAddress objectForKey:@"addr"]]];
     [addrLable setFont:[UIFont systemFontOfSize:12.0]];
     [addrLable setNumberOfLines:0];
     UILabel *nameLable = [[UILabel alloc]initWithFrame:CGRectMake(20, 37, 270, 30)];
