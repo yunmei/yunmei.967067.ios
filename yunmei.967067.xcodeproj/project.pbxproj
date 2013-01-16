@@ -391,6 +391,7 @@
 		AAD7C1461682F8360033014E /* CategoryThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryThirdViewController.h; sourceTree = "<group>"; };
 		AAD7C1471682F8360033014E /* CategoryThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryThirdViewController.m; sourceTree = "<group>"; };
 		AAD7C1481682F8360033014E /* CategoryThirdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryThirdViewController.xib; sourceTree = "<group>"; };
+		AAE68A6816A63F6C00C31F7F /* PassValueDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PassValueDelegate.h; sourceTree = "<group>"; };
 		AAF3450F16993EEF00B4AD24 /* empty_cart_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_cart_bg.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -431,6 +432,7 @@
 		4630057F1653487D0046C903 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				AAE68A6616A63F0B00C31F7F /* CustomDelegate */,
 				AA7B872F169C070400CF0121 /* CustomView */,
 				AAD7542A1666EE0D0059962D /* CustomCell */,
 			);
@@ -857,6 +859,14 @@
 				AA8BC3F9168EBA6F005C03E1 /* CarCell.m */,
 			);
 			name = CustomCell;
+			sourceTree = "<group>";
+		};
+		AAE68A6616A63F0B00C31F7F /* CustomDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				AAE68A6816A63F6C00C31F7F /* PassValueDelegate.h */,
+			);
+			name = CustomDelegate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

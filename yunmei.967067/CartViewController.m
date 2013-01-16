@@ -554,9 +554,14 @@ bool cancleBuPressed = NO;
                     [Order.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"ship_area"];
                     [Order.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"ship_addr"];
                     [Order.addressDic setObject:[oneAddress objectForKey:@"zip"] forKey:@"ship_zip"];
+                    [Order.addressDic setObject:[oneAddress objectForKey:@"addr_id"] forKey:@"addr_id"];
                     [Order.addressDic setObject:[[oneAddress objectForKey:@"mobile"]isEqualToString:@"" ]? [oneAddress objectForKey:@"telphone"]:[oneAddress objectForKey:@"mobile"]forKey:@"ship_tel"];
                     [Order.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"displayArea"];
                 }
+                UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+                self.navigationItem.backBarButtonItem = leftBtn;
+                [self.navigationController pushViewController:Order animated:YES];
+            }else{
                 UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
                 self.navigationItem.backBarButtonItem = leftBtn;
                 [self.navigationController pushViewController:Order animated:YES];

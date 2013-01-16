@@ -398,7 +398,7 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     [self.view removeGestureRecognizer:self.tapGestureRecgnizer];
-    self.view.center = CGPointMake(160, 208);
+    self.view.center = CGPointMake(160, 183);
 }
 - (void)didReceiveMemoryWarning
 {
@@ -607,13 +607,52 @@
         [orderEdit.addressDic setObject:self.goodsOwner.text forKey:@"ship_name"];
         [orderEdit.addressDic setObject:self.telephone.text forKey:@"ship_tel"];
         [orderEdit.addressDic setObject:displayArea forKey:@"displayArea"];
-        UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
-        [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
-        if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+        if([UserModel checkLogin])
         {
-            [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+            UserModel *user = [UserModel getUserModel];
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_updateAddressInfo",@"act",user.session,@"sessionId",user.userid,@"userId",@"0",@"addressId",self.goodsOwner.text,@"name", self.telephone.text,@"phone",[NSString stringWithFormat:@"%i",self.provinceBtn.tag],@"provinceId",[NSString stringWithFormat:@"%i",self.cityBtn.tag],@"cityId",[NSString stringWithFormat:@"%i",self.countyBtn.tag],@"areaId",displayArea,@"address",self.zipCode.text,@"zipcode",nil];
+            MKNetworkOperation *op = [YMGlobal getOperation:params];
+            [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+                NSLog(@"%@",[completedOperation responseString]);
+            } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+                NSLog(@"%@",error);
+            }];
+            [ApplicationDelegate.appEngine enqueueOperation:op];
+            
+            //
+            NSMutableDictionary *getAddressParams = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_getAddressList",@"act",user.session,@"sessionId",user.userid,@"userId",nil];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            MKNetworkOperation *op1 = [YMGlobal getOperation:getAddressParams];
+            [op1 addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+                SBJsonParser *parser = [[SBJsonParser alloc]init];
+                NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+                if([[obj objectForKey:@"errorMessage"] isEqualToString:@"success"])
+                {
+                    orderEdit.userAddressArr = [obj objectForKey:@"data"];
+                    UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
+                    [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+                    if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+                    {
+                        [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+                    }
+                    [self.navigationController presentModalViewController:orderNav animated:YES];
+                }
+            }errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+                NSLog(@"%@",error);
+            }];
+            [ApplicationDelegate.appEngine enqueueOperation:op1];
+            [hud hide:YES];
+
+        }else{
+            UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
+            [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+            if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+            {
+                [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+            }
+            [self.navigationController presentModalViewController:orderNav animated:YES];
         }
-        [self.navigationController presentModalViewController:orderNav animated:YES];
+
     }
 }
 @end

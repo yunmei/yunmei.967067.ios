@@ -13,10 +13,13 @@
 #import "YMGlobal.h"
 #import "GetOrderIdViewController.h"
 #import "UserModel.h"
+#import "GetAddressListViewController.h"
+#import "PassValueDelegate.h"
 @interface OrderEditViewController : UIViewController<
 UITableViewDataSource,
 UITableViewDelegate,
-UITextFieldDelegate
+UITextFieldDelegate,
+PassValueDelegate
 >
 
 @property (strong, nonatomic) IBOutlet UITableView *orderTableView;
@@ -27,4 +30,8 @@ UITextFieldDelegate
 @property(strong,nonatomic)NSMutableDictionary *addressDic;
 @property(strong,nonatomic)NSString *countPay;
 @property(strong,nonatomic)NSMutableArray *userAddressArr;
+@property(strong,nonatomic)UILabel *goodsOwnerLable;
+@property(strong,nonatomic)UILabel *zipIdLable;
+@property(strong,nonatomic)UILabel *telephoneLable;
+@property(strong,nonatomic)UILabel *displayAreaLable;
 @end

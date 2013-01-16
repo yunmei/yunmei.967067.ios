@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface GetAddressListViewController : UIViewController
-
+#import "OrderEditViewController.h"
+#import "PassValueDelegate.h"
+#import "AddAddressViewController.h"
+@interface GetAddressListViewController : UIViewController<
+UITableViewDelegate,
+UITableViewDataSource
+>
+@property (strong, nonatomic) IBOutlet UITableView *AddressListTableView;
+@property(strong,nonatomic)NSMutableArray *userAddressArr;
+@property(strong,nonatomic)NSString *selectedAddrId;
+//这里用assign而不用retain是为了防止引起循环引用。
+@property(assign)NSObject<PassValueDelegate> *delegate;
 @end

@@ -65,7 +65,7 @@
     [getOrderIdLable setText:@"订单号:"];
 
     if(self.payOnline == YES){
-        UIButton *goToPay = [[UIButton alloc]initWithFrame:CGRectMake(30, 290, 260, 30)];
+        UIButton *goToPay = [[UIButton alloc]initWithFrame:CGRectMake(30, 260, 260, 30)];
         [goToPay setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
         [goToPay setTitle:@"去支付" forState:UIControlStateNormal];
         [self.view addSubview:goToPay];

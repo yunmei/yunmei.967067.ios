@@ -22,6 +22,27 @@ bool payAfterCustomerGetGoods = YES;
 @synthesize addressDic = _addressDic;
 @synthesize countPay;
 @synthesize userAddressArr = _userAddressArr;
+@synthesize goodsOwnerLable;
+@synthesize zipIdLable;
+@synthesize telephoneLable;
+@synthesize displayAreaLable;
+//实现自定义的协议，实现从已登录用户的地址列表中选择时回传收货人信息
+-(void)passVlaue:(NSMutableDictionary *)value
+{
+    [self.addressDic removeAllObjects];
+    NSString *shipArea = [NSString stringWithFormat:@"mainland:%@/%@/%@:%@",[value objectForKey:@"province"],[value objectForKey:@"city"],[value objectForKey:@"district"],[value objectForKey:@"district_id"]];
+    [self.addressDic setObject:shipArea forKey:@"ship_area"];
+    [self.addressDic setObject:[value objectForKey:@"addr"] forKey:@"ship_addr"];
+    [self.addressDic setObject:[value objectForKey:@"name"] forKey:@"ship_name"];
+    [self.addressDic setObject:[value objectForKey:@"zip"] forKey:@"ship_zip"];
+    NSString *tel = [[value objectForKey:@"mobile"]isEqualToString:@""]?[value objectForKey:@"telphone"]:[value objectForKey:@"mobile"];
+    [self.addressDic setObject:tel forKey:@"ship_tel"];
+    [self.addressDic setObject:[value objectForKey:@"addr"] forKey:@"displayArea"];
+    self.goodsOwnerLable.text = [NSString stringWithFormat:@"收货人姓名:%@",[value objectForKey:@"name"]];
+    self.zipIdLable.text = [NSString stringWithFormat:@"收货人邮编:%@",[value objectForKey:@"zip"]];
+    self.telephoneLable.text = [NSString stringWithFormat:@"收货人电话:%@",tel];
+    self.displayAreaLable.text = [NSString stringWithFormat:@"收货地址:%@",[value objectForKey:@"addr"]];
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -117,27 +138,27 @@ bool payAfterCustomerGetGoods = YES;
             [cell addSubview:writeInAddress];
             if([self.addressDic count] >0)
             {
-                UILabel *goodsOwnerLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 25, 300, 20)];
-                UILabel *zipIdLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 45, 300, 20)];
-                UILabel *telephoneLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 65, 300, 20)];
-                UILabel *displayAreaLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 85, 300, 20)];
+                self.goodsOwnerLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 25, 300, 20)];
+                self.zipIdLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 45, 300, 20)];
+                self.telephoneLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 65, 300, 20)];
+                self.displayAreaLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 85, 300, 20)];
                 NSString *goodsOwner = [NSString stringWithFormat:@"收货人姓名:%@",[self.addressDic objectForKey:@"ship_name" ]];
                 NSString *zipId = [NSString stringWithFormat:@"收货人邮编:%@",[self.addressDic objectForKey:@"ship_zip" ]];
                 NSString *telephone = [NSString stringWithFormat:@"收货人电话:%@",[self.addressDic objectForKey:@"ship_tel" ]];
                 NSString *displayArea = [NSString stringWithFormat:@"收货地址:%@",[self.addressDic objectForKey:@"displayArea"]];
-                goodsOwnerLable.text = goodsOwner;
-                zipIdLable.text = zipId;
-                telephoneLable.text = telephone;
-                displayAreaLable.text = displayArea;
-                goodsOwnerLable.font = [UIFont systemFontOfSize:12.0];
-                zipIdLable.font = [UIFont systemFontOfSize:12.0];
-                telephoneLable.font = [UIFont systemFontOfSize:12.0];
-                displayAreaLable.font = [UIFont systemFontOfSize:12.0];
+                self.goodsOwnerLable.text = goodsOwner;
+                self.zipIdLable.text = zipId;
+                self.telephoneLable.text = telephone;
+                self.displayAreaLable.text = displayArea;
+                self.goodsOwnerLable.font = [UIFont systemFontOfSize:12.0];
+                self.zipIdLable.font = [UIFont systemFontOfSize:12.0];
+                self.telephoneLable.font = [UIFont systemFontOfSize:12.0];
+                self.displayAreaLable.font = [UIFont systemFontOfSize:12.0];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                [cell addSubview:goodsOwnerLable];
-                [cell addSubview:zipIdLable];
-                [cell addSubview:telephoneLable];
-                [cell addSubview:displayAreaLable];
+                [cell addSubview:self.goodsOwnerLable];
+                [cell addSubview:self.zipIdLable];
+                [cell addSubview:self.telephoneLable];
+                [cell addSubview:self.displayAreaLable];
             }else{
                 UILabel *pleaseWriteInAddress = [[UILabel alloc]initWithFrame:CGRectMake(3, 25, 100, 20)];
                 pleaseWriteInAddress.text = @"请填写收货地址";
@@ -246,14 +267,27 @@ bool payAfterCustomerGetGoods = YES;
 {
     if(indexPath.row ==0)
     {
-        if([UserModel checkLogin])
+        if([self.userAddressArr count] >0)
         {
-            
+            GetAddressListViewController *getAddressList = [[GetAddressListViewController alloc]initWithNibName:@"GetAddressListViewController" bundle:nil];
+            //委托给该VC实现GetAddressListViewController中的协议
+            getAddressList.delegate = self;
+            getAddressList.userAddressArr = self.userAddressArr;
+            getAddressList.selectedAddrId = [self.addressDic objectForKey:@"addr_id"];
+//            UINavigationController *orderNavController = [[UINavigationController alloc]initWithRootViewController:getAddressList];
+//            [orderNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+//            if([orderNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+//                {
+//                    [orderNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+//                }
+//            [self.tabBarController.selectedViewController presentModalViewController:orderNavController animated:YES];
+            [self.navigationController pushViewController:getAddressList animated:YES];
+        }else{
+            AddAddressViewController *addressView = [[AddAddressViewController alloc]init];
+            UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+            self.navigationItem.backBarButtonItem = backItem;
+            [self.navigationController pushViewController:addressView animated:YES];
         }
-        AddAddressViewController *addressView = [[AddAddressViewController alloc]init];
-        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
-        self.navigationItem.backBarButtonItem = backItem;
-        [self.navigationController pushViewController:addressView animated:YES];
     }
 }
 - (void)didReceiveMemoryWarning
