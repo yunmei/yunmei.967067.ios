@@ -29,6 +29,7 @@ bool payAfterCustomerGetGoods = YES;
 //实现自定义的协议，实现从已登录用户的地址列表中选择时回传收货人信息
 -(void)passVlaue:(NSMutableDictionary *)value
 {
+    NSLog(@"走委托了");
     [self.addressDic removeAllObjects];
     NSString *shipArea = [NSString stringWithFormat:@"mainland:%@/%@/%@:%@",[value objectForKey:@"province"],[value objectForKey:@"city"],[value objectForKey:@"district"],[value objectForKey:@"district_id"]];
     [self.addressDic setObject:shipArea forKey:@"ship_area"];
@@ -52,12 +53,19 @@ bool payAfterCustomerGetGoods = YES;
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    NSLog(@"arr%@",self.userAddressArr);
+    NSLog(@"dic%@",self.addressDic);
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"齐鲁直销商城";
     [self bindCar];
+    if([UserModel checkLogin])
+    [self bindAddress];
     self.countPay = [NSString stringWithFormat:@"%.2f",[self statisPay]];
 }
 
@@ -73,6 +81,27 @@ bool payAfterCustomerGetGoods = YES;
     }
 }
 
+-(void)bindAddress
+{
+    YMDbClass *db = [[YMDbClass alloc]init];
+    if([db connect])
+    {
+        NSString * query = [NSString stringWithFormat:@"select * from user_address"];
+        [self.userAddressArr removeAllObjects];
+        self.userAddressArr = [db fetchAll:query];
+        if([self.userAddressArr count]>0)
+        {
+            NSMutableDictionary *oneAddress = [self.userAddressArr objectAtIndex:0];
+            [self.addressDic setObject:[oneAddress objectForKey:@"name"] forKey:@"ship_name"];
+            [self.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"ship_area"];
+            [self.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"ship_addr"];
+            [self.addressDic setObject:[oneAddress objectForKey:@"zip"] forKey:@"ship_zip"];
+            [self.addressDic setObject:[oneAddress objectForKey:@"addr_id"] forKey:@"addr_id"];
+            [self.addressDic setObject:[[oneAddress objectForKey:@"mobile"]isEqualToString:@"" ]? [oneAddress objectForKey:@"telphone"]:[oneAddress objectForKey:@"mobile"]forKey:@"ship_tel"];
+            [self.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"displayArea"];
+        }
+    }
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 6;
@@ -272,21 +301,13 @@ bool payAfterCustomerGetGoods = YES;
             GetAddressListViewController *getAddressList = [[GetAddressListViewController alloc]initWithNibName:@"GetAddressListViewController" bundle:nil];
             //委托给该VC实现GetAddressListViewController中的协议
             getAddressList.delegate = self;
-            getAddressList.userAddressArr = self.userAddressArr;
             getAddressList.selectedAddrId = [self.addressDic objectForKey:@"addr_id"];
-//            UINavigationController *orderNavController = [[UINavigationController alloc]initWithRootViewController:getAddressList];
-//            [orderNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
-//            if([orderNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
-//                {
-//                    [orderNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
-//                }
-//            [self.tabBarController.selectedViewController presentModalViewController:orderNavController animated:YES];
             UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
             self.navigationItem.backBarButtonItem =backBtn;
             [self.navigationController pushViewController:getAddressList animated:YES];
         }else{
             AddAddressViewController *addressView = [[AddAddressViewController alloc]init];
-            UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
+            UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
             self.navigationItem.backBarButtonItem = backItem;
             [self.navigationController pushViewController:addressView animated:YES];
         }
@@ -299,7 +320,6 @@ bool payAfterCustomerGetGoods = YES;
 }
 
 - (void)viewDidUnload {
-    [self setOrderTableView:nil];
     [super viewDidUnload];
 }
 

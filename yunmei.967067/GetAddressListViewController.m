@@ -14,8 +14,9 @@
 
 @implementation GetAddressListViewController
 @synthesize AddressListTableView;
-@synthesize userAddressArr = _userAddressArr;
+@synthesize userAddressArray = _userAddressArray;
 @synthesize selectedAddrId;
+@synthesize seletedImage;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,46 +33,63 @@
     self.navigationItem.title = @"收货人信息";
     UIBarButtonItem *addBtn = [[UIBarButtonItem alloc]initWithTitle:@"添加" style:UIBarButtonItemStyleBordered target:self action:@selector(addAddress:)];
     self.navigationItem.rightBarButtonItem = addBtn;
+    [self bindSqlite];
+}
+
+-(void)bindSqlite
+{
+    YMDbClass *db = [[YMDbClass alloc]init];
+    if([db connect])
+    {
+        NSString * query = [NSString stringWithFormat:@"select * from user_address"];
+        [self.userAddressArray removeAllObjects];
+        self.userAddressArray = [db fetchAll:query];
+        NSLog(@"%@",self.userAddressArray);
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.userAddressArr count];
+    return [self.userAddressArray count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 110;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    AddressCell *cell = (AddressCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
     if(cell == nil)
     {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[AddressCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    NSMutableDictionary *oneAddress = [self.userAddressArr objectAtIndex:indexPath.row];
-    UILabel * addrLable = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 270, 30)];
-    [addrLable setText:[@"地址:" stringByAppendingString:[oneAddress objectForKey:@"addr"]]];
-    [addrLable setFont:[UIFont systemFontOfSize:12.0]];
-    [addrLable setNumberOfLines:0];
-    UILabel *nameLable = [[UILabel alloc]initWithFrame:CGRectMake(20, 37, 270, 30)];
-    [nameLable setText:[@"收货人:" stringByAppendingString:[oneAddress objectForKey:@"name"]]];
-    [nameLable setFont:[UIFont systemFontOfSize:12.0]];
-    UILabel *zipLable = [[UILabel alloc]initWithFrame:CGRectMake(20, 70, 270, 30)];
-    [zipLable setText:[@"邮编:" stringByAppendingString:[oneAddress objectForKey:@"zip"]]];
-    [zipLable setFont:[UIFont systemFontOfSize:12.0]];
-    [cell addSubview:addrLable];
-    [cell addSubview:nameLable];
-    [cell addSubview:zipLable];
+    NSMutableDictionary *oneAddress = [self.userAddressArray objectAtIndex:indexPath.row];
+    [cell.addrLable setText:[@"地址:" stringByAppendingString:[oneAddress objectForKey:@"addr"]]];
+    [cell.addrLable setFont:[UIFont systemFontOfSize:12.0]];
+    [cell.addrLable setNumberOfLines:0];
+    [cell.nameLable setText:[@"收货人:" stringByAppendingString:[oneAddress objectForKey:@"name"]]];
+    [cell.nameLable setFont:[UIFont systemFontOfSize:12.0]];
+    [cell.zipLable setText:[@"邮编:" stringByAppendingString:[oneAddress objectForKey:@"zip"]]];
+    [cell.zipLable setFont:[UIFont systemFontOfSize:12.0]];
+    [cell addSubview:cell.addrLable];
+    [cell addSubview:cell.nameLable];
+    [cell addSubview:cell.zipLable];
+    if(indexPath.row == 0)
+    {
+        [cell.selectedLog setImage:[UIImage imageNamed:@"RadioButton-Selected"]];
+        self.seletedImage = cell.selectedLog;
+    }
+    [cell addSubview:cell.selectedLog];
 return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableDictionary *selectedAddress = [self.userAddressArr objectAtIndex:indexPath.row];
+    [self.seletedImage setImage:[UIImage imageNamed:@"RadioButton-Unselected"]];
+    NSMutableDictionary *selectedAddress = [self.userAddressArray objectAtIndex:indexPath.row];
     //调用自定义协议 在前一VC中实现这个协议
     [self.delegate passVlaue:selectedAddress];
     [self.navigationController popViewControllerAnimated:YES];
@@ -87,13 +105,13 @@ return cell;
     [super viewDidUnload];
 }
 
--(NSMutableArray *)userAddressArr
+-(NSMutableArray *)userAddressArray
 {
-    if(_userAddressArr == nil)
+    if(_userAddressArray == nil)
     {
-        _userAddressArr = [[NSMutableArray alloc]init];
+        _userAddressArray = [[NSMutableArray alloc]init];
     }
-    return _userAddressArr;
+    return _userAddressArray;
 }
 -(void)addAddress:(id)sender
 {

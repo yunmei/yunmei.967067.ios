@@ -121,6 +121,7 @@
 		46FDFFE71678368E0075A644 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46FDFFE51678368E0075A644 /* RegisterViewController.xib */; };
 		AA3B63AC169D3562005A91C1 /* RadioButton-Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3B63AB169D3562005A91C1 /* RadioButton-Selected.png */; };
 		AA3B63AE169D356A005A91C1 /* RadioButton-Unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3B63AD169D356A005A91C1 /* RadioButton-Unselected.png */; };
+		AA562D8E16A7D6C5004127A3 /* GetAddressListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA91D28516A5355B005BB248 /* GetAddressListViewController.m */; };
 		AA7B0ED5168ED6DD007045CE /* carBuy.png in Resources */ = {isa = PBXBuildFile; fileRef = AA7B0ED4168ED6DD007045CE /* carBuy.png */; };
 		AA7B8733169C090E00CF0121 /* goodsInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7B8732169C090E00CF0121 /* goodsInfoView.m */; };
 		AA856ACE16A3DF8E004108DE /* GetOrderIdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA856ACC16A3DF8E004108DE /* GetOrderIdViewController.m */; };
@@ -130,7 +131,6 @@
 		AA8BC3FA168EBA6F005C03E1 /* CarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BC3F9168EBA6F005C03E1 /* CarCell.m */; };
 		AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */; };
 		AA8DBAB11669ED53003291D2 /* CategorySecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */; };
-		AA91D28716A5355B005BB248 /* GetAddressListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA91D28516A5355B005BB248 /* GetAddressListViewController.m */; };
 		AA91D28816A5355B005BB248 /* GetAddressListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA91D28616A5355B005BB248 /* GetAddressListViewController.xib */; };
 		AABB243516780C7300008F6B /* moveRight.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243416780C7300008F6B /* moveRight.png */; };
 		AABB243816780C7B00008F6B /* moveLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243716780C7B00008F6B /* moveLeft.png */; };
@@ -150,6 +150,7 @@
 		AAC8016F166600EF00F5D655 /* CartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466C69AD164B949E003ECB2F /* CartViewController.xib */; };
 		AAD37D3E16815C6A00C06D6F /* GoodsIntroductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD37D3C16815C6A00C06D6F /* GoodsIntroductViewController.m */; };
 		AAD37D3F16815C6A00C06D6F /* GoodsIntroductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD37D3D16815C6A00C06D6F /* GoodsIntroductViewController.xib */; };
+		AAD5AEFC16A786B5003006CB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD5AEFB16A786B5003006CB /* AddressCell.m */; };
 		AAD7542E1666EEAE0059962D /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD7542D1666EEAE0059962D /* CategoryCell.m */; };
 		AAD754301666EEED0059962D /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD7542F1666EEED0059962D /* CategoryCell.xib */; };
 		AAD7C1491682F8360033014E /* CategoryThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD7C1471682F8360033014E /* CategoryThirdViewController.m */; };
@@ -387,6 +388,8 @@
 		AAD37D3B16815C6A00C06D6F /* GoodsIntroductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsIntroductViewController.h; sourceTree = "<group>"; };
 		AAD37D3C16815C6A00C06D6F /* GoodsIntroductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsIntroductViewController.m; sourceTree = "<group>"; };
 		AAD37D3D16815C6A00C06D6F /* GoodsIntroductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoodsIntroductViewController.xib; sourceTree = "<group>"; };
+		AAD5AEFA16A786B5003006CB /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
+		AAD5AEFB16A786B5003006CB /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
 		AAD7542C1666EEAE0059962D /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
 		AAD7542D1666EEAE0059962D /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCell.m; sourceTree = "<group>"; };
 		AAD7542F1666EEED0059962D /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
@@ -860,6 +863,8 @@
 				46BD188C166880AB007E72EB /* GoodsCell.xib */,
 				AA8BC3F8168EBA6F005C03E1 /* CarCell.h */,
 				AA8BC3F9168EBA6F005C03E1 /* CarCell.m */,
+				AAD5AEFA16A786B5003006CB /* AddressCell.h */,
+				AAD5AEFB16A786B5003006CB /* AddressCell.m */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -1106,7 +1111,8 @@
 				AA7B8733169C090E00CF0121 /* goodsInfoView.m in Sources */,
 				AAC3FFDE169E49C700C6FA59 /* AddAddressViewController.m in Sources */,
 				AA856ACE16A3DF8E004108DE /* GetOrderIdViewController.m in Sources */,
-				AA91D28716A5355B005BB248 /* GetAddressListViewController.m in Sources */,
+				AAD5AEFC16A786B5003006CB /* AddressCell.m in Sources */,
+				AA562D8E16A7D6C5004127A3 /* GetAddressListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

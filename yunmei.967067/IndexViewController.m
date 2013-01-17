@@ -7,12 +7,7 @@
 //
 
 #import "IndexViewController.h"
-#import "YMGlobal.h"
-#import "GoodsListViewController.h"
-#import "AppDelegate.h"
-#import "MBProgressHUD.h"
-#import "SBJson.h"
-#import "GoodsModel.h"
+
 
 
 @interface IndexViewController ()

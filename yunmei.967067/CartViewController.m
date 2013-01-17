@@ -7,8 +7,7 @@
 //
 
 #import "CartViewController.h"
-#import "YMUIButton.h"
-#import "CategoryViewController.h"
+
 @interface CartViewController ()
 
 @end
@@ -286,7 +285,6 @@ bool cancleBuPressed = NO;
                     }
                     [self.textFieldList addObject:cell.buyCount];
                 }
-                NSLog(@"%i",[self.textFieldList count]);
                 return cell;
             }
         }
@@ -479,7 +477,6 @@ bool cancleBuPressed = NO;
     NSMutableDictionary *goodsInSqlite = [self.goodsList objectAtIndex:textField.tag];
     if((![textField.text isEqualToString:[goodsInSqlite objectForKey:@"goods_count"]])&&(cancleBuPressed == NO))
     {
-        NSLog(@"不等");
         if(textField.text.integerValue >[[goodsInSqlite objectForKey:@"goods_store"] integerValue])
         {
             i = [[goodsInSqlite objectForKey:@"goods_store"] integerValue];
@@ -500,7 +497,6 @@ bool cancleBuPressed = NO;
         [self.goodsTableView reloadData];
         
     }else if (cancleBuPressed ==YES){
-        NSLog(@"相等");
         cancleBuPressed = NO;
         [self.goodsTableView reloadData];
     }
@@ -546,17 +542,27 @@ bool cancleBuPressed = NO;
             NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
             if([[obj objectForKey:@"errorMessage"] isEqualToString:@"success"])
             {
-                Order.userAddressArr = [obj objectForKey:@"data"];
-                if([Order.userAddressArr count]>0)
+                NSMutableArray *dataArr = [obj objectForKey:@"data"];
+                if([dataArr count]>0)
                 {
-                    NSMutableDictionary *oneAddress = [Order.userAddressArr objectAtIndex:0];
-                    [Order.addressDic setObject:[oneAddress objectForKey:@"name"] forKey:@"ship_name"];
-                    [Order.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"ship_area"];
-                    [Order.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"ship_addr"];
-                    [Order.addressDic setObject:[oneAddress objectForKey:@"zip"] forKey:@"ship_zip"];
-                    [Order.addressDic setObject:[oneAddress objectForKey:@"addr_id"] forKey:@"addr_id"];
-                    [Order.addressDic setObject:[[oneAddress objectForKey:@"mobile"]isEqualToString:@"" ]? [oneAddress objectForKey:@"telphone"]:[oneAddress objectForKey:@"mobile"]forKey:@"ship_tel"];
-                    [Order.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"displayArea"];
+                    //将用户收货地址加入sqlite;
+                    [UserModel createAddressTable];
+                    YMDbClass *db = [[YMDbClass alloc]init];
+                    if([db connect])
+                    {
+                        for (id o in dataArr)
+                        {
+                            if([o count] == 13)
+                            {
+                                NSString *query = [NSString stringWithFormat:@"INSERT INTO user_address(user_id, addr, addr_id, city, city_id,district,district_id,is_default,mobile,name,province,province_id,telphone,zip,state)VALUES('%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@');",user.userid,[o objectForKey:@"addr"],[o objectForKey:@"addr_id"],[o objectForKey:@"city"],[o objectForKey:@"city_id"],[o objectForKey:@"district"],[o objectForKey:@"district_id"],[o objectForKey:@"is_default"],[o objectForKey:@"mobile"],[o objectForKey:@"name"],[o objectForKey:@"province"],[o objectForKey:@"province_id"],[o objectForKey:@"telphone"],[o objectForKey:@"zip"],@"0"];
+                                
+                                if([db exec:query]){
+                                }
+                            }
+                            
+                        }
+                        [db close];
+                    }
                 }
                 UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
                 self.navigationItem.backBarButtonItem = leftBtn;

@@ -7,13 +7,6 @@
 //
 
 #import "LoginViewController.h"
-#import "RegisterViewController.h"
-#import "AppDelegate.h"
-#import "SBJson.h"
-#import "YMGlobal.h"
-#import "UserModel.h"
-#import "MBProgressHUD.h"
-#import "YMDbClass.h"
 
 @interface LoginViewController ()
 

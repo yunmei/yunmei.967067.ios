@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "CartViewController.h"
-
+#import "IndexViewController.h"
+#import "CategoryViewController.h"
+#import "MyViewController.h"
+#import "MoreViewController.h"
+#import "GoodsSearchViewController.h"
+#import "GoodsListViewController.h"
+#import "LoginViewController.h"
+#import "Constants.h"
 #define ApplicationDelegate ((AppDelegate *)[UIApplication sharedApplication].delegate)
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>

@@ -17,6 +17,12 @@
 #import "SBJson.h"
 #import "AppDelegate.h"
 #import "MBProgressHUD.h"
+#import "UserModel.h"
+#import "CartViewController.h"
+#import "YMUIButton.h"
+#import "CategoryViewController.h"
+
+
 @interface CartViewController : UIViewController<
     UITableViewDataSource,
     UITableViewDelegate,

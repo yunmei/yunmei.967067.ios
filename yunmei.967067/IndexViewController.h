@@ -10,7 +10,12 @@
 #import "AdModel.h"
 #import "GoodsInfoViewController.h"
 #import "ZBarSDK.h"
-#import "GoodsInfoViewController.h"
+#import "YMGlobal.h"
+#import "GoodsListViewController.h"
+#import "AppDelegate.h"
+#import "MBProgressHUD.h"
+#import "SBJson.h"
+#import "GoodsModel.h"
 @interface IndexViewController : UIViewController <UIScrollViewDelegate, ZBarReaderDelegate>
 
 @property (strong, nonatomic) IBOutlet UIScrollView *adScrollView;

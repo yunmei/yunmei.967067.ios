@@ -45,8 +45,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(cancle:)];
-    self.navigationItem.leftBarButtonItem = leftBtn;
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancle:)];
+    self.navigationItem.rightBarButtonItem = rightBtn;
     MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     self.addressTableView.scrollEnabled = NO;
     // Do any additional setup after loading the view from its nib.
@@ -604,34 +604,30 @@
         OrderEditViewController *orderEdit = [[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil];
         NSString * area = [NSString stringWithFormat:@"mainland:%@/%@/%@:%i",self.provinceBtn.titleLabel.text,self.cityBtn.titleLabel.text,self.countyBtn.titleLabel.text,self.countyBtn.tag];
         NSString *displayArea = [NSString stringWithFormat:@"%@%@%@%@",self.self.provinceBtn.titleLabel.text,self.cityBtn.titleLabel.text,self.countyBtn.titleLabel.text,self.addressInDetail.text];
-        [orderEdit.addressDic setObject:area forKey:@"ship_area"];
-        [orderEdit.addressDic setObject:self.addressInDetail.text forKey:@"ship_addr"];
-        [orderEdit.addressDic setObject:self.zipCode.text forKey:@"ship_zip"];
-        [orderEdit.addressDic setObject:self.goodsOwner.text forKey:@"ship_name"];
-        [orderEdit.addressDic setObject:self.telephone.text forKey:@"ship_tel"];
-        [orderEdit.addressDic setObject:displayArea forKey:@"displayArea"];
+
         if([UserModel checkLogin])
         {
             UserModel *user = [UserModel getUserModel];
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_updateAddressInfo",@"act",user.session,@"sessionId",user.userid,@"userId",@"0",@"addressId",self.goodsOwner.text,@"name", self.telephone.text,@"phone",[NSString stringWithFormat:@"%i",self.provinceBtn.tag],@"provinceId",[NSString stringWithFormat:@"%i",self.cityBtn.tag],@"cityId",[NSString stringWithFormat:@"%i",self.countyBtn.tag],@"areaId",displayArea,@"address",self.zipCode.text,@"zipcode",nil];
             MKNetworkOperation *op = [YMGlobal getOperation:params];
             [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-                NSLog(@"%@",[completedOperation responseString]);
-            } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-                NSLog(@"%@",error);
-            }];
-            [ApplicationDelegate.appEngine enqueueOperation:op];
-            
-            //
-            NSMutableDictionary *getAddressParams = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_getAddressList",@"act",user.session,@"sessionId",user.userid,@"userId",nil];
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            MKNetworkOperation *op1 = [YMGlobal getOperation:getAddressParams];
-            [op1 addCompletionHandler:^(MKNetworkOperation *completedOperation) {
                 SBJsonParser *parser = [[SBJsonParser alloc]init];
+                NSLog(@"%@",[completedOperation responseData]);
                 NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
-                if([[obj objectForKey:@"errorMessage"] isEqualToString:@"success"])
+                if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
                 {
-                    orderEdit.userAddressArr = [obj objectForKey:@"data"];
+                    [orderEdit.addressDic setObject:area forKey:@"ship_area"];
+                    [orderEdit.addressDic setObject:self.addressInDetail.text forKey:@"ship_addr"];
+                    [orderEdit.addressDic setObject:self.zipCode.text forKey:@"ship_zip"];
+                    [orderEdit.addressDic setObject:self.goodsOwner.text forKey:@"ship_name"];
+                    [orderEdit.addressDic setObject:self.telephone.text forKey:@"ship_tel"];
+                    [orderEdit.addressDic setObject:displayArea forKey:@"displayArea"];
+                    YMDbClass *db = [[YMDbClass alloc]init];
+                    if([db connect])
+                    {
+                        NSString *query = [NSString stringWithFormat:@"INSERT INTO user_address(user_id, addr, addr_id, city, city_id,district,district_id,is_default,mobile,name,province,province_id,telphone,zip,state)VALUES('%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@');",user.userid,self.addressInDetail.text,@"0",self.cityBtn.titleLabel.text,[NSString stringWithFormat:@"%i",self.cityBtn.tag],self.countyBtn.titleLabel.text,[NSString stringWithFormat:@"%i",self.countyBtn.tag],@"0",self.telephone.text,self.goodsOwner.text,self.provinceBtn.titleLabel.text,[NSString stringWithFormat:@"%i",self.provinceBtn.tag],@"",self.zipCode.text,@"1"];
+                        [db exec:query];
+                    }
                     UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
                     [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
                     if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
@@ -639,14 +635,47 @@
                         [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
                     }
                     [self.navigationController presentModalViewController:orderNav animated:YES];
+                }else{
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"警告" message:@"添加失败，请重新填写" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
                 }
-            }errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-                NSLog(@"%@",error);
+            } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"警告" message:@"添加失败，请重新添加" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
             }];
-            [ApplicationDelegate.appEngine enqueueOperation:op1];
-            [hud hide:YES];
+            [ApplicationDelegate.appEngine enqueueOperation:op];
+            
+            //
+//            NSMutableDictionary *getAddressParams = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_getAddressList",@"act",user.session,@"sessionId",user.userid,@"userId",nil];
+//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//            MKNetworkOperation *op1 = [YMGlobal getOperation:getAddressParams];
+//            [op1 addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+//                SBJsonParser *parser = [[SBJsonParser alloc]init];
+//                NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+//                if([[obj objectForKey:@"errorMessage"] isEqualToString:@"success"])
+//                {
+//                    orderEdit.userAddressArr = [obj objectForKey:@"data"];
+//                    UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
+//                    [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+//                    if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+//                    {
+//                        [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+//                    }
+//                    [self.navigationController presentModalViewController:orderNav animated:YES];
+//                }
+//            }errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+//                NSLog(@"%@",error);
+//            }];
+//            [ApplicationDelegate.appEngine enqueueOperation:op1];
+//            [hud hide:YES];
 
         }else{
+            [orderEdit.addressDic setObject:area forKey:@"ship_area"];
+            [orderEdit.addressDic setObject:self.addressInDetail.text forKey:@"ship_addr"];
+            [orderEdit.addressDic setObject:self.zipCode.text forKey:@"ship_zip"];
+            [orderEdit.addressDic setObject:self.goodsOwner.text forKey:@"ship_name"];
+            [orderEdit.addressDic setObject:self.telephone.text forKey:@"ship_tel"];
+            [orderEdit.addressDic setObject:displayArea forKey:@"displayArea"];
             UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
             [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
             if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])

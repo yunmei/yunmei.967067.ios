@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "RegisterViewController.h"
+#import "AppDelegate.h"
+#import "SBJson.h"
+#import "YMGlobal.h"
+#import "UserModel.h"
+#import "MBProgressHUD.h"
+#import "YMDbClass.h"
 @interface LoginViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UITextField *usernameTextField;
