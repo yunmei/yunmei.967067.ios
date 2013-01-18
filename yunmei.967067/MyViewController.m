@@ -119,11 +119,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath == 0)
+    if(indexPath.row == 0)
     {
-        
+        NSLog(@"11");
+        GetOrderListViewController *getOrderListView = [[GetOrderListViewController alloc]init];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+        self.navigationItem.backBarButtonItem = backItem;
+        [self.navigationController pushViewController:getOrderListView animated:YES];
     }else if (indexPath.row ==1){
-    
+
     }else if (indexPath.row ==2){
         GetAddressListViewController *addressListView = [[GetAddressListViewController alloc]initWithNibName:@"GetAddressListViewController" bundle:nil];
         addressListView.ifThisViewComeFromMyCenter = YES;

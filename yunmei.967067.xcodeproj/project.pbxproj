@@ -138,6 +138,8 @@
 		AABB243C16780C9300008F6B /* minusBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243B16780C9300008F6B /* minusBtn.png */; };
 		AABB45D8166C488800306A09 /* GoodsInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB45D6166C488800306A09 /* GoodsInfoViewController.m */; };
 		AABB45D9166C488800306A09 /* GoodsInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */; };
+		AABE96AF16A8F46F00533FDB /* GetOrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96AD16A8F46F00533FDB /* GetOrderListViewController.m */; };
+		AABE96B016A8F46F00533FDB /* GetOrderListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABE96AE16A8F46F00533FDB /* GetOrderListViewController.xib */; };
 		AAC24419167EB9BB00080AAC /* quickBuyBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC24418167EB9BB00080AAC /* quickBuyBtn.png */; };
 		AAC2441B167EB9C200080AAC /* quickBuyBtnDisable.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */; };
 		AAC2D482169BCBC000CE4116 /* OrderEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC2D480169BCBC000CE4116 /* OrderEditViewController.m */; };
@@ -375,6 +377,9 @@
 		AABB45D5166C488800306A09 /* GoodsInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsInfoViewController.h; sourceTree = "<group>"; };
 		AABB45D6166C488800306A09 /* GoodsInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsInfoViewController.m; sourceTree = "<group>"; };
 		AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoodsInfoViewController.xib; sourceTree = "<group>"; };
+		AABE96AC16A8F46F00533FDB /* GetOrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetOrderListViewController.h; sourceTree = "<group>"; };
+		AABE96AD16A8F46F00533FDB /* GetOrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetOrderListViewController.m; sourceTree = "<group>"; };
+		AABE96AE16A8F46F00533FDB /* GetOrderListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetOrderListViewController.xib; sourceTree = "<group>"; };
 		AAC24418167EB9BB00080AAC /* quickBuyBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtn.png; sourceTree = "<group>"; };
 		AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtnDisable.png; sourceTree = "<group>"; };
 		AAC2D47F169BCBC000CE4116 /* OrderEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderEditViewController.h; sourceTree = "<group>"; };
@@ -823,6 +828,9 @@
 				46FDFFE31678368E0075A644 /* RegisterViewController.h */,
 				46FDFFE41678368E0075A644 /* RegisterViewController.m */,
 				46FDFFE51678368E0075A644 /* RegisterViewController.xib */,
+				AABE96AC16A8F46F00533FDB /* GetOrderListViewController.h */,
+				AABE96AD16A8F46F00533FDB /* GetOrderListViewController.m */,
+				AABE96AE16A8F46F00533FDB /* GetOrderListViewController.xib */,
 			);
 			name = MyCenter;
 			sourceTree = "<group>";
@@ -1025,6 +1033,7 @@
 				AA856AD216A3E045004108DE /* ordersuccesslogo.png in Resources */,
 				AA91D28816A5355B005BB248 /* GetAddressListViewController.xib in Resources */,
 				AA8B31DB16A69B3E00C20A32 /* user.jpg in Resources */,
+				AABE96B016A8F46F00533FDB /* GetOrderListViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,6 +1122,7 @@
 				AA856ACE16A3DF8E004108DE /* GetOrderIdViewController.m in Sources */,
 				AAD5AEFC16A786B5003006CB /* AddressCell.m in Sources */,
 				AA562D8E16A7D6C5004127A3 /* GetAddressListViewController.m in Sources */,
+				AABE96AF16A8F46F00533FDB /* GetOrderListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
