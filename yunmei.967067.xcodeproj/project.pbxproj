@@ -143,6 +143,8 @@
 		AABE96B416A912B200533FDB /* orderFirstCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96B316A912B200533FDB /* orderFirstCell.m */; };
 		AABE96B716A912D100533FDB /* orderSecondCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96B616A912D100533FDB /* orderSecondCell.m */; };
 		AABE96BA16A912E200533FDB /* orderThirdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96B916A912E200533FDB /* orderThirdCell.m */; };
+		AABE96BE16A93CD900533FDB /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96BC16A93CD900533FDB /* OrderDetailViewController.m */; };
+		AABE96BF16A93CD900533FDB /* OrderDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABE96BD16A93CD900533FDB /* OrderDetailViewController.xib */; };
 		AAC24419167EB9BB00080AAC /* quickBuyBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC24418167EB9BB00080AAC /* quickBuyBtn.png */; };
 		AAC2441B167EB9C200080AAC /* quickBuyBtnDisable.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */; };
 		AAC2D482169BCBC000CE4116 /* OrderEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC2D480169BCBC000CE4116 /* OrderEditViewController.m */; };
@@ -389,6 +391,9 @@
 		AABE96B616A912D100533FDB /* orderSecondCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = orderSecondCell.m; sourceTree = "<group>"; };
 		AABE96B816A912E200533FDB /* orderThirdCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orderThirdCell.h; sourceTree = "<group>"; };
 		AABE96B916A912E200533FDB /* orderThirdCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = orderThirdCell.m; sourceTree = "<group>"; };
+		AABE96BB16A93CD900533FDB /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
+		AABE96BC16A93CD900533FDB /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailViewController.m; sourceTree = "<group>"; };
+		AABE96BD16A93CD900533FDB /* OrderDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderDetailViewController.xib; sourceTree = "<group>"; };
 		AAC24418167EB9BB00080AAC /* quickBuyBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtn.png; sourceTree = "<group>"; };
 		AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtnDisable.png; sourceTree = "<group>"; };
 		AAC2D47F169BCBC000CE4116 /* OrderEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderEditViewController.h; sourceTree = "<group>"; };
@@ -840,6 +845,9 @@
 				AABE96AC16A8F46F00533FDB /* GetOrderListViewController.h */,
 				AABE96AD16A8F46F00533FDB /* GetOrderListViewController.m */,
 				AABE96AE16A8F46F00533FDB /* GetOrderListViewController.xib */,
+				AABE96BB16A93CD900533FDB /* OrderDetailViewController.h */,
+				AABE96BC16A93CD900533FDB /* OrderDetailViewController.m */,
+				AABE96BD16A93CD900533FDB /* OrderDetailViewController.xib */,
 			);
 			name = MyCenter;
 			sourceTree = "<group>";
@@ -1049,6 +1057,7 @@
 				AA91D28816A5355B005BB248 /* GetAddressListViewController.xib in Resources */,
 				AA8B31DB16A69B3E00C20A32 /* user.jpg in Resources */,
 				AABE96B016A8F46F00533FDB /* GetOrderListViewController.xib in Resources */,
+				AABE96BF16A93CD900533FDB /* OrderDetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1141,6 +1150,7 @@
 				AABE96B416A912B200533FDB /* orderFirstCell.m in Sources */,
 				AABE96B716A912D100533FDB /* orderSecondCell.m in Sources */,
 				AABE96BA16A912E200533FDB /* orderThirdCell.m in Sources */,
+				AABE96BE16A93CD900533FDB /* OrderDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

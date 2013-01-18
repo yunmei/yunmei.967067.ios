@@ -12,4 +12,5 @@
 @property(strong,nonatomic)UILabel *orderCode;
 @property(strong,nonatomic)UILabel *orderPay;
 @property(strong,nonatomic)UILabel *orderGenerateTime;
+@property(strong,nonatomic)UIButton *trackOrderBtn;
 @end

@@ -12,6 +12,7 @@
 @synthesize orderCode = _orderCode;
 @synthesize orderPay = _orderPay;
 @synthesize orderGenerateTime = _orderGenerateTime;
+@synthesize trackOrderBtn = _trackOrderBtn;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -57,5 +58,17 @@
     }
     [_orderGenerateTime setFont:[UIFont systemFontOfSize:12.0]];
     return _orderGenerateTime;
+}
+
+-(UIButton *)trackOrderBtn
+{
+    if(_trackOrderBtn == nil)
+    {
+        _trackOrderBtn = [[UIButton alloc]initWithFrame:CGRectMake(230, 20, 60, 30)];
+    }
+    [_trackOrderBtn setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
+    [_trackOrderBtn setTitle:@"订单追踪" forState:UIControlStateNormal];
+    _trackOrderBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
+    return  _trackOrderBtn;
 }
 @end

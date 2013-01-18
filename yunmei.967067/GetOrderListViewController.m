@@ -44,7 +44,6 @@
         if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
         {
             self.orderListArray = [obj objectForKey:@"data"];
-            NSLog(@"%@",self.orderListArray);
             [self.OrderListTableView reloadData];
         }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
@@ -62,7 +61,6 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSMutableArray *goods = [[self.orderListArray objectAtIndex:section] objectForKey:@"goods"];
-    NSLog(@"%i",goods.count);
     return [goods count]+2;
 }
 
@@ -94,13 +92,17 @@
         if(cell == nil)
         {
             cell = [[orderFirstCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
         [cell.orderCode setText:[NSString stringWithFormat:@"订单号 : %@",[oneOrder objectForKey:@"orderId"]]];
         [cell.orderPay setText:[NSString stringWithFormat:@"订单金额 : %@",[oneOrder objectForKey:@"final_amount"]]];
         [cell.orderGenerateTime setText:[NSString stringWithFormat:@"下单时间 : %@",[oneOrder objectForKey:@"createtime"]]];
+        cell.trackOrderBtn.tag = indexPath.section;
+        [cell.trackOrderBtn addTarget:self action:@selector(trackOrder:) forControlEvents:UIControlEventTouchUpInside];
         [cell addSubview:cell.orderCode];
         [cell addSubview:cell.orderPay];
         [cell addSubview:cell.orderGenerateTime];
+        [cell addSubview:cell.trackOrderBtn];
         return cell;
     }else if (indexPath.row == ([[[self.orderListArray objectAtIndex:indexPath.section] objectForKey:@"goods"]count] +1)){
         static NSString *identifier = @"identifier2";
@@ -109,6 +111,7 @@
         {
             cell = [[orderThirdCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier
                     ];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
         if([[oneOrder objectForKey:@"ship_status"]isEqualToString:@"0"])
         {
@@ -126,6 +129,7 @@
         if(cell == nil)
         {
             cell = [[orderSecondCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
         [cell.goodsImg setImage:[UIImage imageNamed:@"goods_default"]];
         [YMGlobal loadImage:[oneGoods objectForKey:@"imageUrl"] andImageView:cell.goodsImg];
@@ -136,6 +140,19 @@
     }
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UserModel *user = [UserModel getUserModel];
+    NSMutableDictionary *oneOrder = [self.orderListArray objectAtIndex:indexPath.section];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"order_getOrderInfo",@"act",user.session,@"sessionId",user.userid,@"userId",[oneOrder objectForKey:@"orderId"],@"orderId", nil];
+    MKNetworkOperation *op = [YMGlobal getOperation:params];
+    [op  addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSLog(@"%@",[completedOperation responseString]);
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    [ApplicationDelegate.appEngine enqueueOperation:op];
+}
 -(NSMutableArray *)orderListArray
 {
     if(_orderListArray == nil)
@@ -147,5 +164,12 @@
 - (void)viewDidUnload {
     [self setOrderListTableView:nil];
     [super viewDidUnload];
+}
+
+//订单追踪
+-(void)trackOrder:(id)sender
+{
+    UIButton *trackBtn = sender;
+    NSLog(@"%i",trackBtn.tag);
 }
 @end
