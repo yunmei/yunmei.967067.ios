@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface orderFirstCell : UITableViewCell
-
+@property(strong,nonatomic)UILabel *orderCode;
+@property(strong,nonatomic)UILabel *orderPay;
+@property(strong,nonatomic)UILabel *orderGenerateTime;
 @end

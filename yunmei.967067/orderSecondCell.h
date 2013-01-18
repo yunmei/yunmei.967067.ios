@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface orderSecondCell : UITableViewCell
-
+@property(strong,nonatomic)UIImageView *goodsImg;
+@property(strong,nonatomic)UILabel *goodsName;
 @end

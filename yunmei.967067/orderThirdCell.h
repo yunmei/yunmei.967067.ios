@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface orderThirdCell : UITableViewCell
-
+@property(strong,nonatomic)UILabel *orderState;
 @end

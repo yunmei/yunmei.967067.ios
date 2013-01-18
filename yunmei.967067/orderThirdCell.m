@@ -9,7 +9,7 @@
 #import "orderThirdCell.h"
 
 @implementation orderThirdCell
-
+@synthesize orderState = _orderState;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -26,4 +26,15 @@
     // Configure the view for the selected state
 }
 
+-(UILabel *)orderState
+{
+    if(_orderState == nil)
+    {
+        _orderState = [[UILabel alloc]initWithFrame:CGRectMake(2, 0, 200, 20)];
+    }
+    
+    [_orderState setFont:[UIFont systemFontOfSize:12.0]];
+    [_orderState setTextColor:[UIColor redColor]];
+    return _orderState;
+}
 @end
