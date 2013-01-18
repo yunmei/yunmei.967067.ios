@@ -17,6 +17,7 @@
 @synthesize userAddressArray = _userAddressArray;
 @synthesize selectedAddrId;
 @synthesize seletedImage;
+@synthesize ifThisViewComeFromMyCenter;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,6 +29,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"bool%i",self.ifThisViewComeFromMyCenter);
     [self bindSqlite];
     [self.AddressListTableView reloadData];
     if([self.userAddressArray count]==0)
@@ -75,6 +77,7 @@
     {
         cell = [[AddressCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     NSMutableDictionary *oneAddress = [self.userAddressArray objectAtIndex:indexPath.row];
     [cell.addrLable setText:[@"地址:" stringByAppendingString:[oneAddress objectForKey:@"addr"]]];
@@ -113,7 +116,13 @@ return cell;
         [self bindSqlite];
         [self.AddressListTableView reloadData];
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    if(self.ifThisViewComeFromMyCenter)
+    {
+        [self.parentViewController dismissModalViewControllerAnimated:YES];
+    }else{
+
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 - (void)didReceiveMemoryWarning
 {

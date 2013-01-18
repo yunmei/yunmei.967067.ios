@@ -22,4 +22,5 @@ UITableViewDataSource
 //这里用assign而不用retain是为了防止引起循环引用。
 @property(assign)NSObject<PassValueDelegate> *delegate;
 @property(strong,nonatomic)UIImageView *seletedImage;
+@property BOOL ifThisViewComeFromMyCenter;
 @end

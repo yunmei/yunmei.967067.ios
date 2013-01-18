@@ -116,6 +116,29 @@
     }
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath == 0)
+    {
+        
+    }else if (indexPath.row ==1){
+    
+    }else if (indexPath.row ==2){
+        GetAddressListViewController *addressListView = [[GetAddressListViewController alloc]initWithNibName:@"GetAddressListViewController" bundle:nil];
+        addressListView.ifThisViewComeFromMyCenter = YES;
+        UINavigationController *addressListNav = [[UINavigationController alloc]initWithRootViewController:addressListView];
+        [addressListNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+        if([addressListNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+        {
+            [addressListNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+        }
+        [self.navigationController presentModalViewController:addressListNav animated:YES];
+        
+    }else if (indexPath.row ==3){
+        
+    }
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
