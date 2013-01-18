@@ -26,15 +26,25 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self bindSqlite];
+    [self.AddressListTableView reloadData];
+    if([self.userAddressArray count]==0)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"addOneAddress" object:self];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"收货人信息";
     UIBarButtonItem *addBtn = [[UIBarButtonItem alloc]initWithTitle:@"添加" style:UIBarButtonItemStyleBordered target:self action:@selector(addAddress:)];
-    self.navigationItem.rightBarButtonItem = addBtn;
-    [self bindSqlite];
+    self.navigationItem.rightBarButtonItem = addBtn;   
 }
+
 
 -(void)bindSqlite
 {
@@ -78,7 +88,7 @@
     [cell addSubview:cell.addrLable];
     [cell addSubview:cell.nameLable];
     [cell addSubview:cell.zipLable];
-    if(indexPath.row == 0)
+    if([[oneAddress objectForKey:@"state"]isEqualToString:@"1"])
     {
         [cell.selectedLog setImage:[UIImage imageNamed:@"RadioButton-Selected"]];
         self.seletedImage = cell.selectedLog;

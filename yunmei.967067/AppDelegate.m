@@ -74,6 +74,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToSearch:) name:@"GoToSearch" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openLoginView:) name:@"INeedToLogin" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRespondsLogin:) name:@"UserRespondsLogin" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToAddress:) name:@"addOneAddress" object:nil];
     [self statisGoodsCar:self.tabBarController];
     return YES;
 }
@@ -112,6 +113,17 @@
     [self.tabBarController.selectedViewController presentModalViewController:navController animated:YES];
 }
 
+-(void)goToAddress:(NSNotification *)note
+{
+    AddAddressViewController *addAdressView = [[AddAddressViewController alloc]initWithNibName:@"AddAddressViewController" bundle:nil];
+    UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:addAdressView];
+    [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+    if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+    {
+        [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+    }
+    [self.tabBarController.selectedViewController presentModalViewController:orderNav animated:YES];
+}
 - (void)userRespondsLogin:(NSNotification *)note
 {
     if ([[note userInfo]objectForKey:@"cancel"]) {

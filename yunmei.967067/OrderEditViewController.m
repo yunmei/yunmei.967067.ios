@@ -296,7 +296,7 @@ bool payAfterCustomerGetGoods = YES;
 {
     if(indexPath.row ==0)
     {
-        if([self.userAddressArr count] >0)
+        if([UserModel checkLogin])
         {
             GetAddressListViewController *getAddressList = [[GetAddressListViewController alloc]initWithNibName:@"GetAddressListViewController" bundle:nil];
             //委托给该VC实现GetAddressListViewController中的协议
