@@ -140,6 +140,9 @@
 		AABB45D9166C488800306A09 /* GoodsInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABB45D7166C488800306A09 /* GoodsInfoViewController.xib */; };
 		AABE96AF16A8F46F00533FDB /* GetOrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96AD16A8F46F00533FDB /* GetOrderListViewController.m */; };
 		AABE96B016A8F46F00533FDB /* GetOrderListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABE96AE16A8F46F00533FDB /* GetOrderListViewController.xib */; };
+		AABE96B416A912B200533FDB /* orderFirstCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96B316A912B200533FDB /* orderFirstCell.m */; };
+		AABE96B716A912D100533FDB /* orderSecondCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96B616A912D100533FDB /* orderSecondCell.m */; };
+		AABE96BA16A912E200533FDB /* orderThirdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96B916A912E200533FDB /* orderThirdCell.m */; };
 		AAC24419167EB9BB00080AAC /* quickBuyBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC24418167EB9BB00080AAC /* quickBuyBtn.png */; };
 		AAC2441B167EB9C200080AAC /* quickBuyBtnDisable.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */; };
 		AAC2D482169BCBC000CE4116 /* OrderEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC2D480169BCBC000CE4116 /* OrderEditViewController.m */; };
@@ -380,6 +383,12 @@
 		AABE96AC16A8F46F00533FDB /* GetOrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetOrderListViewController.h; sourceTree = "<group>"; };
 		AABE96AD16A8F46F00533FDB /* GetOrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetOrderListViewController.m; sourceTree = "<group>"; };
 		AABE96AE16A8F46F00533FDB /* GetOrderListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetOrderListViewController.xib; sourceTree = "<group>"; };
+		AABE96B216A912B200533FDB /* orderFirstCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orderFirstCell.h; sourceTree = "<group>"; };
+		AABE96B316A912B200533FDB /* orderFirstCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = orderFirstCell.m; sourceTree = "<group>"; };
+		AABE96B516A912D100533FDB /* orderSecondCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orderSecondCell.h; sourceTree = "<group>"; };
+		AABE96B616A912D100533FDB /* orderSecondCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = orderSecondCell.m; sourceTree = "<group>"; };
+		AABE96B816A912E200533FDB /* orderThirdCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orderThirdCell.h; sourceTree = "<group>"; };
+		AABE96B916A912E200533FDB /* orderThirdCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = orderThirdCell.m; sourceTree = "<group>"; };
 		AAC24418167EB9BB00080AAC /* quickBuyBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtn.png; sourceTree = "<group>"; };
 		AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtnDisable.png; sourceTree = "<group>"; };
 		AAC2D47F169BCBC000CE4116 /* OrderEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderEditViewController.h; sourceTree = "<group>"; };
@@ -873,6 +882,12 @@
 				AA8BC3F9168EBA6F005C03E1 /* CarCell.m */,
 				AAD5AEFA16A786B5003006CB /* AddressCell.h */,
 				AAD5AEFB16A786B5003006CB /* AddressCell.m */,
+				AABE96B216A912B200533FDB /* orderFirstCell.h */,
+				AABE96B316A912B200533FDB /* orderFirstCell.m */,
+				AABE96B516A912D100533FDB /* orderSecondCell.h */,
+				AABE96B616A912D100533FDB /* orderSecondCell.m */,
+				AABE96B816A912E200533FDB /* orderThirdCell.h */,
+				AABE96B916A912E200533FDB /* orderThirdCell.m */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -1123,6 +1138,9 @@
 				AAD5AEFC16A786B5003006CB /* AddressCell.m in Sources */,
 				AA562D8E16A7D6C5004127A3 /* GetAddressListViewController.m in Sources */,
 				AABE96AF16A8F46F00533FDB /* GetOrderListViewController.m in Sources */,
+				AABE96B416A912B200533FDB /* orderFirstCell.m in Sources */,
+				AABE96B716A912D100533FDB /* orderSecondCell.m in Sources */,
+				AABE96BA16A912E200533FDB /* orderThirdCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
