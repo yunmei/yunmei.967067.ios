@@ -12,6 +12,9 @@
 #import "SBJson.h"
 #import "UserModel.h"
 #import "AppDelegate.h"
+#import "orderFirstCell.h"
+#import "orderSecondCell.h"
+#import "orderThirdCell.h"
 @interface GetOrderListViewController : UIViewController<
 UITableViewDataSource,
 UITableViewDelegate

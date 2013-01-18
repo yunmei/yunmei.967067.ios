@@ -75,7 +75,7 @@
 {
     if(indexPath.row == 0)
     {
-        return 60;
+        return 70;
     }else if (indexPath.row == ([[[self.orderListArray objectAtIndex:indexPath.section] objectForKey:@"goods"]count] +1)){
         return 30;
     }else
@@ -86,13 +86,54 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if(cell == nil)
+    NSMutableDictionary *oneOrder = [self.orderListArray objectAtIndex:indexPath.section];
+    if(indexPath.row ==0)
     {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        static NSString *identifier = @"identifier1";
+        orderFirstCell *cell = (orderFirstCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+        if(cell == nil)
+        {
+            cell = [[orderFirstCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        }
+        [cell.orderCode setText:[NSString stringWithFormat:@"订单号 : %@",[oneOrder objectForKey:@"orderId"]]];
+        [cell.orderPay setText:[NSString stringWithFormat:@"订单金额 : %@",[oneOrder objectForKey:@"final_amount"]]];
+        [cell.orderGenerateTime setText:[NSString stringWithFormat:@"下单时间 : %@",[oneOrder objectForKey:@"createtime"]]];
+        [cell addSubview:cell.orderCode];
+        [cell addSubview:cell.orderPay];
+        [cell addSubview:cell.orderGenerateTime];
+        return cell;
+    }else if (indexPath.row == ([[[self.orderListArray objectAtIndex:indexPath.section] objectForKey:@"goods"]count] +1)){
+        static NSString *identifier = @"identifier2";
+        orderThirdCell *cell = (orderThirdCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+        if(cell == nil)
+        {
+            cell = [[orderThirdCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier
+                    ];
+        }
+        if([[oneOrder objectForKey:@"ship_status"]isEqualToString:@"0"])
+        {
+            [cell.orderState setText:@"订单状态 : 未支付"];
+        }else{
+            [cell.orderState setText:@"订单状态 : 已支付"];
+        }
+        [cell addSubview:cell.orderState];
+            return cell;
+    }else{
+        NSMutableArray *goodsArr = [oneOrder objectForKey:@"goods"];
+        NSMutableDictionary *oneGoods = [goodsArr objectAtIndex:(indexPath.row -1)];
+        static NSString *identifier = @"indentifier3";
+        orderSecondCell *cell = (orderSecondCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+        if(cell == nil)
+        {
+            cell = [[orderSecondCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        }
+        [cell.goodsImg setImage:[UIImage imageNamed:@"goods_default"]];
+        [YMGlobal loadImage:[oneGoods objectForKey:@"imageUrl"] andImageView:cell.goodsImg];
+        [cell.goodsName setText:[oneGoods objectForKey:@"name"]];
+        [cell addSubview:cell.goodsName];
+        [cell addSubview:cell.goodsImg];
+        return cell;
     }
-    return cell;
 }
 
 -(NSMutableArray *)orderListArray

@@ -31,7 +31,7 @@
 {
     if(_goodsImg == nil)
     {
-        _goodsImg = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
+        _goodsImg = [[UIImageView alloc]initWithFrame:CGRectMake(15, 10, 80, 80)];
     }
     return _goodsImg;
 }
@@ -40,9 +40,10 @@
 {
     if(_goodsName == nil)
     {
-        _goodsName = [[UILabel alloc]initWithFrame:CGRectMake(100, 2, 220, 40)];
+        _goodsName = [[UILabel alloc]initWithFrame:CGRectMake(100, 5, 200, 40)];
     }
-    [_goodsName setFont:[UIFont systemFontOfSize:17.0]];
+    [_goodsName setNumberOfLines:0];
+    [_goodsName setFont:[UIFont systemFontOfSize:14.0]];
     return _goodsName;
 }
 @end

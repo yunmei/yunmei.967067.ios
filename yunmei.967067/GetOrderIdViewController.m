@@ -46,6 +46,13 @@
         {
             NSMutableDictionary *data = [obj objectForKey:@"data"];
             [self.orderIdLable setText:[data objectForKey:@"orderid"]];
+            YMDbClass *db = [[YMDbClass alloc]init];
+            if([db connect])
+            {
+                NSString *query = [NSString stringWithFormat:@"delete from goodslist_car"];
+                [db exec:query];
+                [db close];
+            }
         }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);

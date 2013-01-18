@@ -32,7 +32,7 @@
 {
     if(_orderCode == nil)
     {
-        _orderCode = [[UILabel alloc]initWithFrame:CGRectMake(3, 0, 200, 20)];
+        _orderCode = [[UILabel alloc]initWithFrame:CGRectMake(20, 8, 200, 15)];
     }
     [_orderCode setFont:[UIFont systemFontOfSize:12.0]];
     return _orderCode;
@@ -42,7 +42,7 @@
 {
     if(_orderPay == nil)
     {
-        _orderPay = [[UILabel alloc]initWithFrame:CGRectMake(3, 20, 200, 20)];
+        _orderPay = [[UILabel alloc]initWithFrame:CGRectMake(20, 26, 200, 15)];
     }
     [_orderPay setFont:[UIFont systemFontOfSize:12.0]];
     [_orderPay setTextColor:[UIColor redColor]];
@@ -53,7 +53,7 @@
 {
     if(_orderGenerateTime == nil)
     {
-        _orderGenerateTime = [[UILabel alloc]initWithFrame:CGRectMake(3, 40, 250, 20)];
+        _orderGenerateTime = [[UILabel alloc]initWithFrame:CGRectMake(20, 44, 250, 15)];
     }
     [_orderGenerateTime setFont:[UIFont systemFontOfSize:12.0]];
     return _orderGenerateTime;

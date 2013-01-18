@@ -30,7 +30,7 @@
 {
     if(_orderState == nil)
     {
-        _orderState = [[UILabel alloc]initWithFrame:CGRectMake(2, 0, 200, 20)];
+        _orderState = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, 200, 20)];
     }
     
     [_orderState setFont:[UIFont systemFontOfSize:12.0]];
