@@ -206,6 +206,7 @@ bool cancleBuPressed = NO;
                 if(cell == nil)
                 {
                     cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"footer"];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     UILabel *yuanshiString = [[UILabel alloc]initWithFrame:CGRectMake(60, 12, 57, 15)];
                     yuanshiString.text = @"原始金额:";
                     yuanshiString.font = [UIFont systemFontOfSize:12.0];
