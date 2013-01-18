@@ -29,7 +29,6 @@ bool payAfterCustomerGetGoods = YES;
 //实现自定义的协议，实现从已登录用户的地址列表中选择时回传收货人信息
 -(void)passVlaue:(NSMutableDictionary *)value
 {
-    NSLog(@"走委托了");
     [self.addressDic removeAllObjects];
     NSString *shipArea = [NSString stringWithFormat:@"mainland:%@/%@/%@:%@",[value objectForKey:@"province"],[value objectForKey:@"city"],[value objectForKey:@"district"],[value objectForKey:@"district_id"]];
     [self.addressDic setObject:shipArea forKey:@"ship_area"];
@@ -55,8 +54,7 @@ bool payAfterCustomerGetGoods = YES;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"arr%@",self.userAddressArr);
-    NSLog(@"dic%@",self.addressDic);
+
 }
 - (void)viewDidLoad
 {

@@ -54,7 +54,6 @@
         NSString * query = [NSString stringWithFormat:@"select * from user_address"];
         [self.userAddressArray removeAllObjects];
         self.userAddressArray = [db fetchAll:query];
-        NSLog(@"%@",self.userAddressArray);
     }
 }
 
@@ -91,7 +90,8 @@
     if([[oneAddress objectForKey:@"state"]isEqualToString:@"1"])
     {
         [cell.selectedLog setImage:[UIImage imageNamed:@"RadioButton-Selected"]];
-        self.seletedImage = cell.selectedLog;
+    }else{
+        [cell.selectedLog setImage:[UIImage imageNamed:@"RadioButton-Unselected"]];
     }
     [cell addSubview:cell.selectedLog];
 return cell;
@@ -102,6 +102,17 @@ return cell;
     NSMutableDictionary *selectedAddress = [self.userAddressArray objectAtIndex:indexPath.row];
     //调用自定义协议 在前一VC中实现这个协议
     [self.delegate passVlaue:selectedAddress];
+    YMDbClass *db = [[YMDbClass alloc]init];
+    if([db connect])
+    {
+        NSString *query1 = [NSString stringWithFormat:@"update user_address set state = '0' where state = '1';"];
+        NSString * query2 = [NSString stringWithFormat:@"update user_address set state = '1'  where addr_id = '%@';",[selectedAddress objectForKey:@"addr_id"]];
+        [db exec:query1];
+        [db exec:query2];
+        [db close];
+        [self bindSqlite];
+        [self.AddressListTableView reloadData];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)didReceiveMemoryWarning

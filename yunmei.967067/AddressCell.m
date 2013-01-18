@@ -36,7 +36,7 @@
     {
         _selectedLog = [[UIImageView alloc]initWithFrame:CGRectMake(3, 40, 20, 20)];
     }
-    [_selectedLog setImage:[UIImage imageNamed:@"RadioButton-Unselected"]];
+    //[_selectedLog setImage:[UIImage imageNamed:@"RadioButton-Unselected"]];
     return _selectedLog;
 }
 
