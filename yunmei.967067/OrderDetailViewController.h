@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YMGlobal.h"
 
 @interface OrderDetailViewController : UIViewController<
 UITableViewDataSource,
-UITableViewDelegate
+UITableViewDelegate,
+UIScrollViewDelegate
 >
+@property (strong, nonatomic) UIScrollView *rootScrollView;
 
+@property (strong, nonatomic)  UITableView *orderDetailTableView;
+
+@property(strong,nonatomic)NSMutableDictionary *orderData;
 @end

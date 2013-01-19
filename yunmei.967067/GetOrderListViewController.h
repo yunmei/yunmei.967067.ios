@@ -15,6 +15,7 @@
 #import "orderFirstCell.h"
 #import "orderSecondCell.h"
 #import "orderThirdCell.h"
+#import "OrderDetailViewController.h"
 @interface GetOrderListViewController : UIViewController<
 UITableViewDataSource,
 UITableViewDelegate

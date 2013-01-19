@@ -147,7 +147,16 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"order_getOrderInfo",@"act",user.session,@"sessionId",user.userid,@"userId",[oneOrder objectForKey:@"orderId"],@"orderId", nil];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
     [op  addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        NSLog(@"%@",[completedOperation responseString]);
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+        if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            OrderDetailViewController *orderDetailView = [[OrderDetailViewController alloc]init];
+            orderDetailView.orderData = [NSMutableDictionary dictionaryWithDictionary:[obj objectForKey:@"data"]];
+            UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+            self.navigationItem.backBarButtonItem = backItem;
+            [self.navigationController pushViewController:orderDetailView animated:YES];
+        }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);
     }];
