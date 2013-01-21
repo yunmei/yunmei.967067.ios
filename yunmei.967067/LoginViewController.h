@@ -14,11 +14,11 @@
 #import "UserModel.h"
 #import "MBProgressHUD.h"
 #import "YMDbClass.h"
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController<UITextFieldDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (strong, nonatomic) IBOutlet UIButton *loginBtn;
 @property (strong, nonatomic) IBOutlet UIButton *registerBtn;
-
+@property(strong,nonatomic)UITapGestureRecognizer *tapGestureRecgnizer;
 @end

@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YMGlobal.h"
+#import "MBProgressHUD.h"
+#import "AppDelegate.h"
+#import "YMDbClass.h"
+#import "LicenseViewController.h"
 @interface RegisterViewController : UIViewController<UITextFieldDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextField *usernameTextField;
@@ -17,4 +21,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *registerBtn;
 @property (strong, nonatomic) IBOutlet UIButton *cancelBtn;
 @property(strong,nonatomic)UITapGestureRecognizer *tapGestureRecgnizer;
+
+
+
 @end

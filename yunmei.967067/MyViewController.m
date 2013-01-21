@@ -35,10 +35,18 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self.view addSubview:self.headImageView];
+    [self.view addSubview:self.nameLable];
+    [self.view addSubview:self.moneyLable];
+    [self.view addSubview:self.pointLable];
+    [self.view addSubview:self.imageContainer];
+    [self.view addSubview:self.selectTable];
     if (![UserModel checkLogin]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToLogin" object:self];
     }else{
+        NSLog(@"YES");
         UserModel *user = [UserModel getUserModel];
+        NSLog(@"%@",user.username);
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_getInfo",@"act",user.session,@"sessionId",user.userid,@"userId",nil];
         MKNetworkOperation *op = [YMGlobal getOperation:params];
         [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
@@ -70,12 +78,6 @@
                                                                              action:@selector(userLogout)];
 
     // Do any additional setup after loading the view from its nib.
-    [self.view addSubview:self.headImageView];
-    [self.view addSubview:self.nameLable];
-    [self.view addSubview:self.moneyLable];
-    [self.view addSubview:self.pointLable];
-    [self.view addSubview:self.imageContainer];
-    [self.view addSubview:self.selectTable];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

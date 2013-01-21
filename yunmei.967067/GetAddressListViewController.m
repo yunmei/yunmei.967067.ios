@@ -79,6 +79,13 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    if([self.userAddressArray count] == 0)
+    {
+        [cell.addrLable setText:@"没有数据"];
+        [cell.addrLable setFont:[UIFont systemFontOfSize:14.0]];
+        [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        [cell addSubview:cell.addrLable];
+    }
     NSMutableDictionary *oneAddress = [self.userAddressArray objectAtIndex:indexPath.row];
     [cell.addrLable setText:[@"地址:" stringByAppendingString:[oneAddress objectForKey:@"addr"]]];
     [cell.addrLable setFont:[UIFont systemFontOfSize:12.0]];

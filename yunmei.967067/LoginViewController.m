@@ -17,7 +17,7 @@
 @synthesize passwordTextField;
 @synthesize registerBtn;
 @synthesize loginBtn;
-
+@synthesize tapGestureRecgnizer = _tapGestureRecgnizer;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,10 +28,16 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    if([UserModel checkLogin])
+    {
+        [self dismissModalViewControllerAnimated:YES];
+    }
+}
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
+    [super viewDidLoad];    
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithTitle:@"登陆"
                                                                    style:UIBarButtonItemStyleBordered
                                                                   target:self
@@ -125,5 +131,35 @@
     [self setLoginBtn:nil];
     [self setRegisterBtn:nil];
     [super viewDidUnload];
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    CGFloat height = self.view.center.y;
+    CGFloat width = self.view.frame.size.width;
+    [self.view setCenter:CGPointMake(width/2, height-100)];
+    [self.view addGestureRecognizer:self.tapGestureRecgnizer];
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    CGFloat height = self.view.frame.size.height/2;
+    CGFloat width = self.view.frame.size.width/2;
+    [self.view setCenter:CGPointMake(width, height)];
+    [self.view removeGestureRecognizer:self.tapGestureRecgnizer];
+}
+-(UITapGestureRecognizer *)tapGestureRecgnizer
+{
+    if(_tapGestureRecgnizer == nil)
+    {
+        _tapGestureRecgnizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyBoard:)];
+        _tapGestureRecgnizer.numberOfTapsRequired = 1;
+    }
+    return  _tapGestureRecgnizer;
+}
+
+-(void)hideKeyBoard:(id)sender
+{
+    [self.usernameTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
 }
 @end
