@@ -12,6 +12,7 @@
 #import "SBJson.h"
 #import "MBProgressHUD.h"
 #import "AppDelegate.h"
+#import "GoodsInfoViewController.h"
 @interface MyFavorViewController : UIViewController<
 UITableViewDataSource,
 UITableViewDelegate>

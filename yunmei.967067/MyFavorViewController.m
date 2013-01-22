@@ -82,6 +82,9 @@
             NSLog(@"%@",error);
         }];
         [ApplicationDelegate.appEngine enqueueOperation:op1];
+    }else{
+        UIView * vainView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 480)];
+        UILabel *
     }
 }
 
@@ -115,10 +118,55 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSMutableDictionary *oneGoods = [self.goodsInforArr objectAtIndex:indexPath.row];
+    GoodsInfoViewController *goodsInfoView = [[GoodsInfoViewController alloc]init];
+    goodsInfoView.goodsId = [oneGoods objectForKey:@"goodsId"];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
+    [self.navigationController pushViewController:goodsInfoView animated:YES];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView setEditing:YES animated:YES];
+    return UITableViewCellEditingStyleDelete;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSMutableDictionary *oneGoods = [self.goodsInforArr objectAtIndex:indexPath.row];
+    [self.goodsInforArr removeObjectAtIndex:indexPath.row];
+    if([UserModel checkLogin])
+    {
+        UserModel *user = [UserModel getUserModel];
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_delFavorite",@"act", user.session,@"sessionId",user.userid,@"userId",[oneGoods objectForKey:@"goodsId"],@"goodsId",nil];
+        MKNetworkOperation *op = [YMGlobal getOperation:params];
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            SBJsonParser *parser = [[SBJsonParser alloc]init];
+            NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+            if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+            {
+                
+            }
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            NSLog(@"%@",error);
+        }];
+        [ApplicationDelegate.appEngine enqueueOperation:op];
+    }
+    [self.MyFavorTableView reloadData];
 }
 
 - (void)viewDidUnload {
