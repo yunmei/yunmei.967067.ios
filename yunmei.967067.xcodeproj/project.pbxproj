@@ -121,6 +121,8 @@
 		AA3B63AC169D3562005A91C1 /* RadioButton-Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3B63AB169D3562005A91C1 /* RadioButton-Selected.png */; };
 		AA3B63AE169D356A005A91C1 /* RadioButton-Unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3B63AD169D356A005A91C1 /* RadioButton-Unselected.png */; };
 		AA562D8E16A7D6C5004127A3 /* GetAddressListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA91D28516A5355B005BB248 /* GetAddressListViewController.m */; };
+		AA7399BF16AE83E000C83CBA /* HelpWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7399BD16AE83E000C83CBA /* HelpWebViewController.m */; };
+		AA7399C016AE83E000C83CBA /* HelpWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA7399BE16AE83E000C83CBA /* HelpWebViewController.xib */; };
 		AA7B0ED5168ED6DD007045CE /* carBuy.png in Resources */ = {isa = PBXBuildFile; fileRef = AA7B0ED4168ED6DD007045CE /* carBuy.png */; };
 		AA7B8733169C090E00CF0121 /* goodsInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7B8732169C090E00CF0121 /* goodsInfoView.m */; };
 		AA856ACE16A3DF8E004108DE /* GetOrderIdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA856ACC16A3DF8E004108DE /* GetOrderIdViewController.m */; };
@@ -367,6 +369,9 @@
 		46FDFFE51678368E0075A644 /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		AA3B63AB169D3562005A91C1 /* RadioButton-Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RadioButton-Selected.png"; sourceTree = "<group>"; };
 		AA3B63AD169D356A005A91C1 /* RadioButton-Unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RadioButton-Unselected.png"; sourceTree = "<group>"; };
+		AA7399BC16AE83E000C83CBA /* HelpWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpWebViewController.h; sourceTree = "<group>"; };
+		AA7399BD16AE83E000C83CBA /* HelpWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpWebViewController.m; sourceTree = "<group>"; };
+		AA7399BE16AE83E000C83CBA /* HelpWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpWebViewController.xib; sourceTree = "<group>"; };
 		AA7B0ED4168ED6DD007045CE /* carBuy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carBuy.png; sourceTree = "<group>"; };
 		AA7B8731169C090E00CF0121 /* goodsInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = goodsInfoView.h; sourceTree = "<group>"; };
 		AA7B8732169C090E00CF0121 /* goodsInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = goodsInfoView.m; sourceTree = "<group>"; };
@@ -879,6 +884,9 @@
 				AAC0820B16AE1B0500C86CD2 /* MyFavorViewController.h */,
 				AAC0820C16AE1B0500C86CD2 /* MyFavorViewController.m */,
 				AAC0820D16AE1B0500C86CD2 /* MyFavorViewController.xib */,
+				AA7399BC16AE83E000C83CBA /* HelpWebViewController.h */,
+				AA7399BD16AE83E000C83CBA /* HelpWebViewController.m */,
+				AA7399BE16AE83E000C83CBA /* HelpWebViewController.xib */,
 			);
 			name = MyCenter;
 			sourceTree = "<group>";
@@ -1104,6 +1112,7 @@
 				AABE3BA516AD231E0005A509 /* license.html in Resources */,
 				AABE3BA716AD29850005A509 /* sc.png in Resources */,
 				AAC0820F16AE1B0500C86CD2 /* MyFavorViewController.xib in Resources */,
+				AA7399C016AE83E000C83CBA /* HelpWebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1199,6 +1208,7 @@
 				AABE96BE16A93CD900533FDB /* OrderDetailViewController.m in Sources */,
 				AABE3B9D16AD1E900005A509 /* LicenseViewController.m in Sources */,
 				AAC0820E16AE1B0500C86CD2 /* MyFavorViewController.m in Sources */,
+				AA7399BF16AE83E000C83CBA /* HelpWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
