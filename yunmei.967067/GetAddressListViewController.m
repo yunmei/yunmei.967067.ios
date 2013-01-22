@@ -42,9 +42,14 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.navigationItem.title = @"收货人信息";
+    self.navigationItem.title = @"收货人信息列表";
     UIBarButtonItem *addBtn = [[UIBarButtonItem alloc]initWithTitle:@"添加" style:UIBarButtonItemStyleBordered target:self action:@selector(addAddress:)];
-    self.navigationItem.rightBarButtonItem = addBtn;   
+    self.navigationItem.rightBarButtonItem = addBtn;
+    if(self.ifThisViewComeFromMyCenter)
+    {
+        UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(backToMyCenter:)];
+        self.navigationItem.leftBarButtonItem = leftBtn;
+    }
 }
 
 
@@ -56,6 +61,7 @@
         NSString * query = [NSString stringWithFormat:@"select * from user_address"];
         [self.userAddressArray removeAllObjects];
         self.userAddressArray = [db fetchAll:query];
+        NSLog(@"%@",self.userAddressArray);
     }
 }
 
@@ -131,6 +137,58 @@ return cell;
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        NSMutableDictionary *oneAddress =[self.userAddressArray objectAtIndex:indexPath.row];
+        YMDbClass *db = [[YMDbClass alloc]init];
+        if([db connect])
+        {
+            NSString *query = [NSString stringWithFormat:@"delete from user_address where addr_id = '%@';",[oneAddress objectForKey:@"addr_id"]];
+            if([db exec:query])
+            {
+                NSLog(@"数据库删除成功");
+            };
+        }
+        if(![[oneAddress objectForKey:@"addr_id"]isEqualToString:@"0"])
+        {
+            
+            NSLog(@"%@",oneAddress);
+            UserModel *user = [UserModel getUserModel];
+            NSLog(@"userId:%@",user.userid);
+            NSLog(@"sessionId:%@",user.session);
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_delAddressInfo",@"act",user.session,@"sessionId",user.userid,@"userId",[oneAddress objectForKey:@"addr_id"],@"addr_id", nil];
+            NSLog(@"地址:%@",[oneAddress objectForKey:@"addr"]);
+            MKNetworkOperation *op = [YMGlobal getOperation:params];
+            [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+                SBJsonParser *parser = [[SBJsonParser alloc]init];
+                NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+                if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+                {
+                    NSLog(@"删除成功");
+                    NSLog(@"%@",obj);
+                }
+                else{
+                    NSLog(@"删除失败");
+                }
+            } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+                NSLog(@"%@",error);
+            }];
+            [ApplicationDelegate.appEngine enqueueOperation:op];
+        }
+        [self.userAddressArray removeObjectAtIndex:indexPath.row];
+        [self.AddressListTableView reloadData];
+        
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -160,5 +218,10 @@ return cell;
         [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
     }
     [self.navigationController presentModalViewController:orderNav animated:YES];
+}
+
+-(void)backToMyCenter:(id)sender
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 @end

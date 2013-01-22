@@ -42,6 +42,13 @@
             {
                 self.goodsIdArr = [[NSMutableArray alloc]initWithArray:[obj objectForKey:@"data"]];
                 [self bindGoodsInfo];
+            }else{
+                UIView * vainView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 480)];
+                [vainView setBackgroundColor:[UIColor whiteColor]];
+                UILabel *messageLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
+                [messageLable setText:@"没有收藏记录"];
+                [vainView addSubview:messageLable];
+                [self.view addSubview:vainView];
             }
         } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
             NSLog(@"%@",error);
@@ -56,6 +63,7 @@
 {
     if([self.goodsIdArr count]>0)
     {
+        NSLog(@"arr%@",self.goodsIdArr);
         NSString *goodsIdsAppending = @"";
         int i = 1;
         for(NSMutableDictionary *o in self.goodsIdArr)
@@ -83,8 +91,12 @@
         }];
         [ApplicationDelegate.appEngine enqueueOperation:op1];
     }else{
+        NSLog(@"kong ");
         UIView * vainView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 480)];
-        UILabel *
+        UILabel *messageLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
+        [messageLable setText:@"记录为空"];
+        [vainView addSubview:messageLable];
+        [self.navigationController.view addSubview:vainView];
     }
 }
 
@@ -139,34 +151,32 @@
     return YES;
 }
 
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView setEditing:YES animated:YES];
-    return UITableViewCellEditingStyleDelete;
-}
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableDictionary *oneGoods = [self.goodsInforArr objectAtIndex:indexPath.row];
-    [self.goodsInforArr removeObjectAtIndex:indexPath.row];
-    if([UserModel checkLogin])
+    if(editingStyle == UITableViewCellEditingStyleDelete)
     {
-        UserModel *user = [UserModel getUserModel];
-        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_delFavorite",@"act", user.session,@"sessionId",user.userid,@"userId",[oneGoods objectForKey:@"goodsId"],@"goodsId",nil];
-        MKNetworkOperation *op = [YMGlobal getOperation:params];
-        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-            SBJsonParser *parser = [[SBJsonParser alloc]init];
-            NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
-            if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
-            {
-                
-            }
-        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-            NSLog(@"%@",error);
-        }];
-        [ApplicationDelegate.appEngine enqueueOperation:op];
+        NSMutableDictionary *oneGoods = [self.goodsInforArr objectAtIndex:indexPath.row];
+        [self.goodsInforArr removeObjectAtIndex:indexPath.row];
+        if([UserModel checkLogin])
+        {
+            UserModel *user = [UserModel getUserModel];
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_delFavorite",@"act", user.session,@"sessionId",user.userid,@"userId",[oneGoods objectForKey:@"goodsId"],@"goodsId",nil];
+            MKNetworkOperation *op = [YMGlobal getOperation:params];
+            [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+                SBJsonParser *parser = [[SBJsonParser alloc]init];
+                NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+                if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+                {
+                    
+                }
+            } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+                NSLog(@"%@",error);
+            }];
+            [ApplicationDelegate.appEngine enqueueOperation:op];
+        }
+        [self.MyFavorTableView reloadData];
     }
-    [self.MyFavorTableView reloadData];
 }
 
 - (void)viewDidUnload {
