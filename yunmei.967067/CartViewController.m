@@ -534,45 +534,9 @@ bool cancleBuPressed = NO;
     if([UserModel checkLogin])
     {
         OrderEditViewController *Order = [[OrderEditViewController alloc]init];
-        UserModel *user = [UserModel getUserModel];
-        NSMutableDictionary *params = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_getAddressList",@"act",user.session,@"sessionId",user.userid,@"userId",nil];
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        MKNetworkOperation *op = [YMGlobal getOperation:params];
-        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-            SBJsonParser *parser = [[SBJsonParser alloc]init];
-            NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
-            if([[obj objectForKey:@"errorMessage"] isEqualToString:@"success"])
-            {
-                NSMutableArray *dataArr = [obj objectForKey:@"data"];
-                if([dataArr count]>0)
-                {
-                    //将用户收货地址加入sqlite;
-                    [UserModel createAddressTable];
-                    YMDbClass *db = [[YMDbClass alloc]init];
-                    if([db connect])
-                    {
-                        for (id o in dataArr)
-                        {
-                                NSString *query = [NSString stringWithFormat:@"INSERT INTO user_address(user_id, addr, addr_id, city, city_id,district,district_id,is_default,mobile,name,province,province_id,telphone,zip,state)VALUES('%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@');",user.userid,[o objectForKey:@"addr"],[o objectForKey:@"addr_id"],[o objectForKey:@"city"],[o objectForKey:@"city_id"],[o objectForKey:@"district"],[o objectForKey:@"district_id"],[o objectForKey:@"is_default"],[o objectForKey:@"mobile"],[o objectForKey:@"name"],[o objectForKey:@"province"],[o objectForKey:@"province_id"],[o objectForKey:@"telphone"],[o objectForKey:@"zip"],@"0"];                                
-                                if([db exec:query]){
-                                }    
-                        }
-                        [db close];
-                    }
-                }
-                UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
-                self.navigationItem.backBarButtonItem = leftBtn;
-                [self.navigationController pushViewController:Order animated:YES];
-            }else{
-                UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
-                self.navigationItem.backBarButtonItem = leftBtn;
-                [self.navigationController pushViewController:Order animated:YES];
-            }
-        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-            NSLog(@"%@",error);
-        }];
-        [ApplicationDelegate.appEngine enqueueOperation:op];
-        [hud hide:YES];
+        UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+        self.navigationItem.backBarButtonItem = leftBtn;
+        [self.navigationController pushViewController:Order animated:YES];
     }else{
         UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"请选择是否登陆" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"匿名购买" otherButtonTitles:@"去登陆", nil];
         [actionSheet showInView:self.view];

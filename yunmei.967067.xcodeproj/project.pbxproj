@@ -144,6 +144,7 @@
 		AABE3B9D16AD1E900005A509 /* LicenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE3B9B16AD1E900005A509 /* LicenseViewController.m */; };
 		AABE3B9E16AD1E900005A509 /* LicenseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABE3B9C16AD1E900005A509 /* LicenseViewController.xib */; };
 		AABE3BA516AD231E0005A509 /* license.html in Resources */ = {isa = PBXBuildFile; fileRef = AABE3BA416AD231E0005A509 /* license.html */; };
+		AABE3BA716AD29850005A509 /* sc.png in Resources */ = {isa = PBXBuildFile; fileRef = AABE3BA616AD29850005A509 /* sc.png */; };
 		AABE96AF16A8F46F00533FDB /* GetOrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96AD16A8F46F00533FDB /* GetOrderListViewController.m */; };
 		AABE96B016A8F46F00533FDB /* GetOrderListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABE96AE16A8F46F00533FDB /* GetOrderListViewController.xib */; };
 		AABE96B416A912B200533FDB /* orderFirstCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96B316A912B200533FDB /* orderFirstCell.m */; };
@@ -151,6 +152,8 @@
 		AABE96BA16A912E200533FDB /* orderThirdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96B916A912E200533FDB /* orderThirdCell.m */; };
 		AABE96BE16A93CD900533FDB /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE96BC16A93CD900533FDB /* OrderDetailViewController.m */; };
 		AABE96BF16A93CD900533FDB /* OrderDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABE96BD16A93CD900533FDB /* OrderDetailViewController.xib */; };
+		AAC0820E16AE1B0500C86CD2 /* MyFavorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0820C16AE1B0500C86CD2 /* MyFavorViewController.m */; };
+		AAC0820F16AE1B0500C86CD2 /* MyFavorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAC0820D16AE1B0500C86CD2 /* MyFavorViewController.xib */; };
 		AAC24419167EB9BB00080AAC /* quickBuyBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC24418167EB9BB00080AAC /* quickBuyBtn.png */; };
 		AAC2441B167EB9C200080AAC /* quickBuyBtnDisable.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */; };
 		AAC2D482169BCBC000CE4116 /* OrderEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC2D480169BCBC000CE4116 /* OrderEditViewController.m */; };
@@ -395,6 +398,7 @@
 		AABE3B9B16AD1E900005A509 /* LicenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseViewController.m; sourceTree = "<group>"; };
 		AABE3B9C16AD1E900005A509 /* LicenseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseViewController.xib; sourceTree = "<group>"; };
 		AABE3BA416AD231E0005A509 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = license.html; sourceTree = "<group>"; };
+		AABE3BA616AD29850005A509 /* sc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sc.png; sourceTree = "<group>"; };
 		AABE96AC16A8F46F00533FDB /* GetOrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetOrderListViewController.h; sourceTree = "<group>"; };
 		AABE96AD16A8F46F00533FDB /* GetOrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetOrderListViewController.m; sourceTree = "<group>"; };
 		AABE96AE16A8F46F00533FDB /* GetOrderListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetOrderListViewController.xib; sourceTree = "<group>"; };
@@ -407,6 +411,9 @@
 		AABE96BB16A93CD900533FDB /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
 		AABE96BC16A93CD900533FDB /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailViewController.m; sourceTree = "<group>"; };
 		AABE96BD16A93CD900533FDB /* OrderDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderDetailViewController.xib; sourceTree = "<group>"; };
+		AAC0820B16AE1B0500C86CD2 /* MyFavorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyFavorViewController.h; sourceTree = "<group>"; };
+		AAC0820C16AE1B0500C86CD2 /* MyFavorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyFavorViewController.m; sourceTree = "<group>"; };
+		AAC0820D16AE1B0500C86CD2 /* MyFavorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyFavorViewController.xib; sourceTree = "<group>"; };
 		AAC24418167EB9BB00080AAC /* quickBuyBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtn.png; sourceTree = "<group>"; };
 		AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtnDisable.png; sourceTree = "<group>"; };
 		AAC2D47F169BCBC000CE4116 /* OrderEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderEditViewController.h; sourceTree = "<group>"; };
@@ -577,6 +584,7 @@
 		4635DFCE1643A47000C7B445 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AABE3BA616AD29850005A509 /* sc.png */,
 				AABE3B9416AD1C730005A509 /* btn_yellow.png */,
 				AA8CC1D516AD0980009190A3 /* lightYellow.jpg */,
 				AA8CC1D116AD062E009190A3 /* login_bg.jpg */,
@@ -868,6 +876,9 @@
 				AABE3B9A16AD1E8F0005A509 /* LicenseViewController.h */,
 				AABE3B9B16AD1E900005A509 /* LicenseViewController.m */,
 				AABE3B9C16AD1E900005A509 /* LicenseViewController.xib */,
+				AAC0820B16AE1B0500C86CD2 /* MyFavorViewController.h */,
+				AAC0820C16AE1B0500C86CD2 /* MyFavorViewController.m */,
+				AAC0820D16AE1B0500C86CD2 /* MyFavorViewController.xib */,
 			);
 			name = MyCenter;
 			sourceTree = "<group>";
@@ -1091,6 +1102,8 @@
 				AABE3B9516AD1C730005A509 /* btn_yellow.png in Resources */,
 				AABE3B9E16AD1E900005A509 /* LicenseViewController.xib in Resources */,
 				AABE3BA516AD231E0005A509 /* license.html in Resources */,
+				AABE3BA716AD29850005A509 /* sc.png in Resources */,
+				AAC0820F16AE1B0500C86CD2 /* MyFavorViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1185,6 +1198,7 @@
 				AABE96BA16A912E200533FDB /* orderThirdCell.m in Sources */,
 				AABE96BE16A93CD900533FDB /* OrderDetailViewController.m in Sources */,
 				AABE3B9D16AD1E900005A509 /* LicenseViewController.m in Sources */,
+				AAC0820E16AE1B0500C86CD2 /* MyFavorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

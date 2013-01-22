@@ -44,13 +44,10 @@
     if (![UserModel checkLogin]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToLogin" object:self];
     }else{
-        NSLog(@"YES");
         UserModel *user = [UserModel getUserModel];
-        NSLog(@"%@",user.username);
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_getInfo",@"act",user.session,@"sessionId",user.userid,@"userId",nil];
         MKNetworkOperation *op = [YMGlobal getOperation:params];
         [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-            NSLog(@"%@",[completedOperation responseString]);
             SBJsonParser *parser = [[SBJsonParser alloc]init];
             NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
             if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
@@ -65,7 +62,7 @@
             NSLog(@"%@",error);
         }];
         [ApplicationDelegate.appEngine enqueueOperation:op];
-    }
+            }
     
 }
 
@@ -123,7 +120,6 @@
 {
     if(indexPath.row == 0)
     {
-        NSLog(@"11");
         GetOrderListViewController *getOrderListView = [[GetOrderListViewController alloc]init];
         UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
         self.navigationItem.backBarButtonItem = backItem;

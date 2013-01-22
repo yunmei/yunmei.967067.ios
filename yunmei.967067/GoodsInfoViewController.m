@@ -571,8 +571,13 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 //生成立即购买按钮
                 self.quickBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
                 [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtnDisable"] forState:UIControlStateNormal];
-                [self.quickBuyBtn setFrame:CGRectMake(55, 45, 200, 40)];
+                [self.quickBuyBtn setFrame:CGRectMake(25, 45, 150, 40)];
                 [cell addSubview:self.quickBuyBtn];
+                UIButton *addFavoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, 48, 80, 35)];
+                [addFavoriteBtn setTitle:@"收藏" forState:UIControlStateNormal];
+                [addFavoriteBtn setBackgroundImage:[UIImage imageNamed:@"sc"] forState:UIControlStateNormal];
+                [addFavoriteBtn addTarget:self action:@selector(addFavor:) forControlEvents:UIControlEventTouchUpInside];
+                [cell addSubview:addFavoriteBtn];
                 
             }else if ([self.selectedProduct count]>0){
                 self.goodsStore.text = [self.selectedProduct objectForKey:@"pro_store"];
@@ -940,6 +945,44 @@ NSInteger beforePressedParamBtnHeadNum =0;
             }
         }
         NSLog(@"%@",self.carBackSpecArr);
+    }
+}
+
+-(void)addFavor:(id)sender
+{
+    if(![UserModel checkLogin])
+    {
+        UIActionSheet *actions = [[UIActionSheet alloc]initWithTitle:@"提醒:你需要先登陆" delegate:self cancelButtonTitle:@"确定" destructiveButtonTitle:@"取消" otherButtonTitles:nil,nil];
+        [actions showInView:self.view];
+    }else{
+        MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.navigationController.view];
+        UserModel *user = [UserModel getUserModel];
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_addFavorite",@"act",user.session,@"sessionId",user.userid,@"userId",self.goodsId,@"goodsId", nil];
+        MKNetworkOperation *op = [YMGlobal getOperation:params];
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            SBJsonParser *parser = [[SBJsonParser alloc]init];
+            NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+            if([[obj objectForKey:@"errorMessage"] isEqualToString:@"success"])
+            {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提醒" message:@"加入收藏成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alert show];
+            }else{
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提醒" message:@"加入收藏失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            NSLog(@"%@",error);
+        }];
+        [ApplicationDelegate.appEngine enqueueOperation:op];
+        [hud hide:YES];
+    }
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 1)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToLogin" object:self];
     }
 }
 @end
