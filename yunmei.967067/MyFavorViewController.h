@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserModel.h"
+#import "YMGlobal.h"
+#import "SBJson.h"
+#import "MBProgressHUD.h"
+#import "AppDelegate.h"
+@interface MyFavorViewController : UIViewController<
+UITableViewDataSource,
+UITableViewDelegate>
 
-@interface MyFavorViewController : UIViewController
-
+@property (strong, nonatomic) IBOutlet UITableView *MyFavorTableView;
+@property (strong,nonatomic) NSMutableArray *goodsIdArr;
+@property(strong,nonatomic)NSMutableArray *goodsInforArr;
 @end

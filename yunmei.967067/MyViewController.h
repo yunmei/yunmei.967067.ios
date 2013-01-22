@@ -13,6 +13,7 @@
 #import "UserModel.h"
 #import "GetAddressListViewController.h"
 #import "GetOrderListViewController.h"
+#import "MyFavorViewController.h"
 @interface MyViewController : UIViewController <
 UIAlertViewDelegate,
 UITableViewDataSource,
