@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UserModel.h"
 #import "HelpWebViewController.h"
+#import "UserSurggestViewController.h"
 @interface MoreViewController : UIViewController<
 UITableViewDataSource,
 UITableViewDelegate>

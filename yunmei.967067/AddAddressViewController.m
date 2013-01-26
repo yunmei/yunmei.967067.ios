@@ -508,7 +508,7 @@
 
 -(void)getPicker:(id)sender
 {
-    [self.picker setFrame:CGRectMake(0, 250, 320, 230)];
+    [self.picker setFrame:CGRectMake(0, 250, 320, 216)];
     //为文本域输入添加一个控制键盘的toolbar
     UIToolbar *keyBordTopBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 210, 320, 40)];
     [keyBordTopBar setBarStyle:UIBarStyleBlackTranslucent];
@@ -546,7 +546,6 @@
             }else{
                 self.countyIdArr = [self getAllId:cityData identifier:@"district_id"];
                 self.countyNameArr = [self getAllName:cityData identifier:@"district_name"];
-                NSLog(@"%@",self.countyNameArr);
                 [self.picker reloadComponent:2];
             }
         }
@@ -603,12 +602,12 @@
     }else{
         OrderEditViewController *orderEdit = [[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil];
         NSString * area = [NSString stringWithFormat:@"mainland:%@/%@/%@:%i",self.provinceBtn.titleLabel.text,self.cityBtn.titleLabel.text,self.countyBtn.titleLabel.text,self.countyBtn.tag];
-        NSString *displayArea = [NSString stringWithFormat:@"%@%@%@%@",self.self.provinceBtn.titleLabel.text,self.cityBtn.titleLabel.text,self.countyBtn.titleLabel.text,self.addressInDetail.text];
-
+        NSString *address = [NSString stringWithFormat:@"%@",self.addressInDetail.text];
+        NSString *displayArea = [NSString stringWithFormat:@"%@%@%@%@",self.provinceBtn.titleLabel.text,self.cityBtn.titleLabel.text,self.countyBtn.titleLabel.text,self.addressInDetail.text];
         if([UserModel checkLogin])
         {
             UserModel *user = [UserModel getUserModel];
-            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_updateAddressInfo",@"act",user.session,@"sessionId",user.userid,@"userId",@"0",@"addressId",self.goodsOwner.text,@"name", self.telephone.text,@"phone",[NSString stringWithFormat:@"%i",self.provinceBtn.tag],@"provinceId",[NSString stringWithFormat:@"%i",self.cityBtn.tag],@"cityId",[NSString stringWithFormat:@"%i",self.countyBtn.tag],@"areaId",displayArea,@"address",self.zipCode.text,@"zipcode",nil];
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_updateAddressInfo",@"act",user.session,@"sessionId",user.userid,@"userId",@"0",@"addressId",self.goodsOwner.text,@"name", self.telephone.text,@"phone",[NSString stringWithFormat:@"%i",self.provinceBtn.tag],@"provinceId",[NSString stringWithFormat:@"%i",self.cityBtn.tag],@"cityId",[NSString stringWithFormat:@"%i",self.countyBtn.tag],@"areaId",address,@"address",self.zipCode.text,@"zipcode",area,@"area",nil];
             MKNetworkOperation *op = [YMGlobal getOperation:params];
             [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
                 SBJsonParser *parser = [[SBJsonParser alloc]init];
@@ -616,19 +615,6 @@
                 NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
                 if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
                 {
-                    YMDbClass *db = [[YMDbClass alloc]init];
-                    if([db connect])
-                    {
-                        NSString *query = [NSString stringWithFormat:@"INSERT INTO user_address(user_id, addr, addr_id, city, city_id,district,district_id,is_default,mobile,name,province,province_id,telphone,zip,state)VALUES('%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@');",user.userid,self.addressInDetail.text,@"0",self.cityBtn.titleLabel.text,[NSString stringWithFormat:@"%i",self.cityBtn.tag],self.countyBtn.titleLabel.text,[NSString stringWithFormat:@"%i",self.countyBtn.tag],@"0",self.telephone.text,self.goodsOwner.text,self.provinceBtn.titleLabel.text,[NSString stringWithFormat:@"%i",self.provinceBtn.tag],@"",self.zipCode.text,@"0"];
-                        [db exec:query];
-                    }
-//                    UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
-//                    [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
-//                    if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
-//                    {
-//                        [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
-//                    }
-//                    [self.navigationController presentModalViewController:orderNav animated:YES];
                     [self.parentViewController dismissModalViewControllerAnimated:YES];
                 }else{
                     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"警告" message:@"添加失败，请重新填写" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];

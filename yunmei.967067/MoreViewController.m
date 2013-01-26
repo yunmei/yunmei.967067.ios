@@ -145,7 +145,10 @@
         }else if (indexPath.row ==1){
             
         }else{
-            
+            UserSurggestViewController *userSurggestView = [[UserSurggestViewController alloc]init];
+            UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+            self.navigationItem.backBarButtonItem = backItem;
+            [self.navigationController pushViewController:userSurggestView animated:YES];
         }
     }
 }

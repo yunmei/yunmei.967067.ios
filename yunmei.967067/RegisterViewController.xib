@@ -511,10 +511,10 @@
 							<reference ref="926370483"/>
 							<reference ref="1049699059"/>
 							<reference ref="959144012"/>
+							<reference ref="754806145"/>
 							<reference ref="916124476"/>
 							<reference ref="402121075"/>
 							<reference ref="1044025331"/>
-							<reference ref="754806145"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -621,17 +621,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">RegisterViewController</string>
 					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">agreementTextButtonPressed:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">agreementTextButtonPressed:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">agreementTextButtonPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="cancelBtn">UIButton</string>
 						<string key="emailTextField">UITextField</string>

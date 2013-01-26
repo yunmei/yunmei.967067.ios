@@ -210,6 +210,7 @@
     {
         _selectTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 110, 320, 180) style:UITableViewStyleGrouped];
     }
+    _selectTable.backgroundView = nil;
     _selectTable.backgroundColor = [UIColor clearColor];
     _selectTable.delegate = self;
     _selectTable.dataSource = self;

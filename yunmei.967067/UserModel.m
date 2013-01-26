@@ -55,7 +55,7 @@
     if([db connect])
     {
         [db exec:@"CREATE TABLE IF NOT EXISTS user ('user_id', 'username', 'password', 'is_login', 'session');"];
-        [db exec:@"CREATE TABLE IF NOT EXISTS user_address ('user_id', 'addr', 'addr_id', 'city', 'city_id','district','district_id','is_default','mobile','name','province','province_id','telphone','zip','state');"];
+        [db exec:@"CREATE TABLE IF NOT EXISTS user_address ('user_id', 'addr', 'addr_id', 'city', 'city_id','district','district_id','is_default','mobile','name','province','province_id','telphone','zip');"];
         [db close];
     }
 }
@@ -65,7 +65,7 @@
     YMDbClass *db = [[YMDbClass alloc]init];
     if([db connect])
     {
-        [db exec:@"CREATE TABLE IF NOT EXISTS user_address ('user_id', 'addr', 'addr_id', 'city', 'city_id','district','district_id','is_default','mobile','name','province','province_id','telphone','zip','state');"];
+        [db exec:@"CREATE TABLE IF NOT EXISTS user_address ('user_id', 'addr', 'addr_id', 'city', 'city_id','district','district_id','is_default','mobile','name','province','province_id','telphone','zip');"];
         [db exec:@"DELETE FROM user_address"];
         [db close];
     }

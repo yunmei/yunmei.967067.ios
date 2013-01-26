@@ -35,6 +35,7 @@
     [self.view addSubview:self.rootScrollView];
     // Do any additional setup after loading the view from its nib.
     self.orderDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, height) style:UITableViewStyleGrouped];
+    [self.orderDetailTableView setBackgroundView:nil];
     self.orderDetailTableView.scrollEnabled = NO;
     self.orderDetailTableView.delegate = self;
     self.orderDetailTableView.dataSource = self;
@@ -126,6 +127,9 @@
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [orderIdLable setBackgroundColor:[UIColor clearColor]];
+            [payLable setBackgroundColor:[UIColor clearColor]];
+            [createtimeLable setBackgroundColor:[UIColor clearColor]];
             [cell addSubview:orderIdLable];
             [cell addSubview:payLable];
             [cell addSubview:createtimeLable];
@@ -149,7 +153,7 @@
                 [statusLable setText:[NSString stringWithFormat:@"订单状态 : 已支付"]];
                 [statusLable setTextColor:[UIColor blackColor]];
             }
-            
+            [statusLable setBackgroundColor:[UIColor clearColor]];
             [cell addSubview:statusLable];
         }
 
@@ -176,6 +180,10 @@
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [addressInfoStringLable setBackgroundColor:[UIColor clearColor]];
+            [addressInDetailLable setBackgroundColor:[UIColor clearColor]];
+            [shipNameLable setBackgroundColor:[UIColor clearColor]];
+            [telephoneLable setBackgroundColor:[UIColor clearColor]];
             [cell addSubview:addressInfoStringLable];
             [cell addSubview:addressInDetailLable];
             [cell addSubview:shipNameLable];
@@ -208,6 +216,9 @@
             [goodsPriceLable setFont:[UIFont systemFontOfSize:12.0]];
             [goodsPriceLable setText:[NSString stringWithFormat:@"价格 : ￥%@     数量 : %@",[[goodsArr objectAtIndex:indexPath.row] objectForKey:@"price"],[[goodsArr objectAtIndex:indexPath.row] objectForKey:@"nums"]]];
             [goodsPriceLable setTextColor:[UIColor redColor]];
+            [goodsNameLable setBackgroundColor:[UIColor clearColor]];
+            [goodsCodeLable setBackgroundColor:[UIColor clearColor]];
+            [goodsPriceLable setBackgroundColor:[UIColor clearColor]];
             [cell addSubview:goodsImg];
             [cell addSubview:goodsNameLable];
             [cell addSubview:goodsCodeLable];
@@ -227,6 +238,7 @@
                 UILabel *payLable = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, 250, 20)];
                 [payLable setFont:[UIFont systemFontOfSize:12.0]];
                 [payLable setText:[NSString stringWithFormat:@"支付方式 : %@",[self.orderData objectForKey:@"custom_name"]]];
+                [payLable setBackgroundColor:[UIColor clearColor]];
                 [cell addSubview:payLable];
             }
             return cell;
@@ -240,6 +252,7 @@
                 UILabel *shipLable = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 250, 20)];
                 [shipLable setFont:[UIFont systemFontOfSize:12.0]];
                 [shipLable setText:[NSString stringWithFormat:@"配送方式 : %@",[self.orderData objectForKey:@"shipping"]]];
+                [shipLable setBackgroundColor:[UIColor clearColor]];
                 [cell addSubview:shipLable];
             }
 

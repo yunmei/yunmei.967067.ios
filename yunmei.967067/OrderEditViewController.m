@@ -22,26 +22,29 @@ bool payAfterCustomerGetGoods = YES;
 @synthesize addressDic = _addressDic;
 @synthesize countPay;
 @synthesize userAddressArr = _userAddressArr;
-@synthesize goodsOwnerLable;
-@synthesize zipIdLable;
-@synthesize telephoneLable;
-@synthesize displayAreaLable;
+@synthesize goodsOwnerLable = _goodsOwnerLable;
+@synthesize zipIdLable = _zipIdLable;
+@synthesize telephoneLable = _telephoneLable;
+@synthesize displayAreaLable = _displayAreaLable;
 //实现自定义的协议，实现从已登录用户的地址列表中选择时回传收货人信息
 -(void)passVlaue:(NSMutableDictionary *)value
 {
+   // NSMutableDictionary *addrValues = [NSMutableDictionary dictionaryWithDictionary:value];
     [self.addressDic removeAllObjects];
     NSString *shipArea = [NSString stringWithFormat:@"mainland:%@/%@/%@:%@",[value objectForKey:@"province"],[value objectForKey:@"city"],[value objectForKey:@"district"],[value objectForKey:@"district_id"]];
+    NSString *disPlayAddr = [NSString stringWithFormat:@"%@%@%@%@",[value objectForKey:@"province"],[value objectForKey:@"city"],[value objectForKey:@"district"],[value objectForKey:@"addr"]];
     [self.addressDic setObject:shipArea forKey:@"ship_area"];
     [self.addressDic setObject:[value objectForKey:@"addr"] forKey:@"ship_addr"];
     [self.addressDic setObject:[value objectForKey:@"name"] forKey:@"ship_name"];
     [self.addressDic setObject:[value objectForKey:@"zip"] forKey:@"ship_zip"];
     NSString *tel = [[value objectForKey:@"mobile"]isEqualToString:@""]?[value objectForKey:@"telphone"]:[value objectForKey:@"mobile"];
     [self.addressDic setObject:tel forKey:@"ship_tel"];
-    [self.addressDic setObject:[value objectForKey:@"addr"] forKey:@"displayArea"];
-    self.goodsOwnerLable.text = [NSString stringWithFormat:@"收货人姓名:%@",[value objectForKey:@"name"]];
-    self.zipIdLable.text = [NSString stringWithFormat:@"收货人邮编:%@",[value objectForKey:@"zip"]];
-    self.telephoneLable.text = [NSString stringWithFormat:@"收货人电话:%@",tel];
-    self.displayAreaLable.text = [NSString stringWithFormat:@"收货地址:%@",[value objectForKey:@"addr"]];
+    if([UserModel checkLogin])
+    {
+        [self.addressDic setObject:[value objectForKey:@"addr_id"] forKey:@"addr_id"];
+    }
+    [self.addressDic setObject:disPlayAddr forKey:@"displayArea"]; 
+    [self.orderTableView reloadData];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,7 +57,6 @@ bool payAfterCustomerGetGoods = YES;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-
 }
 - (void)viewDidLoad
 {
@@ -81,23 +83,24 @@ bool payAfterCustomerGetGoods = YES;
 
 -(void)bindAddress
 {
-    YMDbClass *db = [[YMDbClass alloc]init];
-    if([db connect])
+    if([self.userAddressArr count]>0)
     {
-        NSString * query = [NSString stringWithFormat:@"select * from user_address"];
-        [self.userAddressArr removeAllObjects];
-        self.userAddressArr = [db fetchAll:query];
-        if([self.userAddressArr count]>0)
-        {
-            NSMutableDictionary *oneAddress = [self.userAddressArr objectAtIndex:0];
-            [self.addressDic setObject:[oneAddress objectForKey:@"name"] forKey:@"ship_name"];
-            [self.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"ship_area"];
-            [self.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"ship_addr"];
-            [self.addressDic setObject:[oneAddress objectForKey:@"zip"] forKey:@"ship_zip"];
-            [self.addressDic setObject:[oneAddress objectForKey:@"addr_id"] forKey:@"addr_id"];
-            [self.addressDic setObject:[[oneAddress objectForKey:@"mobile"]isEqualToString:@"" ]? [oneAddress objectForKey:@"telphone"]:[oneAddress objectForKey:@"mobile"]forKey:@"ship_tel"];
-            [self.addressDic setObject:[oneAddress objectForKey:@"addr"] forKey:@"displayArea"];
+        NSLog(@"self.userAddressArr%@",self.userAddressArr);
+        for (NSMutableDictionary *o in self.userAddressArr) {
+            if( [[o objectForKey:@"is_default"] isEqualToString:@"1"])
+            {
+                [self.addressDic setObject:[o objectForKey:@"name"] forKey:@"ship_name"];
+                [self.addressDic setObject:[o objectForKey:@"addr"] forKey:@"ship_area"];
+                [self.addressDic setObject:[o objectForKey:@"addr"] forKey:@"ship_addr"];
+                [self.addressDic setObject:[o objectForKey:@"zip"] forKey:@"ship_zip"];
+                [self.addressDic setObject:[o objectForKey:@"addr_id"] forKey:@"addr_id"];
+                [self.addressDic setObject:[[o objectForKey:@"mobile"]isEqualToString:@"" ]? [o objectForKey:@"telphone"]:[o objectForKey:@"mobile"]forKey:@"ship_tel"];
+                NSString *disPlayAddr = [NSString stringWithFormat:@"%@%@%@%@",[o objectForKey:@"province"],[o objectForKey:@"city"],[o objectForKey:@"district"],[o objectForKey:@"addr"]];
+                [self.addressDic setObject:disPlayAddr forKey:@"displayArea"];
+                [self.addressDic setObject:[o objectForKey:@"addr_id"] forKey:@"addr_id"];
+            }
         }
+
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -134,7 +137,6 @@ bool payAfterCustomerGetGoods = YES;
             infoString.text = @"商品信息";
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [cell addSubview:infoString];
-        }
             CGFloat currentViewHeightInit =25;
             for(NSMutableDictionary *o in self.goodsInfoList)
             {
@@ -151,51 +153,57 @@ bool payAfterCustomerGetGoods = YES;
                 currentViewHeightInit += 72;
                 [cell.superview addSubview:goodsSubView];
             }
-            
+        }
         return cell;
     }else if (indexPath.row ==0){
-        static NSString *identifier = @"identifier0";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if(cell == nil)
+        if([self.addressDic count]>0)
         {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            UILabel *writeInAddress = [[UILabel alloc]initWithFrame:CGRectMake(3, 3, 80, 20)];
-            writeInAddress.text = @"售货信息";
-            writeInAddress.font = [UIFont systemFontOfSize:14.0];
-            [cell addSubview:writeInAddress];
-            if([self.addressDic count] >0)
+            static NSString *identifier = @"identifier0";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if(cell == nil)
             {
-                self.goodsOwnerLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 25, 300, 20)];
-                self.zipIdLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 45, 300, 20)];
-                self.telephoneLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 65, 300, 20)];
-                self.displayAreaLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 85, 300, 20)];
-                NSString *goodsOwner = [NSString stringWithFormat:@"收货人姓名:%@",[self.addressDic objectForKey:@"ship_name" ]];
-                NSString *zipId = [NSString stringWithFormat:@"收货人邮编:%@",[self.addressDic objectForKey:@"ship_zip" ]];
-                NSString *telephone = [NSString stringWithFormat:@"收货人电话:%@",[self.addressDic objectForKey:@"ship_tel" ]];
-                NSString *displayArea = [NSString stringWithFormat:@"收货地址:%@",[self.addressDic objectForKey:@"displayArea"]];
-                self.goodsOwnerLable.text = goodsOwner;
-                self.zipIdLable.text = zipId;
-                self.telephoneLable.text = telephone;
-                self.displayAreaLable.text = displayArea;
-                self.goodsOwnerLable.font = [UIFont systemFontOfSize:12.0];
-                self.zipIdLable.font = [UIFont systemFontOfSize:12.0];
-                self.telephoneLable.font = [UIFont systemFontOfSize:12.0];
-                self.displayAreaLable.font = [UIFont systemFontOfSize:12.0];
-                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                [cell addSubview:self.goodsOwnerLable];
-                [cell addSubview:self.zipIdLable];
-                [cell addSubview:self.telephoneLable];
-                [cell addSubview:self.displayAreaLable];
-            }else{
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                UILabel *writeInAddress = [[UILabel alloc]initWithFrame:CGRectMake(3, 3, 80, 20)];
+                writeInAddress.text = @"售货信息";
+                writeInAddress.font = [UIFont systemFontOfSize:14.0];
+                [cell addSubview:writeInAddress];
+            }
+            NSString *goodsOwner = [NSString stringWithFormat:@"收货人姓名:%@",[self.addressDic objectForKey:@"ship_name" ]];
+            NSString *zipId = [NSString stringWithFormat:@"收货人邮编:%@",[self.addressDic objectForKey:@"ship_zip" ]];
+            NSString *telephone = [NSString stringWithFormat:@"收货人电话:%@",[self.addressDic objectForKey:@"ship_tel" ]];
+            NSString *displayArea = [NSString stringWithFormat:@"收货地址:%@",[self.addressDic objectForKey:@"displayArea"]];
+            self.goodsOwnerLable.text = goodsOwner;
+            self.zipIdLable.text = zipId;
+            self.telephoneLable.text = telephone;
+            self.displayAreaLable.text = displayArea;
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            [cell addSubview:self.goodsOwnerLable];
+            [cell addSubview:self.zipIdLable];
+            [cell addSubview:self.telephoneLable];
+            [cell addSubview:self.displayAreaLable];
+             return cell;
+
+        }else{
+            static NSString *identifier = @"identifier1";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if(cell == nil)
+            {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                UILabel *writeInAddress = [[UILabel alloc]initWithFrame:CGRectMake(3, 3, 80, 20)];
+                writeInAddress.text = @"售货信息";
+                writeInAddress.font = [UIFont systemFontOfSize:14.0];
+                [cell addSubview:writeInAddress];  
                 UILabel *pleaseWriteInAddress = [[UILabel alloc]initWithFrame:CGRectMake(3, 25, 100, 20)];
                 pleaseWriteInAddress.text = @"请填写收货地址";
                 pleaseWriteInAddress.font = [UIFont systemFontOfSize:12.0];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                [cell addSubview:pleaseWriteInAddress];
+                [cell addSubview:pleaseWriteInAddress];          
             }
+             return cell;
         }
-        return cell;
+
+       
     }else if(indexPath.row ==2){
         static NSString *identifier = @"identifier2";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -442,6 +450,10 @@ bool payAfterCustomerGetGoods = YES;
        [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_zip"] forKey:@"ship_zip"];
        [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_tel"] forKey:@"ship_tel"];
        [getOrder.orderParamsDic setObject:self.orderRemarkFeild.text forKey:@"memo"];
+       if([self.addressDic objectForKey:@"addr_id"])
+       {
+           [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"addr_id"] forKey:@"addr_id"];
+       }
        NSString *cart_goodids = @"";
         NSString *cart_goodnums = @"";
         NSString *productIds = @"";
@@ -471,5 +483,43 @@ bool payAfterCustomerGetGoods = YES;
        }
        [self.navigationController presentModalViewController:orderNav animated:YES];
    }
+}
+
+-(UILabel *)goodsOwnerLable
+{
+    if(_goodsOwnerLable == nil)
+    {
+        _goodsOwnerLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 25, 300, 20)];
+    }
+    [_goodsOwnerLable setFont:[UIFont systemFontOfSize:12.0]];
+    return _goodsOwnerLable;
+}
+
+-(UILabel *)zipIdLable
+{
+    if(_zipIdLable == nil)
+    {
+        _zipIdLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 45, 300, 20)];
+    }
+    [_zipIdLable setFont:[UIFont systemFontOfSize:12.0]];
+    return _zipIdLable;
+}
+
+-(UILabel *)telephoneLable
+{
+    if(_telephoneLable == nil)
+    _telephoneLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 65, 300, 20)];
+    [_telephoneLable setFont:[UIFont systemFontOfSize:12.0]];
+    return _telephoneLable;
+}
+
+-(UILabel *)displayAreaLable
+{
+    if(_displayAreaLable == nil)
+    {
+       _displayAreaLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 85, 300, 20)];
+    }
+    [_displayAreaLable setFont:[UIFont systemFontOfSize:12.0]];
+    return _displayAreaLable;
 }
 @end

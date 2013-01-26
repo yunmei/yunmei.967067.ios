@@ -23,4 +23,5 @@ UITableViewDataSource
 @property(assign)NSObject<PassValueDelegate> *delegate;
 @property(strong,nonatomic)UIImageView *seletedImage;
 @property BOOL ifThisViewComeFromMyCenter;
+@property(strong,nonatomic)NSMutableArray *imageArr;
 @end

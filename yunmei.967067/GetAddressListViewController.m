@@ -18,6 +18,7 @@
 @synthesize selectedAddrId;
 @synthesize seletedImage;
 @synthesize ifThisViewComeFromMyCenter;
+@synthesize imageArr = _imageArr;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -29,13 +30,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"bool%i",self.ifThisViewComeFromMyCenter);
-    [self bindSqlite];
-    [self.AddressListTableView reloadData];
-    if([self.userAddressArray count]==0)
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"addOneAddress" object:self];
-    }
+    [self bindData];
+   
 }
 
 - (void)viewDidLoad
@@ -53,21 +49,40 @@
 }
 
 
--(void)bindSqlite
+-(void)bindData
 {
-    YMDbClass *db = [[YMDbClass alloc]init];
-    if([db connect])
+    if([UserModel checkLogin])
     {
-        NSString * query = [NSString stringWithFormat:@"select * from user_address"];
-        [self.userAddressArray removeAllObjects];
-        self.userAddressArray = [db fetchAll:query];
-        NSLog(@"%@",self.userAddressArray);
+        UserModel *user = [UserModel getUserModel];
+        NSMutableDictionary *params = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_getAddressList",@"act",user.session,@"sessionId",user.userid,@"userId", nil];
+        MKNetworkOperation *op = [YMGlobal getOperation:params];
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            NSLog(@"%@",[completedOperation responseString]);
+            SBJsonParser *parser = [[SBJsonParser alloc]init];
+            NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+            if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+            {
+                self.userAddressArray = [obj objectForKey:@"data"];
+                [self.AddressListTableView reloadData];
+            }else{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"addOneAddress" object:self];
+
+                }
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            NSLog(@"%@",error);
+        }];
+        [ApplicationDelegate.appEngine enqueueOperation:op];
     }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.userAddressArray count];
+    if([self.userAddressArray count]>0)
+    {
+        return [self.userAddressArray count];
+    }else{
+        return 1;
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -77,65 +92,82 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"identifier";
-    AddressCell *cell = (AddressCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
-    if(cell == nil)
+    if([self.userAddressArray count] >0)
     {
-        cell = [[AddressCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    if([self.userAddressArray count] == 0)
-    {
-        [cell.addrLable setText:@"没有数据"];
-        [cell.addrLable setFont:[UIFont systemFontOfSize:14.0]];
-        [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        static NSString *identifier = @"identifier";
+        AddressCell *cell = (AddressCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+        if(cell == nil)
+        {
+            cell = [[AddressCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        NSMutableDictionary *oneAddress = [self.userAddressArray objectAtIndex:indexPath.row];
+        NSString *addressAppending = [NSString stringWithFormat:@"地址:%@%@%@%@",[oneAddress objectForKey:@"province"],[oneAddress objectForKey:@"city"],[oneAddress objectForKey:@"district"],[oneAddress objectForKey:@"addr"]];
+        [cell.addrLable setText:addressAppending];
+        [cell.addrLable setFont:[UIFont systemFontOfSize:12.0]];
+        [cell.addrLable setNumberOfLines:0];
+        [cell.nameLable setText:[@"收货人:" stringByAppendingString:[oneAddress objectForKey:@"name"]]];
+        [cell.nameLable setFont:[UIFont systemFontOfSize:12.0]];
+        [cell.zipLable setText:[@"邮编:" stringByAppendingString:[oneAddress objectForKey:@"zip"]]];
+        [cell.zipLable setFont:[UIFont systemFontOfSize:12.0]];
         [cell addSubview:cell.addrLable];
-    }
-    NSMutableDictionary *oneAddress = [self.userAddressArray objectAtIndex:indexPath.row];
-    [cell.addrLable setText:[@"地址:" stringByAppendingString:[oneAddress objectForKey:@"addr"]]];
-    [cell.addrLable setFont:[UIFont systemFontOfSize:12.0]];
-    [cell.addrLable setNumberOfLines:0];
-    [cell.nameLable setText:[@"收货人:" stringByAppendingString:[oneAddress objectForKey:@"name"]]];
-    [cell.nameLable setFont:[UIFont systemFontOfSize:12.0]];
-    [cell.zipLable setText:[@"邮编:" stringByAppendingString:[oneAddress objectForKey:@"zip"]]];
-    [cell.zipLable setFont:[UIFont systemFontOfSize:12.0]];
-    [cell addSubview:cell.addrLable];
-    [cell addSubview:cell.nameLable];
-    [cell addSubview:cell.zipLable];
-    if([[oneAddress objectForKey:@"state"]isEqualToString:@"1"])
-    {
-        [cell.selectedLog setImage:[UIImage imageNamed:@"RadioButton-Selected"]];
+        [cell addSubview:cell.nameLable];
+        [cell addSubview:cell.zipLable];
+        if([[oneAddress objectForKey:@"is_default"]isEqualToString:@"1"])
+        {
+            [cell.selectedLog setImage:[UIImage imageNamed:@"RadioButton-Selected"]];
+            self.seletedImage = cell.selectedLog;
+        }else{
+            [cell.selectedLog setImage:[UIImage imageNamed:@"RadioButton-Unselected"]];
+        }
+        [cell addSubview:cell.selectedLog];
+        return cell;
     }else{
-        [cell.selectedLog setImage:[UIImage imageNamed:@"RadioButton-Unselected"]];
+        static NSString *identifier = @"identifierAnother";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if(cell == nil)
+        {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        }
+        cell.textLabel.text = @"用户地址列表为空，请添加地址";
+        return cell;
     }
-    [cell addSubview:cell.selectedLog];
-return cell;
+    
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.seletedImage setImage:[UIImage imageNamed:@"RadioButton-Unselected"]];
+    
+    MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.navigationController.view];
     NSMutableDictionary *selectedAddress = [self.userAddressArray objectAtIndex:indexPath.row];
-    //调用自定义协议 在前一VC中实现这个协议
-    [self.delegate passVlaue:selectedAddress];
-    YMDbClass *db = [[YMDbClass alloc]init];
-    if([db connect])
-    {
-        NSString *query1 = [NSString stringWithFormat:@"update user_address set state = '0' where state = '1';"];
-        NSString * query2 = [NSString stringWithFormat:@"update user_address set state = '1'  where addr_id = '%@';",[selectedAddress objectForKey:@"addr_id"]];
-        [db exec:query1];
-        [db exec:query2];
-        [db close];
-        [self bindSqlite];
-        [self.AddressListTableView reloadData];
-    }
-    if(self.ifThisViewComeFromMyCenter)
-    {
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
-    }else{
-
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    UserModel *user = [UserModel getUserModel];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_setToDef",@"act",user.session,@"sessionId",user.userid,@"userId",[selectedAddress objectForKey:@"addr_id"],@"addr_id", nil];
+    MKNetworkOperation *op = [YMGlobal getOperation:params];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSLog(@"默认地址%@",[completedOperation responseString]);
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        //NSLog(@"设置默认地址%@", )
+        NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+        if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            [self bindData];
+            [self.AddressListTableView reloadData];
+            if(self.ifThisViewComeFromMyCenter)
+            {
+                [self dismissModalViewControllerAnimated:YES];
+            }else{
+                //调用自定义协议 在前一VC中实现这个协议
+                [self.delegate passVlaue:selectedAddress];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    [ApplicationDelegate.appEngine enqueueOperation:op];
+    [hud hide:YES];
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -148,22 +180,9 @@ return cell;
     if(editingStyle == UITableViewCellEditingStyleDelete)
     {
         NSMutableDictionary *oneAddress =[self.userAddressArray objectAtIndex:indexPath.row];
-        YMDbClass *db = [[YMDbClass alloc]init];
-        if([db connect])
+        if(![[oneAddress objectForKey:@"addr_id"]isEqualToString:@""])
         {
-            NSString *query = [NSString stringWithFormat:@"delete from user_address where addr_id = '%@';",[oneAddress objectForKey:@"addr_id"]];
-            if([db exec:query])
-            {
-                NSLog(@"数据库删除成功");
-            };
-        }
-        if(![[oneAddress objectForKey:@"addr_id"]isEqualToString:@"0"])
-        {
-            
-            NSLog(@"%@",oneAddress);
             UserModel *user = [UserModel getUserModel];
-            NSLog(@"userId:%@",user.userid);
-            NSLog(@"sessionId:%@",user.session);
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_delAddressInfo",@"act",user.session,@"sessionId",user.userid,@"userId",[oneAddress objectForKey:@"addr_id"],@"addr_id", nil];
             NSLog(@"地址:%@",[oneAddress objectForKey:@"addr"]);
             MKNetworkOperation *op = [YMGlobal getOperation:params];
@@ -223,5 +242,14 @@ return cell;
 -(void)backToMyCenter:(id)sender
 {
     [self dismissModalViewControllerAnimated:YES];
+}
+
+-(NSMutableArray *)imageArr
+{
+    if(_imageArr == nil)
+    {
+        _imageArr = [[NSMutableArray alloc]init];
+    }
+    return _imageArr;
 }
 @end

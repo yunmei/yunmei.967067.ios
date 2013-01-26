@@ -12,9 +12,11 @@
 #import "AppDelegate.h"
 #import "MBProgressHUD.h"
 #import "UserModel.h"
+#import "AlixPayViewController.h"
 @interface GetOrderIdViewController : UIViewController
 @property(strong,nonatomic)NSString *orderId;
 @property BOOL payOnline;
 @property(strong,nonatomic)NSMutableDictionary *orderParamsDic;
 @property(strong,nonatomic)UILabel *orderIdLable;
+@property(strong,nonatomic)NSString *payAmount;
 @end

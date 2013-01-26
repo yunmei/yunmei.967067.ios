@@ -47,6 +47,7 @@ bool cancleBuPressed = NO;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self bindCarWithGoodsList];
+    [self.goodsTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     if(self.goodsList.count > 0)
     {
         self.navigationItem.leftBarButtonItem.enabled =YES;
@@ -222,7 +223,7 @@ bool cancleBuPressed = NO;
                     countString.font = [UIFont systemFontOfSize:12.0];
                     countString.textColor= [UIColor grayColor];
                     UIButton * carBuy = [[UIButton alloc]initWithFrame:CGRectMake(70, 50, 180, 35)];
-                    [carBuy setBackgroundImage:[UIImage imageNamed:@"CarBuy"] forState:UIControlStateNormal];
+                    [carBuy setBackgroundImage:[UIImage imageNamed:@"carBuy"] forState:UIControlStateNormal];
                     [carBuy addTarget:self action:@selector(orderEdit:) forControlEvents:UIControlEventTouchUpInside];
                     [cell addSubview:carBuy];
                     [cell addSubview:countString];
@@ -524,20 +525,34 @@ bool cancleBuPressed = NO;
 
 -(void)orderEdit:(id)sender
 {
-//    UINavigationController *orderNavController = [[UINavigationController alloc]initWithRootViewController:[[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil]];
-//    [orderNavController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
-//    if([orderNavController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
-//    {
-//        [orderNavController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
-//    }
-//    [self.tabBarController.selectedViewController presentModalViewController:orderNavController animated:YES];
     if([UserModel checkLogin])
     {
+        MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.navigationController.view];
         OrderEditViewController *Order = [[OrderEditViewController alloc]init];
-        UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
-        self.navigationItem.backBarButtonItem = leftBtn;
-        [self.navigationController pushViewController:Order animated:YES];
+        UserModel *user = [UserModel getUserModel];
+        NSMutableDictionary *params = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_getAddressList",@"act",user.session,@"sessionId",user.userid,@"userId", nil];
+        MKNetworkOperation *op = [YMGlobal getOperation:params];
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            SBJsonParser *parser = [[SBJsonParser alloc]init];
+            NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+            if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+            {
+                Order.userAddressArr = [obj objectForKey:@"data"];
+                UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+                self.navigationItem.backBarButtonItem = leftBtn;
+                [self.navigationController pushViewController:Order animated:YES];
+            }else{
+                UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+                self.navigationItem.backBarButtonItem = leftBtn;
+                [self.navigationController pushViewController:Order animated:YES];
+            }
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            NSLog(@"%@",error);
+        }];
+        [ApplicationDelegate.appEngine enqueueOperation:op];
+        [hud hide:YES];
     }else{
+        NSLog(@"111");
         UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"请选择是否登陆" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"匿名购买" otherButtonTitles:@"去登陆", nil];
         [actionSheet showInView:self.view];
     }

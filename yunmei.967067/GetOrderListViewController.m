@@ -99,6 +99,9 @@
         [cell.orderGenerateTime setText:[NSString stringWithFormat:@"下单时间 : %@",[oneOrder objectForKey:@"createtime"]]];
         cell.trackOrderBtn.tag = indexPath.section;
         [cell.trackOrderBtn addTarget:self action:@selector(trackOrder:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.orderCode setBackgroundColor:[UIColor clearColor]];
+        [cell.orderPay setBackgroundColor:[UIColor clearColor]];
+        [cell.orderGenerateTime setBackgroundColor:[UIColor clearColor]];
         [cell addSubview:cell.orderCode];
         [cell addSubview:cell.orderPay];
         [cell addSubview:cell.orderGenerateTime];
@@ -119,6 +122,7 @@
         }else{
             [cell.orderState setText:@"订单状态 : 已支付"];
         }
+        [cell.orderState setBackgroundColor:[UIColor clearColor]];
         [cell addSubview:cell.orderState];
             return cell;
     }else{
@@ -134,6 +138,7 @@
         [cell.goodsImg setImage:[UIImage imageNamed:@"goods_default"]];
         [YMGlobal loadImage:[oneGoods objectForKey:@"imageUrl"] andImageView:cell.goodsImg];
         [cell.goodsName setText:[oneGoods objectForKey:@"name"]];
+        [cell.goodsName setBackgroundColor:[UIColor clearColor]];
         [cell addSubview:cell.goodsName];
         [cell addSubview:cell.goodsImg];
         return cell;

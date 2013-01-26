@@ -143,6 +143,24 @@
     }
     [db close];
 }
+
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    [self parseURL:url application:application];
+    return YES;
+}
+
+-(void)parseURL:(NSURL *)url application:(UIApplication *)application
+{
+    AlixPay *alixpay = [AlixPay shared];
+    AlixPayResult *result = [alixpay handleOpenURL:url];
+    if(result){
+        //是否支付成功
+        if( 9000 == result.statusCode){
+            NSLog(@"result%@",result);
+        }
+    }
+}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

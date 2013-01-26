@@ -95,7 +95,7 @@
                         {
                             for (id o in dataArr)
                             {
-                                NSString *query = [NSString stringWithFormat:@"INSERT INTO user_address(user_id, addr, addr_id, city, city_id,district,district_id,is_default,mobile,name,province,province_id,telphone,zip,state)VALUES('%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@');",userModel.userid,[o objectForKey:@"addr"],[o objectForKey:@"addr_id"],[o objectForKey:@"city"],[o objectForKey:@"city_id"],[o objectForKey:@"district"],[o objectForKey:@"district_id"],[o objectForKey:@"is_default"],[o objectForKey:@"mobile"],[o objectForKey:@"name"],[o objectForKey:@"province"],[o objectForKey:@"province_id"],[o objectForKey:@"telphone"],[o objectForKey:@"zip"],@"0"];
+                                NSString *query = [NSString stringWithFormat:@"INSERT INTO user_address(user_id, addr, addr_id, city, city_id,district,district_id,is_default,mobile,name,province,province_id,telphone,zip)VALUES('%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@');",userModel.userid,[o objectForKey:@"addr"],[o objectForKey:@"addr_id"],[o objectForKey:@"city"],[o objectForKey:@"city_id"],[o objectForKey:@"district"],[o objectForKey:@"district_id"],[o objectForKey:@"is_default"],[o objectForKey:@"mobile"],[o objectForKey:@"name"],[o objectForKey:@"province"],[o objectForKey:@"province_id"],[o objectForKey:@"telphone"],[o objectForKey:@"zip"]];
                                 if([db exec:query]){
                                 }
                             }

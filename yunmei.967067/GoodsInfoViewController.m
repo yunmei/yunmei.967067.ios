@@ -250,6 +250,10 @@ NSInteger beforePressedParamBtnHeadNum =0;
     {
         _goodsDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, 320, 420) style:UITableViewStyleGrouped];
     }
+    _goodsDetailTableView.backgroundView = nil;
+    [_goodsDetailTableView setBackgroundColor:[UIColor whiteColor]];
+    [_goodsDetailTableView setSectionIndexColor:[UIColor whiteColor]];
+    [_goodsDetailTableView setSectionIndexTrackingBackgroundColor:[UIColor whiteColor]];
     return _goodsDetailTableView;
 }
 -(NSMutableArray *)chooseParam
@@ -321,7 +325,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
         {
             return 101;
         }else{
-            return 500;
+            return 300;
         }
     }else{
         if(indexPath.section ==0)
@@ -571,7 +575,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 //生成立即购买按钮
                 self.quickBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
                 [self.quickBuyBtn setBackgroundImage:[UIImage imageNamed:@"quickBuyBtnDisable"] forState:UIControlStateNormal];
-                [self.quickBuyBtn setFrame:CGRectMake(25, 45, 150, 40)];
+                [self.quickBuyBtn setFrame:CGRectMake(15, 48, 183, 35)];
                 [cell addSubview:self.quickBuyBtn];
                 UIButton *addFavoriteBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, 48, 80, 35)];
                 [addFavoriteBtn setTitle:@"收藏" forState:UIControlStateNormal];
@@ -642,7 +646,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
             }
                 if([self.goodsModel.property count]>0)
                 {
-                    int i = 15;
+                    int i = 10;
                     for(id o in self.goodsModel.property)
                     {
                         UILabel *content = [[UILabel alloc]initWithFrame:CGRectMake(15, i, 270, 15)];
