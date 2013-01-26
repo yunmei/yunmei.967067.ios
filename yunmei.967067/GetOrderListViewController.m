@@ -184,6 +184,31 @@
 -(void)trackOrder:(id)sender
 {
     UIButton *trackBtn = sender;
-    NSLog(@"%i",trackBtn.tag);
+   MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.navigationController.view];
+   NSMutableDictionary *oneOrder =  [self.orderListArray objectAtIndex:trackBtn.tag];
+    NSLog(@"%@",[oneOrder objectForKey:@"orderId"]);
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"order_getTrackData",@"act", [oneOrder objectForKey:@"orderId"],@"orderId",nil];
+    MKNetworkOperation *op = [YMGlobal getOperation:params];
+    NSLog(@"%@",op);
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        SBJsonParser *parser = [[SBJsonParser alloc]init];
+        NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+        if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            TrackOrderViewController *trackOrderView = [[TrackOrderViewController alloc]init];
+            NSMutableDictionary *data = [obj objectForKey:@"data"];
+            trackOrderView.logi_no = [data objectForKey:@"logi_no"];
+            trackOrderView.logi_name = [data objectForKey:@"logi_name"];
+            trackOrderView.logi_code = [data objectForKey:@"logi_code"];
+            UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+            self.navigationItem.backBarButtonItem = backItem;
+            [self.navigationController pushViewController:trackOrderView animated:YES];
+        }
+        [hud hide:YES];
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"%@",error);
+        [hud hide:YES];
+    }];
+   [ApplicationDelegate.appEngine enqueueOperation:op];   
 }
 @end

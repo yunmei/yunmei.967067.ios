@@ -179,6 +179,8 @@
 		AAD7F08F16AF6FA900869314 /* UserSurggestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD7F08D16AF6FA900869314 /* UserSurggestViewController.xib */; };
 		AADE363216B36DA200EE8530 /* btn_yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = AADE363116B36DA200EE8530 /* btn_yellow.png */; };
 		AADE363416B36DA600EE8530 /* lightYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = AADE363316B36DA600EE8530 /* lightYellow.png */; };
+		AADE363816B37D5A00EE8530 /* TrackOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AADE363616B37D5A00EE8530 /* TrackOrderViewController.m */; };
+		AADE363916B37D5A00EE8530 /* TrackOrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AADE363716B37D5A00EE8530 /* TrackOrderViewController.xib */; };
 		AAF3451016993EEF00B4AD24 /* empty_cart_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AAF3450F16993EEF00B4AD24 /* empty_cart_bg.png */; };
 /* End PBXBuildFile section */
 
@@ -457,6 +459,9 @@
 		AAD7F08D16AF6FA900869314 /* UserSurggestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSurggestViewController.xib; sourceTree = "<group>"; };
 		AADE363116B36DA200EE8530 /* btn_yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_yellow.png; sourceTree = "<group>"; };
 		AADE363316B36DA600EE8530 /* lightYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightYellow.png; sourceTree = "<group>"; };
+		AADE363516B37D5A00EE8530 /* TrackOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackOrderViewController.h; sourceTree = "<group>"; };
+		AADE363616B37D5A00EE8530 /* TrackOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackOrderViewController.m; sourceTree = "<group>"; };
+		AADE363716B37D5A00EE8530 /* TrackOrderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackOrderViewController.xib; sourceTree = "<group>"; };
 		AAE68A6816A63F6C00C31F7F /* PassValueDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PassValueDelegate.h; sourceTree = "<group>"; };
 		AAF3450F16993EEF00B4AD24 /* empty_cart_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_cart_bg.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -559,6 +564,8 @@
 				466C69AB164B949E003ECB2F /* CartViewController.h */,
 				466C69AC164B949E003ECB2F /* CartViewController.m */,
 				466C69AD164B949E003ECB2F /* CartViewController.xib */,
+				AADE363B16B37F5200EE8530 /* Address */,
+				AADE363A16B37EBD00EE8530 /* Order */,
 				AAC2C41C16B223B800C6D1F9 /* AlixPay */,
 				AAC3FFD9169E494900C6FA59 /* Cart */,
 				46FDFFDC167835EB0075A644 /* MyCenter */,
@@ -701,9 +708,6 @@
 				AAD37D3B16815C6A00C06D6F /* GoodsIntroductViewController.h */,
 				AAD37D3C16815C6A00C06D6F /* GoodsIntroductViewController.m */,
 				AAD37D3D16815C6A00C06D6F /* GoodsIntroductViewController.xib */,
-				AAC2D47F169BCBC000CE4116 /* OrderEditViewController.h */,
-				AAC2D480169BCBC000CE4116 /* OrderEditViewController.m */,
-				AAC2D481169BCBC000CE4116 /* OrderEditViewController.xib */,
 			);
 			name = Goods;
 			sourceTree = "<group>";
@@ -892,12 +896,6 @@
 				46FDFFE31678368E0075A644 /* RegisterViewController.h */,
 				46FDFFE41678368E0075A644 /* RegisterViewController.m */,
 				46FDFFE51678368E0075A644 /* RegisterViewController.xib */,
-				AABE96AC16A8F46F00533FDB /* GetOrderListViewController.h */,
-				AABE96AD16A8F46F00533FDB /* GetOrderListViewController.m */,
-				AABE96AE16A8F46F00533FDB /* GetOrderListViewController.xib */,
-				AABE96BB16A93CD900533FDB /* OrderDetailViewController.h */,
-				AABE96BC16A93CD900533FDB /* OrderDetailViewController.m */,
-				AABE96BD16A93CD900533FDB /* OrderDetailViewController.xib */,
 				AABE3B9A16AD1E8F0005A509 /* LicenseViewController.h */,
 				AABE3B9B16AD1E900005A509 /* LicenseViewController.m */,
 				AABE3B9C16AD1E900005A509 /* LicenseViewController.xib */,
@@ -948,15 +946,6 @@
 		AAC3FFD9169E494900C6FA59 /* Cart */ = {
 			isa = PBXGroup;
 			children = (
-				AAC3FFDB169E49C700C6FA59 /* AddAddressViewController.h */,
-				AAC3FFDC169E49C700C6FA59 /* AddAddressViewController.m */,
-				AAC3FFDD169E49C700C6FA59 /* AddAddressViewController.xib */,
-				AA856ACB16A3DF8E004108DE /* GetOrderIdViewController.h */,
-				AA856ACC16A3DF8E004108DE /* GetOrderIdViewController.m */,
-				AA856ACD16A3DF8E004108DE /* GetOrderIdViewController.xib */,
-				AA91D28416A5355B005BB248 /* GetAddressListViewController.h */,
-				AA91D28516A5355B005BB248 /* GetAddressListViewController.m */,
-				AA91D28616A5355B005BB248 /* GetAddressListViewController.xib */,
 			);
 			name = Cart;
 			sourceTree = "<group>";
@@ -982,6 +971,41 @@
 				AABE96B916A912E200533FDB /* orderThirdCell.m */,
 			);
 			name = CustomCell;
+			sourceTree = "<group>";
+		};
+		AADE363A16B37EBD00EE8530 /* Order */ = {
+			isa = PBXGroup;
+			children = (
+				AABE96BD16A93CD900533FDB /* OrderDetailViewController.xib */,
+				AABE96BC16A93CD900533FDB /* OrderDetailViewController.m */,
+				AABE96BB16A93CD900533FDB /* OrderDetailViewController.h */,
+				AABE96AE16A8F46F00533FDB /* GetOrderListViewController.xib */,
+				AABE96AD16A8F46F00533FDB /* GetOrderListViewController.m */,
+				AABE96AC16A8F46F00533FDB /* GetOrderListViewController.h */,
+				AAC2D481169BCBC000CE4116 /* OrderEditViewController.xib */,
+				AAC2D480169BCBC000CE4116 /* OrderEditViewController.m */,
+				AAC2D47F169BCBC000CE4116 /* OrderEditViewController.h */,
+				AA856ACD16A3DF8E004108DE /* GetOrderIdViewController.xib */,
+				AA856ACC16A3DF8E004108DE /* GetOrderIdViewController.m */,
+				AA856ACB16A3DF8E004108DE /* GetOrderIdViewController.h */,
+				AADE363516B37D5A00EE8530 /* TrackOrderViewController.h */,
+				AADE363616B37D5A00EE8530 /* TrackOrderViewController.m */,
+				AADE363716B37D5A00EE8530 /* TrackOrderViewController.xib */,
+			);
+			name = Order;
+			sourceTree = "<group>";
+		};
+		AADE363B16B37F5200EE8530 /* Address */ = {
+			isa = PBXGroup;
+			children = (
+				AA91D28616A5355B005BB248 /* GetAddressListViewController.xib */,
+				AA91D28516A5355B005BB248 /* GetAddressListViewController.m */,
+				AA91D28416A5355B005BB248 /* GetAddressListViewController.h */,
+				AAC3FFDD169E49C700C6FA59 /* AddAddressViewController.xib */,
+				AAC3FFDC169E49C700C6FA59 /* AddAddressViewController.m */,
+				AAC3FFDB169E49C700C6FA59 /* AddAddressViewController.h */,
+			);
+			name = Address;
 			sourceTree = "<group>";
 		};
 		AAE68A6616A63F0B00C31F7F /* CustomDelegate */ = {
@@ -1153,6 +1177,7 @@
 				AAC2C42C16B2281600C6D1F9 /* alixpay.png in Resources */,
 				AADE363216B36DA200EE8530 /* btn_yellow.png in Resources */,
 				AADE363416B36DA600EE8530 /* lightYellow.png in Resources */,
+				AADE363916B37D5A00EE8530 /* TrackOrderViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1251,6 +1276,7 @@
 				AA7399BF16AE83E000C83CBA /* HelpWebViewController.m in Sources */,
 				AAD7F08E16AF6FA900869314 /* UserSurggestViewController.m in Sources */,
 				AAC2C42916B225DC00C6D1F9 /* AlixPayViewController.m in Sources */,
+				AADE363816B37D5A00EE8530 /* TrackOrderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
