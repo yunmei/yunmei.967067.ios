@@ -183,4 +183,10 @@
     [self setMyFavorTableView:nil];
     [super viewDidUnload];
 }
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
 @end

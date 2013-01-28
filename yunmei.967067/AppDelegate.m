@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
-
+#import "AlixPay.h"
+#import "AlixPayResult.h"
+#import <sys/utsname.h>
 
 @implementation UINavigationBar (CustomNavigationBarImage)
 - (void)drawRect:(CGRect)rect
@@ -21,8 +23,21 @@
 
 @synthesize appEngine;
 
+//- (BOOL)isSingleTask{
+//	struct utsname name;
+//	uname(&name);
+//	float version = [[UIDevice currentDevice].systemVersion floatValue];//判定系统版本。
+//	if (version < 4.0 || strstr(name.machine, "iPod1,1") != 0 || strstr(name.machine, "iPod2,1") != 0) {
+//		return YES;
+//	}
+//	else {
+//		return NO;
+//	}
+//}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSLog(@"begin");
     // 创建MKNetworkEngine
     self.appEngine= [[MKNetworkEngine alloc] initWithHostName:API_HOSTNAME customHeaderFields:nil];
     [self.appEngine useCache];
@@ -76,6 +91,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRespondsLogin:) name:@"UserRespondsLogin" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToAddress:) name:@"addOneAddress" object:nil];
     [self statisGoodsCar:self.tabBarController];
+//    /*
+//	 *单任务handleURL处理
+//	 */
+//	if ([self isSingleTask]) {
+//		NSURL *url = [launchOptions objectForKey:@"UIApplicationLaunchOptionsURLKey"];
+//		
+//		if (nil != url) {
+//			[self parseURL:url application:application];
+//		}
+//	}
     return YES;
 }
 
@@ -144,23 +169,59 @@
     [db close];
 }
 
--(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-{
-    [self parseURL:url application:application];
-    return YES;
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+	
+    NSLog(@"getget");
+	//[self parseURL:url application:application];
+    
+	return YES;
 }
 
 -(void)parseURL:(NSURL *)url application:(UIApplication *)application
 {
-    AlixPay *alixpay = [AlixPay shared];
-    AlixPayResult *result = [alixpay handleOpenURL:url];
-    if(result){
-        //是否支付成功
-        if( 9000 == result.statusCode){
-            NSLog(@"result%@",result);
-        }
-    }
+	AlixPay *alixpay = [AlixPay shared];
+	AlixPayResult *result = [alixpay handleOpenURL:url];
+//	if (result) {
+//		//是否支付成功
+////		if (9000 == result.statusCode) {
+////			/*
+////			 *用公钥验证签名
+////			 */
+////			id<DataVerifier> verifier = CreateRSADataVerifier([[NSBundle mainBundle] objectForInfoDictionaryKey:@"RSA public key"]);
+////			if ([verifier verifyString:result.resultString withSign:result.signString]) {
+////				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+////																	 message:result.statusMessage
+////																	delegate:nil
+////														   cancelButtonTitle:@"确定"
+////														   otherButtonTitles:nil];
+////				[alertView show];
+////				[alertView release];
+////			}//验签错误
+////			else {
+////				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+////																	 message:@"签名错误"
+////																	delegate:nil
+////														   cancelButtonTitle:@"确定"
+////														   otherButtonTitles:nil];
+////				[alertView show];
+////				[alertView release];
+////			}
+////		}
+////		//如果支付失败,可以通过result.statusCode查询错误码
+////		else {
+////			UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+////																 message:result.statusMessage
+////																delegate:nil
+////													   cancelButtonTitle:@"确定"
+////													   otherButtonTitles:nil];
+////			[alertView show];
+////			[alertView release];
+////		}
+////		
+//	}
+//        NSLog(@"%@",result);
 }
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

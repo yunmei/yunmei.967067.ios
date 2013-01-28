@@ -522,4 +522,10 @@ bool payAfterCustomerGetGoods = YES;
     [_displayAreaLable setFont:[UIFont systemFontOfSize:12.0]];
     return _displayAreaLable;
 }
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
 @end

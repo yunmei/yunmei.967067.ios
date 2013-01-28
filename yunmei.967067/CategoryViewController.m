@@ -147,4 +147,9 @@ numberOfRowsInSection:(NSInteger)section
     return  self.catItemList.count;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
 @end

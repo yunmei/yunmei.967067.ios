@@ -251,9 +251,6 @@ NSInteger beforePressedParamBtnHeadNum =0;
         _goodsDetailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, 320, 420) style:UITableViewStyleGrouped];
     }
     _goodsDetailTableView.backgroundView = nil;
-    [_goodsDetailTableView setBackgroundColor:[UIColor whiteColor]];
-    [_goodsDetailTableView setSectionIndexColor:[UIColor whiteColor]];
-    [_goodsDetailTableView setSectionIndexTrackingBackgroundColor:[UIColor whiteColor]];
     return _goodsDetailTableView;
 }
 -(NSMutableArray *)chooseParam
@@ -988,5 +985,11 @@ NSInteger beforePressedParamBtnHeadNum =0;
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToLogin" object:self];
     }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 @end

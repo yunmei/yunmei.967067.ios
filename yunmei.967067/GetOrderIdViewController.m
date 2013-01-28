@@ -162,4 +162,10 @@
             self.payAmount = [NSString stringWithFormat:@"%.2f",i];
         }    }
 }
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
 @end
