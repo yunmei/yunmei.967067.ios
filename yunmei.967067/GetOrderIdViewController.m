@@ -30,6 +30,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(back) name:@"backback" object:nil];
     [self bindSqlist];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(GoBack:)];
     self.navigationItem.leftBarButtonItem = backItem;
@@ -48,7 +49,6 @@
         NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
         if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
         {
-            [hud hide:YES];
             NSMutableDictionary *data = [obj objectForKey:@"data"];
             [self.orderIdLable setText:[NSString stringWithFormat:@"%@",[data objectForKey:@"orderid"]]];
             UILabel *orderSubmitSuccessLable = [[UILabel alloc]initWithFrame:CGRectMake(95, 180, 200, 30)];
@@ -76,14 +76,15 @@
                 [db exec:query];
                 [db close];
             }
+            
         }else{
-            [hud hide:YES];
             UILabel *orderSubmitSuccessLable = [[UILabel alloc]initWithFrame:CGRectMake(95, 180, 200, 30)];
             [orderSubmitSuccessLable setFont:[UIFont systemFontOfSize:14.0]];
             [orderSubmitSuccessLable setTextColor:[UIColor redColor]];
-            [orderSubmitSuccessLable setText:@"订单提交失败，请重新提交"];
+            [orderSubmitSuccessLable setText:@"订单提交失败，请重新选购后生成订单"];
             [self.view addSubview:orderSubmitSuccessLable];
         }
+        [hud hide:YES];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         [hud hide:YES];
         NSLog(@"%@",error);
@@ -163,9 +164,16 @@
         }    }
 }
 
+-(void)back
+{
+    NSLog(@"shoudao");
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
 @end

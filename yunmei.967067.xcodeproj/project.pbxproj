@@ -135,6 +135,7 @@
 		AA8DBAB01669ED53003291D2 /* CategorySecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8DBAAE1669ED53003291D2 /* CategorySecViewController.m */; };
 		AA8DBAB11669ED53003291D2 /* CategorySecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA8DBAAF1669ED53003291D2 /* CategorySecViewController.xib */; };
 		AA91D28816A5355B005BB248 /* GetAddressListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA91D28616A5355B005BB248 /* GetAddressListViewController.xib */; };
+		AABB178B16B8E5F500633D0E /* define.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB178A16B8E5F500633D0E /* define.png */; };
 		AABB243516780C7300008F6B /* moveRight.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243416780C7300008F6B /* moveRight.png */; };
 		AABB243816780C7B00008F6B /* moveLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243716780C7B00008F6B /* moveLeft.png */; };
 		AABB243A16780C8600008F6B /* plusBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AABB243916780C8600008F6B /* plusBtn.png */; };
@@ -398,6 +399,8 @@
 		AA91D28416A5355B005BB248 /* GetAddressListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAddressListViewController.h; sourceTree = "<group>"; };
 		AA91D28516A5355B005BB248 /* GetAddressListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetAddressListViewController.m; sourceTree = "<group>"; };
 		AA91D28616A5355B005BB248 /* GetAddressListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetAddressListViewController.xib; sourceTree = "<group>"; };
+		AABB178A16B8E5F500633D0E /* define.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = define.png; sourceTree = "<group>"; };
+		AABB178D16B8F50200633D0E /* PassObjValueDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PassObjValueDelegate.h; sourceTree = "<group>"; };
 		AABB243416780C7300008F6B /* moveRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveRight.png; sourceTree = "<group>"; };
 		AABB243716780C7B00008F6B /* moveLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveLeft.png; sourceTree = "<group>"; };
 		AABB243916780C8600008F6B /* plusBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusBtn.png; sourceTree = "<group>"; };
@@ -448,7 +451,6 @@
 		AAD5AEFA16A786B5003006CB /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
 		AAD5AEFB16A786B5003006CB /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
 		AAD5E77516B8AF2500AD6F78 /* quickBuyBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtn.png; sourceTree = "<group>"; };
-		AAD5E77716B8BDB900AD6F78 /* PayStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PayStatus.h; sourceTree = "<group>"; };
 		AAD7542C1666EEAE0059962D /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
 		AAD7542D1666EEAE0059962D /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCell.m; sourceTree = "<group>"; };
 		AAD7542F1666EEED0059962D /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
@@ -616,6 +618,7 @@
 		4635DFCE1643A47000C7B445 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AABB178A16B8E5F500633D0E /* define.png */,
 				AADE363316B36DA600EE8530 /* lightYellow.png */,
 				AADE363116B36DA200EE8530 /* btn_yellow.png */,
 				AAC2C42B16B2281600C6D1F9 /* alixpay.png */,
@@ -1013,7 +1016,7 @@
 			isa = PBXGroup;
 			children = (
 				AAE68A6816A63F6C00C31F7F /* PassValueDelegate.h */,
-				AAD5E77716B8BDB900AD6F78 /* PayStatus.h */,
+				AABB178D16B8F50200633D0E /* PassObjValueDelegate.h */,
 			);
 			name = CustomDelegate;
 			sourceTree = "<group>";
@@ -1180,6 +1183,7 @@
 				AADE363416B36DA600EE8530 /* lightYellow.png in Resources */,
 				AADE363916B37D5A00EE8530 /* TrackOrderViewController.xib in Resources */,
 				AAD5E77616B8AF2500AD6F78 /* quickBuyBtn.png in Resources */,
+				AABB178B16B8E5F500633D0E /* define.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

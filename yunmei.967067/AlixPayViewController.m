@@ -18,7 +18,9 @@
 @synthesize total_fee;
 @synthesize out_trade_no;
 @synthesize sign;
-@synthesize payStatus;
+@synthesize imageAlix;
+@synthesize imageRadio;
+@synthesize nextButton;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,25 +30,29 @@
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    if(self.payStatus)
-    {
-        NSLog(@"也是也是");
-    }
-    NSLog(@"viewWill");
-}
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(GoBack:)];
     self.navigationItem.leftBarButtonItem = backItem;
-    NSLog(@"didload");
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payStatus:) name:@"payStatus" object:nil];
 }
 
+-(void)payStatus:(NSNotification *)note
+{
+    [self.imageRadio removeFromSuperview];
+    [self.imageAlix removeFromSuperview];
+    [self.nextButton removeFromSuperview];
+    UILabel *messageLable = [[UILabel alloc]initWithFrame:CGRectMake(30, 50, 280, 40)];
+    [messageLable setText:@"您已支付成功，点击确定返回首页"];
+    UIButton *backIndexBtn = [[UIButton alloc]initWithFrame:CGRectMake(100, 100, 120, 40)];
+    [backIndexBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [backIndexBtn setBackgroundImage:[UIImage imageNamed:@"define"] forState:UIControlStateNormal];
+    [backIndexBtn addTarget:self action:@selector(backIndex:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:messageLable];
+    [self.view addSubview:backIndexBtn];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -65,14 +71,11 @@
             NSMutableDictionary *data = [obj objectForKey:@"data"];
             NSString *content = [data objectForKey:@"content"];
             NSString *signString = [data objectForKey:@"sign"];
-            NSLog(@"sign%@",signString);
-            NSLog(@"url%@",content);
             self.sign = [signString stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
             self.sign = [sign stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"];
              self.sign = [sign stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"];
             //将签名和参数组合成调用支付宝安全支持的参数
             NSString *orderSpec = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"RSA\"",content,self.sign];
-            NSLog(@"%@",orderSpec);
             AlixPay *alixpay = [AlixPay shared];
             int ret = [alixpay pay:orderSpec applicationScheme:@"yunmei.967067"];
             if(ret == kSPErrorAlipayClientNotInstalled)
@@ -102,6 +105,9 @@
 }
 
 -(void)viewDidUnload{
+    [self setNextButton:nil];
+    [self setImageAlix:nil];
+    [self setImageRadio:nil];
     
     // [super viewDidUnload];
 }
@@ -117,12 +123,9 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
--(void)checkPayStatus:(BOOL)IsUserPay
+-(void)backIndex:(id)sender
 {
-    if(IsUserPay)
-    {
-        self.payStatus = YES;
-        NSLog(@"haha");
-    }
+     [self dismissModalViewControllerAnimated:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"backback" object:nil];
 }
 @end

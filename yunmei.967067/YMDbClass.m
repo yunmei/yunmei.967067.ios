@@ -16,7 +16,6 @@
 - (NSString *)dataFilePath:(NSString *)dbname
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSLog(@"%@",paths);
     NSString *documentDirectory = [paths objectAtIndex:0];
     return [documentDirectory stringByAppendingPathComponent:dbname];
 }

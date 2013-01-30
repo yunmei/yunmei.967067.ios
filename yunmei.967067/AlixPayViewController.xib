@@ -39,7 +39,7 @@
 					<object class="IBUIImageView" id="916110591">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">310</int>
-						<string key="NSFrame">{{28, 28}, {20, 23}}</string>
+						<string key="NSFrame">{{70, 42}, {20, 23}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="312700041"/>
@@ -54,7 +54,7 @@
 					<object class="IBUIImageView" id="312700041">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{73, 28}, {87, 23}}</string>
+						<string key="NSFrame">{{111, 39}, {87, 29}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1048497107"/>
@@ -69,7 +69,7 @@
 					<object class="IBUIButton" id="1048497107">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{62, 109}, {150, 38}}</string>
+						<string key="NSFrame">{{60, 113}, {179, 38}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -95,7 +95,7 @@
 						</object>
 						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">btn_yellow.png</string>
+							<string key="NSResourceName">define.png</string>
 						</object>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">2</int>
@@ -149,6 +149,30 @@
 					<int key="connectionID">3</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">imageRadio</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="916110591"/>
+					</object>
+					<int key="connectionID">22</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">imageAlix</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="312700041"/>
+					</object>
+					<int key="connectionID">23</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">nextButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="1048497107"/>
+					</object>
+					<int key="connectionID">24</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">nextStep:</string>
 						<reference key="source" ref="1048497107"/>
@@ -170,9 +194,9 @@
 						<int key="objectID">1</int>
 						<reference key="object" ref="191373211"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="1048497107"/>
 							<reference ref="916110591"/>
 							<reference ref="312700041"/>
+							<reference ref="1048497107"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -219,7 +243,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">21</int>
+			<int key="maxID">24</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -237,6 +261,25 @@
 							<string key="candidateClassName">id</string>
 						</object>
 					</object>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="imageAlix">UIImageView</string>
+						<string key="imageRadio">UIImageView</string>
+						<string key="nextButton">UIButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="imageAlix">
+							<string key="name">imageAlix</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="imageRadio">
+							<string key="name">imageRadio</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nextButton">
+							<string key="name">nextButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AlixPayViewController.h</string>
@@ -251,7 +294,7 @@
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="RadioButton-Selected.png">{20, 21}</string>
 			<string key="alixpay.png">{100, 33}</string>
-			<string key="btn_yellow.png">{99, 39}</string>
+			<string key="define.png">{208, 39}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>

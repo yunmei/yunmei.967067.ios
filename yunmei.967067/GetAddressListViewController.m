@@ -145,7 +145,6 @@
     MKNetworkOperation *op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         SBJsonParser *parser = [[SBJsonParser alloc]init];
-        //NSLog(@"设置默认地址%@", )
         NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
         if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
         {
@@ -158,26 +157,7 @@
                 //调用自定义协议 在前一VC中实现这个协议
                 [self.delegate passVlaue:selectedAddress];
                 [self.navigationController popViewControllerAnimated:YES];
-//                OrderEditViewController *orderEdit = [[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil];
-//                NSLog(@"selectedAddress%@",selectedAddress);
-//                NSString *shipArea = [NSString stringWithFormat:@"mainland:%@/%@/%@:%@",[selectedAddress objectForKey:@"province"],[selectedAddress objectForKey:@"city"],[selectedAddress objectForKey:@"district"],[selectedAddress objectForKey:@"district_id"]];
-//                NSString *displayArea = [NSString stringWithFormat:@"%@%@%@%@",[selectedAddress objectForKey:@"province"],[selectedAddress objectForKey:@"city"],[selectedAddress objectForKey:@"district"],[selectedAddress objectForKey:@"addr"]];
-//                [orderEdit.addressDic setObject:shipArea forKey:@"ship_area"];
-//                [orderEdit.addressDic setObject:[selectedAddress objectForKey:@"addr"] forKey:@"ship_addr"];
-//                [orderEdit.addressDic setObject:[selectedAddress objectForKey:@"zip"] forKey:@"ship_zip"];
-//                [orderEdit.addressDic setObject:[selectedAddress objectForKey:@"name"] forKey:@"ship_name"];
-//                [orderEdit.addressDic setObject:[selectedAddress objectForKey:@"telphone"] forKey:@"ship_tel"];
-//                [orderEdit.addressDic setObject:[selectedAddress objectForKey:@"addr_id"] forKey:@"addr_id"];
-//                [orderEdit.addressDic setObject:displayArea forKey:@"displayArea"];
-//                UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
-//                [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
-//                if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
-//                {
-//                    [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
-//                }
-//                [self.navigationController presentModalViewController:orderNav animated:YES];
-            }
-            
+            }          
         }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);

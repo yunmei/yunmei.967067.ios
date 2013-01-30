@@ -39,7 +39,7 @@ bool cancleBuPressed = NO;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
+    [self.goodsTableView reloadData];
 }
 
 - (void)viewDidLoad
@@ -100,10 +100,10 @@ bool cancleBuPressed = NO;
 {
     if([self.goodsList count]>0)
     {
-        CGFloat i = 0.00;
+        float i = 0.00;
         for(NSMutableDictionary *o in self.goodsList)
         {
-            CGFloat multiPal = (CGFloat)([[o objectForKey:@"goods_count"] integerValue] *[[o objectForKey:@"goods_price"] integerValue]);
+            CGFloat multiPal = (float)([[o objectForKey:@"goods_count"] floatValue] *[[o objectForKey:@"goods_price"] floatValue]);
             i += multiPal;
         }
         return i;
@@ -538,7 +538,6 @@ bool cancleBuPressed = NO;
             if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
             {
                 Order.userAddressArr = [obj objectForKey:@"data"];
-                NSLog(@"111%@",Order.userAddressArr);
                 UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
                 self.navigationItem.backBarButtonItem = leftBtn;
                 [self.navigationController pushViewController:Order animated:YES];
@@ -556,7 +555,7 @@ bool cancleBuPressed = NO;
         
     }else{
         UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"请选择是否登陆" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"匿名购买" otherButtonTitles:@"去登陆", nil];
-        [actionSheet showInView:self.view];
+        [actionSheet showFromTabBar:self.tabBarController.tabBar];
    }
 }
 

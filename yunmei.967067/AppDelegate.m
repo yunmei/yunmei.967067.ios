@@ -22,7 +22,6 @@
 @implementation AppDelegate
 
 @synthesize appEngine;
-@synthesize delegate;
 //- (BOOL)isSingleTask{
 //	struct utsname name;
 //	uname(&name);
@@ -90,7 +89,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openLoginView:) name:@"INeedToLogin" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRespondsLogin:) name:@"UserRespondsLogin" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToAddress:) name:@"addOneAddress" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payStatus:) name:@"payStatus" object:nil];
     [self statisGoodsCar:self.tabBarController];
 //    /*
 //	 *单任务handleURL处理
@@ -159,17 +157,6 @@
     }
 }
 
--(void)payStatus:(NSNotification *)note
-{
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[MyViewController alloc] initWithNibName:@"MyViewController" bundle:nil]];
-    [navController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
-    if ([navController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
-        [navController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
-    }
-    [self.tabBarController.selectedViewController presentModalViewController:navController animated:YES];
-
-}
-
 //统计购物车数量
 -(void)statisGoodsCar:(UITabBarController *)tabBarController
 {
@@ -208,10 +195,8 @@
                 NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
                 if([obj objectForKey:@"data"])
                 {
-                    [self.delegate checkPayStatus:YES];
-                    IndexViewController *indexView = [[IndexViewController alloc]init];
-                    [self.navigationController presentViewController:indexView animated:YES completion:NULL];
-                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"payStatus" object:self];
+                    [self.tabBarController setSelectedIndex:0];      
                 }else{
                     NSLog(@"签名失败");
                 }

@@ -14,6 +14,7 @@
 #import "SBJson.h"
 #import "AppDelegate.h"
 #import "UserModel.h"
+#import "PassObjValueDelegate.h"
 @interface AddAddressViewController : UIViewController<
     UITableViewDataSource,
     UITableViewDelegate,
@@ -41,4 +42,5 @@
 @property(strong,nonatomic)NSMutableArray *countyIdArr;
 @property(strong,nonatomic)NSMutableArray *countyNameArr;
 @property(strong,nonatomic)UIToolbar *confirmToolBar;
+@property(strong)NSObject<PassObjValueDelegate> *delegate;
 @end

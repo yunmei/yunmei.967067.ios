@@ -14,11 +14,13 @@
 #import "UserModel.h"
 #import "GetAddressListViewController.h"
 #import "PassValueDelegate.h"
+#import "PassObjValueDelegate.h"
 @interface OrderEditViewController : UIViewController<
 UITableViewDataSource,
 UITableViewDelegate,
 UITextFieldDelegate,
-PassValueDelegate
+PassValueDelegate,
+PassObjValueDelegate
 >
 
 @property (strong, nonatomic) IBOutlet UITableView *orderTableView;

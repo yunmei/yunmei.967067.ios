@@ -33,6 +33,7 @@
 @synthesize countyIdArr = _countyIdArr;
 @synthesize countyNameArr = _countyNameArr;
 @synthesize confirmToolBar;
+@synthesize delegate;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -69,11 +70,13 @@
             self.provinceNameArr = [self getAllName:self.provinceArr identifier:@"provinceName"];
             [self.view addSubview:self.picker];
         }
+        [HUD hide:YES];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"Error:%@",error);
+        [HUD hide:YES];
     }];
     [ApplicationDelegate.appEngine enqueueOperation:op];
-    [HUD hide:YES];
+    
     
 }
 
@@ -94,7 +97,7 @@
 {
     if(_picker == nil)
     {
-        _picker = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 480, 320, 290)];
+        _picker = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 480, 320, 216)];
         _picker.dataSource = self;
         _picker.delegate = self;
         _picker.showsSelectionIndicator = YES;
@@ -468,14 +471,20 @@
         [self getchildArr:seletedProvinceId identifierForAct:@"system_getCityList" identifierForFatherName:@"province_id" isCity:NO];
     }else if (component == 1)
     {
-        NSString *seletedCityId = [self.cityIdArr objectAtIndex:row];
-        self.cityBtn.tag = [seletedCityId integerValue];
-        self.cityBtn.titleLabel.text = [self.cityNameArr objectAtIndex:row];
-        [self getchildArr:seletedCityId identifierForAct:@"system_getDistrictList" identifierForFatherName:@"city_id" isCity:YES];
+        if([self.cityIdArr count]>0)
+        {
+            NSString *seletedCityId = [self.cityIdArr objectAtIndex:row];
+            self.cityBtn.tag = [seletedCityId integerValue];
+            self.cityBtn.titleLabel.text = [self.cityNameArr objectAtIndex:row];
+            [self getchildArr:seletedCityId identifierForAct:@"system_getDistrictList" identifierForFatherName:@"city_id" isCity:YES];
+        }
     }else if (component == 2)
     {
-        self.countyBtn.tag = [[self.countyIdArr objectAtIndex:row] integerValue];
-        self.countyBtn.titleLabel.text = [self.countyNameArr objectAtIndex:row];
+        if([self.countyIdArr count]>0)
+        {
+            self.countyBtn.tag = [[self.countyIdArr objectAtIndex:row] integerValue];
+            self.countyBtn.titleLabel.text = [self.countyNameArr objectAtIndex:row];
+        }
     }
 }
 
@@ -508,9 +517,9 @@
 
 -(void)getPicker:(id)sender
 {
-    [self.picker setFrame:CGRectMake(0, 250, 320, 216)];
+    [self.picker setFrame:CGRectMake(0, 190, 320, 216)];
     //为文本域输入添加一个控制键盘的toolbar
-    UIToolbar *keyBordTopBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 210, 320, 40)];
+    UIToolbar *keyBordTopBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 150, 320, 40)];
     [keyBordTopBar setBarStyle:UIBarStyleBlackTranslucent];
     UIBarButtonItem *cancleBtn = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancleBtnClick:)];
     UIBarButtonItem *confirmBtn = [[UIBarButtonItem alloc]initWithTitle:@"确认" style:UIBarButtonItemStyleBordered target:self action:@selector(confirmBtnClick:)];
@@ -549,11 +558,13 @@
                 [self.picker reloadComponent:2];
             }
         }
+        [HUD hide:YES];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);
+        [HUD hide:YES];
     }];
     [ApplicationDelegate.appEngine enqueueOperation:op];
-    [HUD hide:YES];
+    
 }
 
 -(void)cancleBtnClick:(id)sender
@@ -564,13 +575,13 @@
     self.cityBtn.tag = 0;
     self.countyBtn.tag = 0;
     self.countyBtn.titleLabel.text = @"请选择地区";
-    [self.picker setFrame:CGRectMake(0, 480, 320, 290)];
+    [self.picker setFrame:CGRectMake(0, 480, 320, 216)];
     [self.confirmToolBar removeFromSuperview];
 }
 
 -(void)confirmBtnClick:(id)sender
 {
-    [self.picker setFrame:CGRectMake(0, 480, 320, 290)];
+    [self.picker setFrame:CGRectMake(0, 480, 320, 216)];
     [self.confirmToolBar removeFromSuperview];
 }
 
@@ -600,7 +611,6 @@
         UIAlertView *alertNum = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请选择地区" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alertNum show];
     }else{
-        OrderEditViewController *orderEdit = [[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil];
         NSString * area = [NSString stringWithFormat:@"mainland:%@/%@/%@:%i",self.provinceBtn.titleLabel.text,self.cityBtn.titleLabel.text,self.countyBtn.titleLabel.text,self.countyBtn.tag];
         NSString *address = [NSString stringWithFormat:@"%@",self.addressInDetail.text];
         NSString *displayArea = [NSString stringWithFormat:@"%@%@%@%@",self.provinceBtn.titleLabel.text,self.cityBtn.titleLabel.text,self.countyBtn.titleLabel.text,self.addressInDetail.text];
@@ -611,7 +621,6 @@
             MKNetworkOperation *op = [YMGlobal getOperation:params];
             [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
                 SBJsonParser *parser = [[SBJsonParser alloc]init];
-                NSLog(@"%@",[completedOperation responseData]);
                 NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
                 if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
                 {
@@ -626,21 +635,16 @@
             }];
             [ApplicationDelegate.appEngine enqueueOperation:op];
         }else{
-            [orderEdit.addressDic setObject:area forKey:@"ship_area"];
-            [orderEdit.addressDic setObject:self.addressInDetail.text forKey:@"ship_addr"];
-            [orderEdit.addressDic setObject:self.zipCode.text forKey:@"ship_zip"];
-            [orderEdit.addressDic setObject:self.goodsOwner.text forKey:@"ship_name"];
-            [orderEdit.addressDic setObject:self.telephone.text forKey:@"ship_tel"];
-            [orderEdit.addressDic setObject:displayArea forKey:@"displayArea"];
-            UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
-            [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
-            if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
-            {
-                [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
-            }
-            [self.navigationController presentModalViewController:orderNav animated:YES];
+            NSMutableDictionary *value = [[NSMutableDictionary alloc]init];
+            [value setObject:area forKey:@"ship_area"];
+            [value setObject:self.addressInDetail.text forKey:@"ship_addr"];
+            [value setObject:self.zipCode.text forKey:@"ship_zip"];
+            [value setObject:self.goodsOwner.text forKey:@"ship_name"];
+            [value setObject:self.telephone.text forKey:@"ship_tel"];
+            [value setObject:displayArea forKey:@"displayArea"];
+            [self.delegate passobjValue:value];
+            [self.navigationController popViewControllerAnimated:YES];
        }
-
     }
 }
 

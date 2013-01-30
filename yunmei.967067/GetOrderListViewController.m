@@ -35,6 +35,7 @@
 //绑定订单列表数据
 -(void)bindOrderData
 {
+    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     UserModel *user = [UserModel getUserModel];
     NSMutableDictionary *param = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"order_getOrderList",@"act",user.userid,@"userId",user.session,@"sessionId", nil];
     MKNetworkOperation *op = [YMGlobal getOperation:param];
@@ -46,8 +47,10 @@
             self.orderListArray = [obj objectForKey:@"data"];
             [self.OrderListTableView reloadData];
         }
+        [HUD hide:YES];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"error");
+        [HUD hide:YES];
     }];
     [ApplicationDelegate.appEngine enqueueOperation:op];
 }
@@ -148,6 +151,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UserModel *user = [UserModel getUserModel];
+    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSMutableDictionary *oneOrder = [self.orderListArray objectAtIndex:indexPath.section];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"order_getOrderInfo",@"act",user.session,@"sessionId",user.userid,@"userId",[oneOrder objectForKey:@"orderId"],@"orderId", nil];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
@@ -162,8 +166,10 @@
             self.navigationItem.backBarButtonItem = backItem;
             [self.navigationController pushViewController:orderDetailView animated:YES];
         }
+        [HUD hide:YES];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);
+        [HUD hide:YES];
     }];
     [ApplicationDelegate.appEngine enqueueOperation:op];
 }
@@ -184,7 +190,7 @@
 -(void)trackOrder:(id)sender
 {
     UIButton *trackBtn = sender;
-   MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.navigationController.view];
+   MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
    NSMutableDictionary *oneOrder =  [self.orderListArray objectAtIndex:trackBtn.tag];
     NSLog(@"%@",[oneOrder objectForKey:@"orderId"]);
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"order_getTrackData",@"act", [oneOrder objectForKey:@"orderId"],@"orderId",nil];
@@ -203,10 +209,10 @@
             self.navigationItem.backBarButtonItem = backItem;
             [self.navigationController pushViewController:trackOrderView animated:YES];
         }
-        [hud hide:YES];
+        [HUD hide:YES];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);
-        [hud hide:YES];
+        [HUD hide:YES];
     }];
    [ApplicationDelegate.appEngine enqueueOperation:op];   
 }

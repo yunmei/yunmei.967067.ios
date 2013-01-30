@@ -44,6 +44,18 @@ bool payAfterCustomerGetGoods = YES;
     [self.addressDic setObject:disPlayAddr forKey:@"displayArea"];
     [self.orderTableView reloadData];
 }
+
+//实现自定义的协议，实现未登录用户手动添加地址
+-(void)passobjValue:(NSMutableDictionary *)value
+{
+    [self.addressDic setObject:[value objectForKey:@"ship_area"] forKey:@"ship_area"];
+    [self.addressDic setObject:[value objectForKey:@"ship_addr"] forKey:@"ship_addr"];
+    [self.addressDic setObject:[value objectForKey:@"ship_zip"] forKey:@"ship_zip"];
+    [self.addressDic setObject:[value objectForKey:@"ship_name"] forKey:@"ship_name"];
+    [self.addressDic setObject:[value objectForKey:@"displayArea"] forKey:@"displayArea"];
+    [self.addressDic setObject:[value objectForKey:@"ship_tel"] forKey:@"ship_tel"];
+    [self.orderTableView reloadData];
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -308,6 +320,7 @@ bool payAfterCustomerGetGoods = YES;
             [self.navigationController pushViewController:getAddressList animated:YES];
         }else{
             AddAddressViewController *addressView = [[AddAddressViewController alloc]init];
+            addressView.delegate = self;
             UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
             self.navigationItem.backBarButtonItem = backItem;
             [self.navigationController pushViewController:addressView animated:YES];
@@ -404,10 +417,10 @@ bool payAfterCustomerGetGoods = YES;
 {
     if([self.goodsInfoList count]>0)
     {
-        CGFloat i = 0.00;
+        float i = 0.00;
         for(NSMutableDictionary *o in self.goodsInfoList)
         {
-            CGFloat multiPal = (CGFloat)([[o objectForKey:@"goods_count"] integerValue] *[[o objectForKey:@"goods_price"] integerValue]);
+            CGFloat multiPal = (float)([[o objectForKey:@"goods_count"] floatValue] *[[o objectForKey:@"goods_price"] floatValue]);
             i += multiPal;
         }
         return i;
@@ -426,7 +439,6 @@ bool payAfterCustomerGetGoods = YES;
        UIAlertView *alertAddress = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请填写订单备注" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
        [alertAddress show];
    }else{
-       NSLog(@"addressDic%@",self.addressDic);
        GetOrderIdViewController *getOrder = [[GetOrderIdViewController alloc]initWithNibName:@"GetOrderIdViewController" bundle:nil];
        if(payAfterCustomerGetGoods == NO)
        {
@@ -463,6 +475,13 @@ bool payAfterCustomerGetGoods = YES;
        [getOrder.orderParamsDic setObject:cart_goodids forKey:@"cart_goodids"];
        [getOrder.orderParamsDic setObject:cart_goodnums forKey:@"cart_goodnums"];
        [getOrder.orderParamsDic setObject:productIds forKey:@"productIds"];
+       YMDbClass *db = [[YMDbClass alloc]init];
+       if([db connect])
+       {
+            [[self.tabBarController.tabBar.items objectAtIndex:2] setBadgeValue:[db count_sum:@"goodslist_car" tablefiled:@"goods_count"]];
+           [db close];
+       }
+
        UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:getOrder];
        [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
        if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])

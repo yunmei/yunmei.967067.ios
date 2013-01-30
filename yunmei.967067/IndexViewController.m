@@ -116,7 +116,6 @@
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
-        NSLog(@"%@",[completedOperation responseString]);
         if ([[object objectForKey:@"errorMessage"] isEqualToString:@"success"]) {
             NSString *imageUrl = [[object objectForKey:@"data"]objectForKey:@"imageUrl"];
             UIButton *adImageBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(160, 0, 160, 80)];
@@ -320,7 +319,6 @@
     GoodsModel *goodsModel = [self.goodsList objectAtIndex:position];
     goodsInfoView.navigationItem.title = @"商品详情";
     goodsInfoView.goodsId = goodsModel.goodsId;//2572
-    NSLog(@"%@",goodsModel.goodsId);
     [self.navigationController pushViewController:goodsInfoView animated:YES];
 }
 
@@ -330,7 +328,6 @@
     UIButton *adImageBtn = (UIButton *)sender;
     for (AdModel *o in self.adList) {
         if (adImageBtn.tag == o.adid) {
-            NSLog(@"goodsIds:%@", o.goodsIds);
             // 获取到goodsIds 接下来执行pushView到产品列表操作，待完成
             UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:nil action:nil];
             self.navigationItem.backBarButtonItem = backItem;

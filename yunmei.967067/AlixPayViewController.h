@@ -15,8 +15,12 @@
 #import "SBJson.h"
 #import "AppDelegate.h"
 #import "UserModel.h"
-#import "PayStatus.h"
-@interface AlixPayViewController : UIViewController<UIAlertViewDelegate,PayStatus>
+@interface AlixPayViewController : UIViewController<UIAlertViewDelegate>
+
+//页面元素
+@property (strong, nonatomic) IBOutlet UIImageView *imageRadio;
+@property (strong, nonatomic) IBOutlet UIImageView *imageAlix;
+@property (strong, nonatomic) IBOutlet UIButton *nextButton;
 //商品名称
 @property(strong,nonatomic)NSString *subject;
 //商品描述
@@ -26,5 +30,4 @@
 //订单号
 @property(strong,nonatomic)NSString *out_trade_no;
 @property(strong,nonatomic)NSString *sign;
-@property BOOL payStatus;
 @end
