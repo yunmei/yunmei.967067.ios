@@ -18,6 +18,7 @@
 @synthesize total_fee;
 @synthesize out_trade_no;
 @synthesize sign;
+@synthesize payStatus;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,10 +28,23 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    if(self.payStatus)
+    {
+        NSLog(@"也是也是");
+    }
+    NSLog(@"viewWill");
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(GoBack:)];
+    self.navigationItem.leftBarButtonItem = backItem;
+    NSLog(@"didload");
 }
 
 - (void)didReceiveMemoryWarning
@@ -96,5 +110,19 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(void)GoBack:(id)sender
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+-(void)checkPayStatus:(BOOL)IsUserPay
+{
+    if(IsUserPay)
+    {
+        self.payStatus = YES;
+        NSLog(@"haha");
+    }
 }
 @end

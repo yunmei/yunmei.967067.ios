@@ -615,7 +615,7 @@
                 NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
                 if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
                 {
-                    [self.parentViewController dismissModalViewControllerAnimated:YES];
+                    [self dismissModalViewControllerAnimated:YES];
                 }else{
                     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"警告" message:@"添加失败，请重新填写" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                     [alert show];
@@ -639,7 +639,7 @@
                 [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
             }
             [self.navigationController presentModalViewController:orderNav animated:YES];
-        }
+       }
 
     }
 }

@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "YMDbClass.h"
 #import "goodsInfoView.h"
-#import "AddAddressViewController.h"
 #import "YMGlobal.h"
 #import "GetOrderIdViewController.h"
 #import "UserModel.h"

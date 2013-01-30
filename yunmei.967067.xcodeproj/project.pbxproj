@@ -154,7 +154,6 @@
 		AABE96BF16A93CD900533FDB /* OrderDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABE96BD16A93CD900533FDB /* OrderDetailViewController.xib */; };
 		AAC0820E16AE1B0500C86CD2 /* MyFavorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0820C16AE1B0500C86CD2 /* MyFavorViewController.m */; };
 		AAC0820F16AE1B0500C86CD2 /* MyFavorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAC0820D16AE1B0500C86CD2 /* MyFavorViewController.xib */; };
-		AAC24419167EB9BB00080AAC /* quickBuyBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC24418167EB9BB00080AAC /* quickBuyBtn.png */; };
 		AAC2441B167EB9C200080AAC /* quickBuyBtnDisable.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */; };
 		AAC2C42516B2256100C6D1F9 /* libalixpay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC2C42416B2256100C6D1F9 /* libalixpay.a */; };
 		AAC2C42916B225DC00C6D1F9 /* AlixPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC2C42716B225DC00C6D1F9 /* AlixPayViewController.m */; };
@@ -171,6 +170,7 @@
 		AAD37D3E16815C6A00C06D6F /* GoodsIntroductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD37D3C16815C6A00C06D6F /* GoodsIntroductViewController.m */; };
 		AAD37D3F16815C6A00C06D6F /* GoodsIntroductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD37D3D16815C6A00C06D6F /* GoodsIntroductViewController.xib */; };
 		AAD5AEFC16A786B5003006CB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD5AEFB16A786B5003006CB /* AddressCell.m */; };
+		AAD5E77616B8AF2500AD6F78 /* quickBuyBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AAD5E77516B8AF2500AD6F78 /* quickBuyBtn.png */; };
 		AAD7542E1666EEAE0059962D /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD7542D1666EEAE0059962D /* CategoryCell.m */; };
 		AAD754301666EEED0059962D /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD7542F1666EEED0059962D /* CategoryCell.xib */; };
 		AAD7C1491682F8360033014E /* CategoryThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD7C1471682F8360033014E /* CategoryThirdViewController.m */; };
@@ -425,7 +425,6 @@
 		AAC0820B16AE1B0500C86CD2 /* MyFavorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyFavorViewController.h; sourceTree = "<group>"; };
 		AAC0820C16AE1B0500C86CD2 /* MyFavorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyFavorViewController.m; sourceTree = "<group>"; };
 		AAC0820D16AE1B0500C86CD2 /* MyFavorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyFavorViewController.xib; sourceTree = "<group>"; };
-		AAC24418167EB9BB00080AAC /* quickBuyBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtn.png; sourceTree = "<group>"; };
 		AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtnDisable.png; sourceTree = "<group>"; };
 		AAC2C42116B2255100C6D1F9 /* AlixPayOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlixPayOrder.h; sourceTree = "<group>"; };
 		AAC2C42216B2255600C6D1F9 /* AlixPayResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlixPayResult.h; sourceTree = "<group>"; };
@@ -448,6 +447,8 @@
 		AAD37D3D16815C6A00C06D6F /* GoodsIntroductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoodsIntroductViewController.xib; sourceTree = "<group>"; };
 		AAD5AEFA16A786B5003006CB /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
 		AAD5AEFB16A786B5003006CB /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
+		AAD5E77516B8AF2500AD6F78 /* quickBuyBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickBuyBtn.png; sourceTree = "<group>"; };
+		AAD5E77716B8BDB900AD6F78 /* PayStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PayStatus.h; sourceTree = "<group>"; };
 		AAD7542C1666EEAE0059962D /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
 		AAD7542D1666EEAE0059962D /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCell.m; sourceTree = "<group>"; };
 		AAD7542F1666EEED0059962D /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
@@ -624,11 +625,11 @@
 				AA8B31DA16A69B3D00C20A32 /* user.jpg */,
 				AA856AD116A3E045004108DE /* ordersuccesslogo.png */,
 				AA3B63AD169D356A005A91C1 /* RadioButton-Unselected.png */,
+				AAD5E77516B8AF2500AD6F78 /* quickBuyBtn.png */,
 				AA3B63AB169D3562005A91C1 /* RadioButton-Selected.png */,
 				AAF3450F16993EEF00B4AD24 /* empty_cart_bg.png */,
 				AA7B0ED4168ED6DD007045CE /* carBuy.png */,
 				AAC2441A167EB9C200080AAC /* quickBuyBtnDisable.png */,
-				AAC24418167EB9BB00080AAC /* quickBuyBtn.png */,
 				4617179B167ACC5F0082BACE /* btn_gray.png */,
 				AABB243B16780C9300008F6B /* minusBtn.png */,
 				AABB243916780C8600008F6B /* plusBtn.png */,
@@ -1012,6 +1013,7 @@
 			isa = PBXGroup;
 			children = (
 				AAE68A6816A63F6C00C31F7F /* PassValueDelegate.h */,
+				AAD5E77716B8BDB900AD6F78 /* PayStatus.h */,
 			);
 			name = CustomDelegate;
 			sourceTree = "<group>";
@@ -1149,7 +1151,6 @@
 				46FDFFE2167836320075A644 /* LoginViewController.xib in Resources */,
 				46FDFFE71678368E0075A644 /* RegisterViewController.xib in Resources */,
 				4617179D167ACC5F0082BACE /* btn_gray.png in Resources */,
-				AAC24419167EB9BB00080AAC /* quickBuyBtn.png in Resources */,
 				AAC2441B167EB9C200080AAC /* quickBuyBtnDisable.png in Resources */,
 				AAD37D3F16815C6A00C06D6F /* GoodsIntroductViewController.xib in Resources */,
 				AAD7C14A1682F8360033014E /* CategoryThirdViewController.xib in Resources */,
@@ -1178,6 +1179,7 @@
 				AADE363216B36DA200EE8530 /* btn_yellow.png in Resources */,
 				AADE363416B36DA600EE8530 /* lightYellow.png in Resources */,
 				AADE363916B37D5A00EE8530 /* TrackOrderViewController.xib in Resources */,
+				AAD5E77616B8AF2500AD6F78 /* quickBuyBtn.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

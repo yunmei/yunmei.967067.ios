@@ -29,8 +29,6 @@ bool payAfterCustomerGetGoods = YES;
 //实现自定义的协议，实现从已登录用户的地址列表中选择时回传收货人信息
 -(void)passVlaue:(NSMutableDictionary *)value
 {
-   // NSMutableDictionary *addrValues = [NSMutableDictionary dictionaryWithDictionary:value];
-    [self.addressDic removeAllObjects];
     NSString *shipArea = [NSString stringWithFormat:@"mainland:%@/%@/%@:%@",[value objectForKey:@"province"],[value objectForKey:@"city"],[value objectForKey:@"district"],[value objectForKey:@"district_id"]];
     NSString *disPlayAddr = [NSString stringWithFormat:@"%@%@%@%@",[value objectForKey:@"province"],[value objectForKey:@"city"],[value objectForKey:@"district"],[value objectForKey:@"addr"]];
     [self.addressDic setObject:shipArea forKey:@"ship_area"];
@@ -43,7 +41,7 @@ bool payAfterCustomerGetGoods = YES;
     {
         [self.addressDic setObject:[value objectForKey:@"addr_id"] forKey:@"addr_id"];
     }
-    [self.addressDic setObject:disPlayAddr forKey:@"displayArea"]; 
+    [self.addressDic setObject:disPlayAddr forKey:@"displayArea"];
     [self.orderTableView reloadData];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -85,22 +83,20 @@ bool payAfterCustomerGetGoods = YES;
 {
     if([self.userAddressArr count]>0)
     {
-        NSLog(@"self.userAddressArr%@",self.userAddressArr);
-        for (NSMutableDictionary *o in self.userAddressArr) {
+        for (NSMutableDictionary * o in self.userAddressArr) {
             if( [[o objectForKey:@"is_default"] isEqualToString:@"1"])
             {
+                NSString *shipArea = [NSString stringWithFormat:@"mainland:%@/%@/%@:%@",[o objectForKey:@"province"],[o objectForKey:@"city"],[o objectForKey:@"district"],[o objectForKey:@"district_id"]];
                 [self.addressDic setObject:[o objectForKey:@"name"] forKey:@"ship_name"];
-                [self.addressDic setObject:[o objectForKey:@"addr"] forKey:@"ship_area"];
+                [self.addressDic setObject:shipArea forKey:@"ship_area"];
                 [self.addressDic setObject:[o objectForKey:@"addr"] forKey:@"ship_addr"];
                 [self.addressDic setObject:[o objectForKey:@"zip"] forKey:@"ship_zip"];
                 [self.addressDic setObject:[o objectForKey:@"addr_id"] forKey:@"addr_id"];
                 [self.addressDic setObject:[[o objectForKey:@"mobile"]isEqualToString:@"" ]? [o objectForKey:@"telphone"]:[o objectForKey:@"mobile"]forKey:@"ship_tel"];
                 NSString *disPlayAddr = [NSString stringWithFormat:@"%@%@%@%@",[o objectForKey:@"province"],[o objectForKey:@"city"],[o objectForKey:@"district"],[o objectForKey:@"addr"]];
                 [self.addressDic setObject:disPlayAddr forKey:@"displayArea"];
-                [self.addressDic setObject:[o objectForKey:@"addr_id"] forKey:@"addr_id"];
             }
         }
-
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -307,7 +303,6 @@ bool payAfterCustomerGetGoods = YES;
             GetAddressListViewController *getAddressList = [[GetAddressListViewController alloc]initWithNibName:@"GetAddressListViewController" bundle:nil];
             //委托给该VC实现GetAddressListViewController中的协议
             getAddressList.delegate = self;
-            getAddressList.selectedAddrId = [self.addressDic objectForKey:@"addr_id"];
             UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
             self.navigationItem.backBarButtonItem =backBtn;
             [self.navigationController pushViewController:getAddressList animated:YES];
@@ -390,14 +385,6 @@ bool payAfterCustomerGetGoods = YES;
     
 }
 
--(NSMutableArray *)userAddressArr
-{
-    if(_userAddressArr == nil)
-    {
-        _userAddressArr = [[NSMutableArray alloc]init];
-    }
-    return  _userAddressArr;
-}
 -(UITapGestureRecognizer *)tapGestureRecgnizer
 {
     if(_tapGestureRecgnizer == nil)
@@ -439,6 +426,7 @@ bool payAfterCustomerGetGoods = YES;
        UIAlertView *alertAddress = [[UIAlertView alloc]initWithTitle:@"警告" message:@"请填写订单备注" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
        [alertAddress show];
    }else{
+       NSLog(@"addressDic%@",self.addressDic);
        GetOrderIdViewController *getOrder = [[GetOrderIdViewController alloc]initWithNibName:@"GetOrderIdViewController" bundle:nil];
        if(payAfterCustomerGetGoods == NO)
        {
@@ -450,7 +438,7 @@ bool payAfterCustomerGetGoods = YES;
        [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_zip"] forKey:@"ship_zip"];
        [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"ship_tel"] forKey:@"ship_tel"];
        [getOrder.orderParamsDic setObject:self.orderRemarkFeild.text forKey:@"memo"];
-       if([self.addressDic objectForKey:@"addr_id"])
+       if([UserModel checkLogin])
        {
            [getOrder.orderParamsDic setObject:[self.addressDic objectForKey:@"addr_id"] forKey:@"addr_id"];
        }
@@ -511,6 +499,15 @@ bool payAfterCustomerGetGoods = YES;
     _telephoneLable = [[UILabel alloc]initWithFrame:CGRectMake(3, 65, 300, 20)];
     [_telephoneLable setFont:[UIFont systemFontOfSize:12.0]];
     return _telephoneLable;
+}
+
+-(NSMutableArray *)userAddressArr
+{
+    if(_userAddressArr == nil)
+    {
+        _userAddressArr = [[NSMutableArray alloc]init];
+    }
+    return _userAddressArr;
 }
 
 -(UILabel *)displayAreaLable

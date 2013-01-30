@@ -77,38 +77,7 @@
             userModel.session = [[object objectForKey:@"data"]objectForKey:@"sessionId"];
             userModel.userid = [[object objectForKey:@"data"]objectForKey:@"userId"];
             userModel.isLogin = @"YES";
-            //获取用户收货地址
-            NSMutableDictionary *userParams = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_getAddressList",@"act",userModel.session,@"sessionId",userModel.userid,@"userId",nil];
-            MKNetworkOperation *op1 = [YMGlobal getOperation:userParams];
-            [op1 addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-                SBJsonParser *parser = [[SBJsonParser alloc]init];
-                NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
-                if([[obj objectForKey:@"errorMessage"] isEqualToString:@"success"])
-                {
-                    NSMutableArray *dataArr = [obj objectForKey:@"data"];
-                    if([dataArr count]>0)
-                    {
-                        //将用户收货地址加入sqlite;
-                        [UserModel createAddressTable];
-                        YMDbClass *db = [[YMDbClass alloc]init];
-                        if([db connect])
-                        {
-                            for (id o in dataArr)
-                            {
-                                NSString *query = [NSString stringWithFormat:@"INSERT INTO user_address(user_id, addr, addr_id, city, city_id,district,district_id,is_default,mobile,name,province,province_id,telphone,zip)VALUES('%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@');",userModel.userid,[o objectForKey:@"addr"],[o objectForKey:@"addr_id"],[o objectForKey:@"city"],[o objectForKey:@"city_id"],[o objectForKey:@"district"],[o objectForKey:@"district_id"],[o objectForKey:@"is_default"],[o objectForKey:@"mobile"],[o objectForKey:@"name"],[o objectForKey:@"province"],[o objectForKey:@"province_id"],[o objectForKey:@"telphone"],[o objectForKey:@"zip"]];
-                                if([db exec:query]){
-                                }
-                            }
-                            [db close];
-                        }
-                    }
-                }
-            } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-                NSLog(@"%@",error);
-            }];
-            [ApplicationDelegate.appEngine enqueueOperation:op1];
-
-        } else {
+            } else {
             userModel.isLogin = @"NO";
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示信息" message:@"用户名或密码错误，请重新登陆" delegate:self cancelButtonTitle:@"确 认" otherButtonTitles:nil];
             [alert show];

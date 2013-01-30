@@ -527,8 +527,8 @@ bool cancleBuPressed = NO;
 {
     if([UserModel checkLogin])
     {
-        MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.navigationController.view];
-        OrderEditViewController *Order = [[OrderEditViewController alloc]init];
+        MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        OrderEditViewController *Order = [[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil];
         UserModel *user = [UserModel getUserModel];
         NSMutableDictionary *params = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_getAddressList",@"act",user.session,@"sessionId",user.userid,@"userId", nil];
         MKNetworkOperation *op = [YMGlobal getOperation:params];
@@ -538,6 +538,7 @@ bool cancleBuPressed = NO;
             if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
             {
                 Order.userAddressArr = [obj objectForKey:@"data"];
+                NSLog(@"111%@",Order.userAddressArr);
                 UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
                 self.navigationItem.backBarButtonItem = leftBtn;
                 [self.navigationController pushViewController:Order animated:YES];
@@ -546,20 +547,22 @@ bool cancleBuPressed = NO;
                 self.navigationItem.backBarButtonItem = leftBtn;
                 [self.navigationController pushViewController:Order animated:YES];
             }
+            [HUD hide:YES];
         } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
             NSLog(@"%@",error);
+            [HUD hide:YES];
         }];
         [ApplicationDelegate.appEngine enqueueOperation:op];
-        [hud hide:YES];
+        
     }else{
-        NSLog(@"111");
         UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"请选择是否登陆" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"匿名购买" otherButtonTitles:@"去登陆", nil];
         [actionSheet showInView:self.view];
-    }
+   }
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    //原内容
     if(buttonIndex == [actionSheet cancelButtonIndex])
     {
         
@@ -571,6 +574,12 @@ bool cancleBuPressed = NO;
     }else{
         [[NSNotificationCenter defaultCenter] postNotificationName:@"INeedToLogin" object:self];
     }
+    
+////ceshi
+//    OrderEditViewController *Order = [[OrderEditViewController alloc]init];
+//    UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+//    self.navigationItem.backBarButtonItem = leftBtn;
+//    [self.navigationController pushViewController:Order animated:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

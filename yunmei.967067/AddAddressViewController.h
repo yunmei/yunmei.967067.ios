@@ -13,7 +13,6 @@
 #import "MBProgressHUD.h"
 #import "SBJson.h"
 #import "AppDelegate.h"
-#import "OrderEditViewController.h"
 #import "UserModel.h"
 @interface AddAddressViewController : UIViewController<
     UITableViewDataSource,

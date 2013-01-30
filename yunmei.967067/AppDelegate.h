@@ -16,6 +16,7 @@
 #import "GoodsListViewController.h"
 #import "LoginViewController.h"
 #import "Constants.h"
+#import "PayStatus.h"
 #define ApplicationDelegate ((AppDelegate *)[UIApplication sharedApplication].delegate)
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
@@ -24,5 +25,5 @@
 @property (strong, nonatomic) UITabBarController *tabBarController;
 @property (strong, nonatomic) UINavigationController *navigationController;
 @property (strong, nonatomic) MKNetworkEngine *appEngine;
-
+@property(strong)NSObject<PayStatus> *delegate;
 @end

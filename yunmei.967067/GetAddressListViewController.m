@@ -15,10 +15,10 @@
 @implementation GetAddressListViewController
 @synthesize AddressListTableView;
 @synthesize userAddressArray = _userAddressArray;
-@synthesize selectedAddrId;
 @synthesize seletedImage;
 @synthesize ifThisViewComeFromMyCenter;
 @synthesize imageArr = _imageArr;
+@synthesize delegate;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -57,7 +57,6 @@
         NSMutableDictionary *params = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_getAddressList",@"act",user.session,@"sessionId",user.userid,@"userId", nil];
         MKNetworkOperation *op = [YMGlobal getOperation:params];
         [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-            NSLog(@"%@",[completedOperation responseString]);
             SBJsonParser *parser = [[SBJsonParser alloc]init];
             NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
             if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
@@ -139,13 +138,12 @@
 {
     [self.seletedImage setImage:[UIImage imageNamed:@"RadioButton-Unselected"]];
     
-    MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.navigationController.view];
+   // MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.navigationController.view];
     NSMutableDictionary *selectedAddress = [self.userAddressArray objectAtIndex:indexPath.row];
     UserModel *user = [UserModel getUserModel];
     NSMutableDictionary *params = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"user_setToDef",@"act",user.session,@"sessionId",user.userid,@"userId",[selectedAddress objectForKey:@"addr_id"],@"addr_id", nil];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        NSLog(@"默认地址%@",[completedOperation responseString]);
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         //NSLog(@"设置默认地址%@", )
         NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
@@ -160,6 +158,24 @@
                 //调用自定义协议 在前一VC中实现这个协议
                 [self.delegate passVlaue:selectedAddress];
                 [self.navigationController popViewControllerAnimated:YES];
+//                OrderEditViewController *orderEdit = [[OrderEditViewController alloc]initWithNibName:@"OrderEditViewController" bundle:nil];
+//                NSLog(@"selectedAddress%@",selectedAddress);
+//                NSString *shipArea = [NSString stringWithFormat:@"mainland:%@/%@/%@:%@",[selectedAddress objectForKey:@"province"],[selectedAddress objectForKey:@"city"],[selectedAddress objectForKey:@"district"],[selectedAddress objectForKey:@"district_id"]];
+//                NSString *displayArea = [NSString stringWithFormat:@"%@%@%@%@",[selectedAddress objectForKey:@"province"],[selectedAddress objectForKey:@"city"],[selectedAddress objectForKey:@"district"],[selectedAddress objectForKey:@"addr"]];
+//                [orderEdit.addressDic setObject:shipArea forKey:@"ship_area"];
+//                [orderEdit.addressDic setObject:[selectedAddress objectForKey:@"addr"] forKey:@"ship_addr"];
+//                [orderEdit.addressDic setObject:[selectedAddress objectForKey:@"zip"] forKey:@"ship_zip"];
+//                [orderEdit.addressDic setObject:[selectedAddress objectForKey:@"name"] forKey:@"ship_name"];
+//                [orderEdit.addressDic setObject:[selectedAddress objectForKey:@"telphone"] forKey:@"ship_tel"];
+//                [orderEdit.addressDic setObject:[selectedAddress objectForKey:@"addr_id"] forKey:@"addr_id"];
+//                [orderEdit.addressDic setObject:displayArea forKey:@"displayArea"];
+//                UINavigationController *orderNav = [[UINavigationController alloc]initWithRootViewController:orderEdit];
+//                [orderNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+//                if([orderNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+//                {
+//                    [orderNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+//                }
+//                [self.navigationController presentModalViewController:orderNav animated:YES];
             }
             
         }
@@ -167,7 +183,7 @@
         NSLog(@"%@",error);
     }];
     [ApplicationDelegate.appEngine enqueueOperation:op];
-    [hud hide:YES];
+    //[hud hide:YES];
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -184,7 +200,6 @@
         {
             UserModel *user = [UserModel getUserModel];
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"user_delAddressInfo",@"act",user.session,@"sessionId",user.userid,@"userId",[oneAddress objectForKey:@"addr_id"],@"addr_id", nil];
-            NSLog(@"地址:%@",[oneAddress objectForKey:@"addr"]);
             MKNetworkOperation *op = [YMGlobal getOperation:params];
             [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
                 SBJsonParser *parser = [[SBJsonParser alloc]init];
@@ -192,7 +207,6 @@
                 if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
                 {
                     NSLog(@"删除成功");
-                    NSLog(@"%@",obj);
                 }
                 else{
                     NSLog(@"删除失败");

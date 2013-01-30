@@ -27,7 +27,6 @@
 + (void)createTable;
 // sqlite上清除用户表
 + (void)clearTable;
-//建立一个用户地址表
-+(void)createAddressTable;
-
+//注销表
++(void)dropTable;
 @end

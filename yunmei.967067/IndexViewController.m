@@ -40,7 +40,6 @@
 {
     [super viewDidLoad];
     MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    
     // 初始化广告
     self.adScrollView.contentSize = CGSizeMake(320, 129);
     self.adScrollView.pagingEnabled = TRUE;

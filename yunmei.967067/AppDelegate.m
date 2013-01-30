@@ -22,7 +22,7 @@
 @implementation AppDelegate
 
 @synthesize appEngine;
-
+@synthesize delegate;
 //- (BOOL)isSingleTask{
 //	struct utsname name;
 //	uname(&name);
@@ -90,6 +90,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openLoginView:) name:@"INeedToLogin" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRespondsLogin:) name:@"UserRespondsLogin" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToAddress:) name:@"addOneAddress" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payStatus:) name:@"payStatus" object:nil];
     [self statisGoodsCar:self.tabBarController];
 //    /*
 //	 *单任务handleURL处理
@@ -158,6 +159,17 @@
     }
 }
 
+-(void)payStatus:(NSNotification *)note
+{
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[MyViewController alloc] initWithNibName:@"MyViewController" bundle:nil]];
+    [navController.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+    if ([navController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [navController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+    }
+    [self.tabBarController.selectedViewController presentModalViewController:navController animated:YES];
+
+}
+
 //统计购物车数量
 -(void)statisGoodsCar:(UITabBarController *)tabBarController
 {
@@ -172,7 +184,7 @@
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
 	
     NSLog(@"getget");
-	//[self parseURL:url application:application];
+	[self parseURL:url application:application];
     
 	return YES;
 }
@@ -181,44 +193,62 @@
 {
 	AlixPay *alixpay = [AlixPay shared];
 	AlixPayResult *result = [alixpay handleOpenURL:url];
-//	if (result) {
+    NSLog(@"resultString%@",result.resultString);
+    NSLog(@"result.signString%@",result.signString);
+	if (result) {
 //		//是否支付成功
-////		if (9000 == result.statusCode) {
-////			/*
-////			 *用公钥验证签名
-////			 */
-////			id<DataVerifier> verifier = CreateRSADataVerifier([[NSBundle mainBundle] objectForInfoDictionaryKey:@"RSA public key"]);
-////			if ([verifier verifyString:result.resultString withSign:result.signString]) {
-////				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
-////																	 message:result.statusMessage
-////																	delegate:nil
-////														   cancelButtonTitle:@"确定"
-////														   otherButtonTitles:nil];
-////				[alertView show];
-////				[alertView release];
-////			}//验签错误
-////			else {
-////				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
-////																	 message:@"签名错误"
-////																	delegate:nil
-////														   cancelButtonTitle:@"确定"
-////														   otherButtonTitles:nil];
-////				[alertView show];
-////				[alertView release];
-////			}
-////		}
-////		//如果支付失败,可以通过result.statusCode查询错误码
-////		else {
-////			UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
-////																 message:result.statusMessage
-////																delegate:nil
-////													   cancelButtonTitle:@"确定"
-////													   otherButtonTitles:nil];
-////			[alertView show];
-////			[alertView release];
-////		}
-////		
-//	}
+		if (9000 == result.statusCode) {
+			/*
+			 *用公钥验证签名
+			 */
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"system_getVerify",@"act",result.resultString,@"content",result.signString,@"sign", nil];
+            MKNetworkOperation *op = [YMGlobal getOperation:params];
+            [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+                SBJsonParser *parser = [[SBJsonParser alloc]init];
+                NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+                if([obj objectForKey:@"data"])
+                {
+                    [self.delegate checkPayStatus:YES];
+                    IndexViewController *indexView = [[IndexViewController alloc]init];
+                    [self.navigationController presentViewController:indexView animated:YES completion:NULL];
+                    
+                }else{
+                    NSLog(@"签名失败");
+                }
+            } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+                NSLog(@"%@",error);
+            }];
+            [ApplicationDelegate.appEngine enqueueOperation:op];
+//			if () {
+//				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+//																	 message:result.statusMessage
+//																	delegate:nil
+//														   cancelButtonTitle:@"确定"
+//														   otherButtonTitles:nil];
+//				[alertView show];
+//				[alertView release];
+//			}//验签错误
+//			else {
+//				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+//																	 message:@"签名错误"
+//																	delegate:nil
+//														   cancelButtonTitle:@"确定"
+//														   otherButtonTitles:nil];
+//				[alertView show];
+//				[alertView release];
+//			}
+		}
+		//如果支付失败,可以通过result.statusCode查询错误码
+		else {
+			UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+																 message:result.statusMessage
+																delegate:nil
+													   cancelButtonTitle:@"确定"
+													   otherButtonTitles:nil];
+			[alertView show];
+		}
+		
+	}
 //        NSLog(@"%@",result);
 }
 

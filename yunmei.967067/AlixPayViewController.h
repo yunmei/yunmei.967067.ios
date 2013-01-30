@@ -14,7 +14,9 @@
 #import "MBProgressHUD.h"
 #import "SBJson.h"
 #import "AppDelegate.h"
-@interface AlixPayViewController : UIViewController<UIAlertViewDelegate>
+#import "UserModel.h"
+#import "PayStatus.h"
+@interface AlixPayViewController : UIViewController<UIAlertViewDelegate,PayStatus>
 //商品名称
 @property(strong,nonatomic)NSString *subject;
 //商品描述
@@ -24,4 +26,5 @@
 //订单号
 @property(strong,nonatomic)NSString *out_trade_no;
 @property(strong,nonatomic)NSString *sign;
+@property BOOL payStatus;
 @end

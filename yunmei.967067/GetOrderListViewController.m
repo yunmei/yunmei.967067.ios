@@ -189,7 +189,6 @@
     NSLog(@"%@",[oneOrder objectForKey:@"orderId"]);
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"order_getTrackData",@"act", [oneOrder objectForKey:@"orderId"],@"orderId",nil];
     MKNetworkOperation *op = [YMGlobal getOperation:params];
-    NSLog(@"%@",op);
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         SBJsonParser *parser = [[SBJsonParser alloc]init];
         NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];

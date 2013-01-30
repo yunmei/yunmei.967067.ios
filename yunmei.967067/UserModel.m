@@ -29,6 +29,7 @@
 + (void)logout
 {
     [UserModel clearTable];
+    [UserModel dropTable];
 }
 
 + (UserModel *)getUserModel
@@ -55,21 +56,10 @@
     if([db connect])
     {
         [db exec:@"CREATE TABLE IF NOT EXISTS user ('user_id', 'username', 'password', 'is_login', 'session');"];
-        [db exec:@"CREATE TABLE IF NOT EXISTS user_address ('user_id', 'addr', 'addr_id', 'city', 'city_id','district','district_id','is_default','mobile','name','province','province_id','telphone','zip');"];
         [db close];
     }
 }
 
-+(void)createAddressTable
-{
-    YMDbClass *db = [[YMDbClass alloc]init];
-    if([db connect])
-    {
-        [db exec:@"CREATE TABLE IF NOT EXISTS user_address ('user_id', 'addr', 'addr_id', 'city', 'city_id','district','district_id','is_default','mobile','name','province','province_id','telphone','zip');"];
-        [db exec:@"DELETE FROM user_address"];
-        [db close];
-    }
-}
 
 + (void)clearTable
 {
@@ -77,7 +67,16 @@
     if([db connect])
     {
         [db exec:@"delete from user;"];
-        [db exec:@"delete from  user_address"];
+        [db close];
+    }
+}
+
++(void)dropTable
+{
+    YMDbClass *db = [[YMDbClass alloc]init];
+    if([db connect])
+    {
+        [db exec:@"drop table if exists user;"];
         [db close];
     }
 }

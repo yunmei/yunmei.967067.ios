@@ -48,8 +48,9 @@
         NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
         if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
         {
+            [hud hide:YES];
             NSMutableDictionary *data = [obj objectForKey:@"data"];
-            [self.orderIdLable setText:[data objectForKey:@"orderid"]];
+            [self.orderIdLable setText:[NSString stringWithFormat:@"%@",[data objectForKey:@"orderid"]]];
             UILabel *orderSubmitSuccessLable = [[UILabel alloc]initWithFrame:CGRectMake(95, 180, 200, 30)];
             [orderSubmitSuccessLable setFont:[UIFont systemFontOfSize:14.0]];
             [orderSubmitSuccessLable setTextColor:[UIColor redColor]];
@@ -76,6 +77,7 @@
                 [db close];
             }
         }else{
+            [hud hide:YES];
             UILabel *orderSubmitSuccessLable = [[UILabel alloc]initWithFrame:CGRectMake(95, 180, 200, 30)];
             [orderSubmitSuccessLable setFont:[UIFont systemFontOfSize:14.0]];
             [orderSubmitSuccessLable setTextColor:[UIColor redColor]];
@@ -83,10 +85,10 @@
             [self.view addSubview:orderSubmitSuccessLable];
         }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        [hud hide:YES];
         NSLog(@"%@",error);
     }];
     [ApplicationDelegate.appEngine enqueueOperation:op];
-    [hud hide:YES];
     UIImageView *orderSuccessImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ordersuccesslogo"]];
     UIView *imageContainer = [[UIView alloc]initWithFrame:CGRectMake(70, 60, 140, 140)];
     [imageContainer addSubview:orderSuccessImg];
@@ -130,7 +132,6 @@
     alixPayView.out_trade_no = self.orderIdLable.text;
     if(self.payAmount)
     {
-        NSLog(@"payfee%@",self.payAmount);
         alixPayView.total_fee = self.payAmount;
         UINavigationController *alixNav = [[UINavigationController alloc]initWithRootViewController:alixPayView];
         [alixNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
@@ -140,7 +141,6 @@
         }
         [self.navigationController presentModalViewController:alixNav animated:YES];
     }
-
 }
 
 -(void)bindSqlist
