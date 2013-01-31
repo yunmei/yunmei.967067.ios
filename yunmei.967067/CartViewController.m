@@ -310,12 +310,10 @@ bool cancleBuPressed = NO;
                 [container addSubview:emptyString];
                 //去逛逛
                 //去逛逛
-                UIButton * goToSee = [UIButton buttonWithType:UIButtonTypeCustom];
-                [goToSee setFrame:CGRectMake(100, 250, 110, 30)];
+                UIButton * goToSee = [[UIButton alloc]initWithFrame:CGRectMake(100, 250, 110, 30)];
                 [goToSee setTitle:@"去逛逛" forState:UIControlStateNormal];
                 [goToSee addTarget:self action:@selector(goTooSee:) forControlEvents:UIControlEventTouchUpInside];
                 [goToSee setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
-                [goToSee setBackgroundColor:[UIColor redColor]];
                 [cell addSubview:container];
                 [cell  addSubview:goToSee];
             }

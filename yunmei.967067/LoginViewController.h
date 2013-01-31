@@ -14,8 +14,12 @@
 #import "UserModel.h"
 #import "MBProgressHUD.h"
 #import "YMDbClass.h"
-@interface LoginViewController : UIViewController<UITextFieldDelegate>
+@interface LoginViewController : UIViewController<
+UITextFieldDelegate,
+UITableViewDataSource,
+UITableViewDelegate>
 
+@property (strong, nonatomic) IBOutlet UITableView *loginTableView;
 @property (strong, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (strong, nonatomic) IBOutlet UIButton *loginBtn;

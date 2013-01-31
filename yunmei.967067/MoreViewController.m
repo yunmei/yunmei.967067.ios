@@ -174,6 +174,8 @@
             self.navigationItem.backBarButtonItem = backItem;
             [self.navigationController pushViewController:userSurggestView animated:YES];
         }
+    }else if (indexPath.section == 0){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.967067.cn"]];
     }
 }
 

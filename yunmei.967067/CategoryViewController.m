@@ -101,7 +101,8 @@
         cell.categoryName.text = cellItemCat.catName;
         cell.catDesc.text = cellItemCat.catDesc;
         cell.catDesc.textColor = [UIColor grayColor];
-        cell.catDesc.font = [UIFont boldSystemFontOfSize:17.0];
+        cell.catDesc.font = [UIFont systemFontOfSize:12.0];
+        [cell.catDesc setNumberOfLines:0];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         [cell.catImageView setImage:[UIImage imageNamed:@"goods_default"]];

@@ -37,15 +37,17 @@ bool agreedDelegate = YES;
     [super viewDidLoad];
     [self.registerBtn addTarget:self action:@selector(userRegister) forControlEvents:UIControlEventTouchUpInside];
     [self.cancelBtn addTarget:self action:@selector(registerCancel) forControlEvents:UIControlEventTouchUpInside];
-    UIButton *aggreementSelectButton = [[UIButton alloc]initWithFrame:CGRectMake(24, 257, 20, 20)];
+    UIButton *aggreementSelectButton = [[UIButton alloc]initWithFrame:CGRectMake(24, 206, 20, 20)];
     [aggreementSelectButton setBackgroundImage:[UIImage imageNamed:@"RadioButton-Selected"] forState:UIControlStateNormal];
     [aggreementSelectButton addTarget:self action:@selector(aggreeButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    UILabel *agreeString = [[UILabel alloc]initWithFrame:CGRectMake(45, 257, 40, 20)];
+    UILabel *agreeString = [[UILabel alloc]initWithFrame:CGRectMake(45, 206, 40, 20)];
     [agreeString setText:@"同意"];
     [agreeString setBackgroundColor:[UIColor clearColor]];
     [agreeString setFont:[UIFont systemFontOfSize:14.0]];
     [self.view addSubview:agreeString];
     [self.view addSubview:aggreementSelectButton];
+    self.registerTableView.backgroundView = nil;
+    self.registerTableView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -143,6 +145,7 @@ bool agreedDelegate = YES;
     [self setEmailTextField:nil];
     [self setRegisterBtn:nil];
     [self setCancelBtn:nil];
+    [self setRegisterTableView:nil];
     [super viewDidUnload];
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField
@@ -192,5 +195,27 @@ bool agreedDelegate = YES;
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 4;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"identifier"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
 }
 @end

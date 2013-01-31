@@ -51,6 +51,9 @@
     
     [self.registerBtn addTarget:self action:@selector(userRegister) forControlEvents:UIControlEventTouchUpInside];
     [self.loginBtn addTarget:self action:@selector(userLogin) forControlEvents:UIControlEventTouchUpInside];
+    self.loginTableView.layer.cornerRadius = 1.0;
+    self.loginTableView.backgroundView = nil;
+    self.loginTableView.backgroundColor = [UIColor clearColor];
     [UserModel createTable];
 }
 
@@ -130,21 +133,22 @@
     [self setPasswordTextField:nil];
     [self setLoginBtn:nil];
     [self setRegisterBtn:nil];
+    [self setLoginTableView:nil];
     [super viewDidUnload];
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    CGFloat height = self.view.center.y;
-    CGFloat width = self.view.frame.size.width;
-    [self.view setCenter:CGPointMake(width/2, height-100)];
+//    CGFloat height = self.view.center.y;
+//    CGFloat width = self.view.frame.size.width;
+//    [self.view setCenter:CGPointMake(width/2, height-100)];
     [self.view addGestureRecognizer:self.tapGestureRecgnizer];
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    CGFloat height = self.view.frame.size.height/2;
-    CGFloat width = self.view.frame.size.width/2;
-    [self.view setCenter:CGPointMake(width, height)];
+//    CGFloat height = self.view.frame.size.height/2;
+//    CGFloat width = self.view.frame.size.width/2;
+//    [self.view setCenter:CGPointMake(width, height)];
     [self.view removeGestureRecognizer:self.tapGestureRecgnizer];
 }
 -(UITapGestureRecognizer *)tapGestureRecgnizer
@@ -167,5 +171,27 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+        UITableViewCell * cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
 }
 @end

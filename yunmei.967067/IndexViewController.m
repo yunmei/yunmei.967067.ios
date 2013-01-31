@@ -212,14 +212,18 @@
     int y = 0;
     for (GoodsModel *o in self.goodsList) {
         if (i <= 3) {
-            x = (i - 1) * 105;
+            x = (i - 1) * 107;
             y = 0;
-        } else {
-            x = (i - 4) * 105;
+        } else if(i>6) {
+            x = (i - 7) * 107;
+            y = 220;
+        }else{
+            x = (i -4) *107;
             y = 110;
         }
-        UIView *tempView = [[UIView alloc]initWithFrame:CGRectMake(x, y, 100, 100)];
-        
+        UIView *tempView = [[UIView alloc]initWithFrame:CGRectMake(x, y, 107, 110)];
+        tempView.layer.borderColor = [YMUIButton CreateCGColorRef:170.0 greenNumber:170.0 blueNumber:170.0 alphaNumber:1.0];
+        tempView.layer.borderWidth = 0.5;
         UIButton *imageBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 0, 80, 80)];
         [imageBtn setTag:i];
         [imageBtn setBackgroundImage:[UIImage imageNamed:@"goods_default"] forState:UIControlStateNormal];

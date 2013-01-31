@@ -12,7 +12,10 @@
 #import "AppDelegate.h"
 #import "YMDbClass.h"
 #import "LicenseViewController.h"
-@interface RegisterViewController : UIViewController<UITextFieldDelegate>
+@interface RegisterViewController : UIViewController<
+UITextFieldDelegate,
+UITableViewDataSource,
+UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -22,6 +25,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *cancelBtn;
 @property(strong,nonatomic)UITapGestureRecognizer *tapGestureRecgnizer;
 
+@property (strong, nonatomic) IBOutlet UITableView *registerTableView;
 
 
 @end

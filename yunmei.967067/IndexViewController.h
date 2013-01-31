@@ -16,6 +16,8 @@
 #import "MBProgressHUD.h"
 #import "SBJson.h"
 #import "GoodsModel.h"
+#import <QuartzCore/QuartzCore.h>
+#import "YMUIButton.h"
 @interface IndexViewController : UIViewController <UIScrollViewDelegate, ZBarReaderDelegate>
 
 @property (strong, nonatomic) IBOutlet UIScrollView *adScrollView;
