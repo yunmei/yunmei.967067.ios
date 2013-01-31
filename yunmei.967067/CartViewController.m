@@ -39,6 +39,7 @@ bool cancleBuPressed = NO;
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self bindCarWithGoodsList];
     [self.goodsTableView reloadData];
 }
 

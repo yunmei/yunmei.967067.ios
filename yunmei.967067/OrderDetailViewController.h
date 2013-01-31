@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "YMGlobal.h"
-
+#import "AlixPayViewController.h"
 @interface OrderDetailViewController : UIViewController<
 UITableViewDataSource,
 UITableViewDelegate,

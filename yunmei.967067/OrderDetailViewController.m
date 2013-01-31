@@ -28,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"%@",self.orderData);
     CGFloat height = 380+[[self.orderData objectForKey:@"goods"] count]*110;
     self.rootScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, 366)];
     self.rootScrollView.scrollEnabled = YES;
@@ -265,8 +266,16 @@
 
 -(void)buyNow:(id)sender
 {
-    NSString *orderId = [self.orderData objectForKey:@"orderId"];
-    NSLog(@"orderid%@",orderId);
+    AlixPayViewController *alixPayView = [[AlixPayViewController alloc]initWithNibName:@"AlixPayViewController" bundle:nil];
+    alixPayView.out_trade_no = [self.orderData objectForKey:@"orderId"];
+        alixPayView.total_fee = [self.orderData objectForKey:@"final_amount"];;
+        UINavigationController *alixNav = [[UINavigationController alloc]initWithRootViewController:alixPayView];
+        [alixNav.navigationBar setTintColor:[UIColor colorWithRed:237/255.0f green:144/255.0f blue:6/255.0f alpha:1]];
+        if([alixNav.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+        {
+            [alixNav.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics: UIBarMetricsDefault];
+        }
+        [self.navigationController presentModalViewController:alixNav animated:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

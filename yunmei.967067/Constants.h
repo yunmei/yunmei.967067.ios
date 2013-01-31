@@ -15,3 +15,4 @@
 #define URL_HELP        @"http://www.967067.cn/waphelp/index.php"
 
 #define DB_NAME         @"yunmei.db"
+#define SYS_VERSION     @"2"

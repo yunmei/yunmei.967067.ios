@@ -121,9 +121,9 @@
         }
         if([[oneOrder objectForKey:@"ship_status"]isEqualToString:@"0"])
         {
-            [cell.orderState setText:@"订单状态 : 未支付"];
+            [cell.orderState setText:@"发货状态 : 未发货"];
         }else{
-            [cell.orderState setText:@"订单状态 : 已支付"];
+            [cell.orderState setText:@"发货状态 : 已发货"];
         }
         [cell.orderState setBackgroundColor:[UIColor clearColor]];
         [cell addSubview:cell.orderState];

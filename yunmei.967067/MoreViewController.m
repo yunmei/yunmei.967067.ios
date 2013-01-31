@@ -13,7 +13,7 @@
 @end
 
 @implementation MoreViewController
-
+@synthesize downloadURl;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -143,7 +143,31 @@
             self.navigationItem.backBarButtonItem = backItem;
             [self.navigationController pushViewController:helplistView animated:YES];
         }else if (indexPath.row ==1){
-            
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"help_getVersion",@"act",@"1",@"type", nil];
+            MKNetworkOperation *op = [YMGlobal getOperation:params];
+            [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+                SBJsonParser *parser = [[SBJsonParser alloc]init];
+                NSMutableDictionary *obj = [parser objectWithData:[completedOperation responseData]];
+                if([[obj objectForKey:@"errorMessage"]isEqualToString:@"success"])
+                {
+                    NSMutableDictionary *data = [obj objectForKey:@"data"];
+                      NSLog(@"%@",data);
+                    if([[data objectForKey:@"name"]isEqualToString:SYS_VERSION])
+                    {
+                        UIAlertView *alert1 = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的版本已是最新" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                        alert1.tag =1;
+                        [alert1 show];
+                    }else{
+                        self.downloadURl = [NSString stringWithFormat:@"%@",[data objectForKey:@"download"]];
+                        UIAlertView *alert2 = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"检测到新版本，是否更新？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                        alert2.tag =2;
+                        [alert2 show];
+                    }
+                }
+            } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+                NSLog(@"%@",[completedOperation responseData]);
+            }];
+            [ApplicationDelegate.appEngine enqueueOperation:op];
         }else{
             UserSurggestViewController *userSurggestView = [[UserSurggestViewController alloc]init];
             UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
@@ -157,5 +181,13 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(alertView.tag == 2)
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.downloadURl]];
+    }
 }
 @end

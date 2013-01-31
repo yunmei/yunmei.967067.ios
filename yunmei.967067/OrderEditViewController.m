@@ -478,7 +478,7 @@ bool payAfterCustomerGetGoods = YES;
        YMDbClass *db = [[YMDbClass alloc]init];
        if([db connect])
        {
-            [[self.tabBarController.tabBar.items objectAtIndex:2] setBadgeValue:[db count_sum:@"goodslist_car" tablefiled:@"goods_count"]];
+            [[self.tabBarController.tabBar.items objectAtIndex:2] setBadgeValue:nil];
            [db close];
        }
 

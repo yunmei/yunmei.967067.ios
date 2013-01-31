@@ -10,8 +10,10 @@
 #import "UserModel.h"
 #import "HelpWebViewController.h"
 #import "UserSurggestViewController.h"
+#import "Constants.h"
 @interface MoreViewController : UIViewController<
 UITableViewDataSource,
-UITableViewDelegate>
-
+UITableViewDelegate,
+UIAlertViewDelegate>
+@property(strong,nonatomic)NSString *downloadURl;
 @end
