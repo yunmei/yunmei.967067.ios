@@ -805,11 +805,11 @@ NSInteger beforePressedParamBtnHeadNum =0;
 //绑定toobar确认按钮
 -(void)confirmBtnClick:(id)sender
 {
-    if(self.firstResponderTextFeild.text == @"0")
+    if([self.firstResponderTextFeild.text isEqualToString: @"0"])
     {
         [self.firstResponderTextFeild setText:@"1"];
     }
-    if(self.firstResponderTextFeild.text == @"")
+    if([self.firstResponderTextFeild.text isEqualToString:@""])
     {
         [self.firstResponderTextFeild setText:@"1"];
     }
