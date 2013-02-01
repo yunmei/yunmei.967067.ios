@@ -340,7 +340,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
         if(indexPath.section ==0)
         {
             NSMutableDictionary *value = self.goodsModel.property;
-            return [value count]*25;
+            return [value count]*23;
         }else{
             return  30;
         }     
