@@ -37,6 +37,8 @@
 @synthesize codeNumber;
 @synthesize carBackToInfo = _carBackToInfo;
 @synthesize carBackSpecArr = _carBackSpecArr;
+@synthesize rightMoveBtn;
+@synthesize leftMoveBtn;
 //判断立即购买是否可用
 bool buyBtnIsUseful =NO;
 bool multipalSpec = NO;
@@ -68,7 +70,6 @@ NSInteger beforePressedParamBtnHeadNum =0;
         NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
        if([(NSString *)[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
        {
-           NSLog(@"%@",[object objectForKey:@"data"]);
            NSMutableArray *dataArr = [object objectForKey:@"data"];
            NSMutableDictionary *dataDic = [dataArr objectAtIndex:0];
            self.goodsModel.goodsCode = [dataDic objectForKey:@"goodsCode"];
@@ -142,8 +143,11 @@ NSInteger beforePressedParamBtnHeadNum =0;
     [imageOp addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         SBJsonParser *imageParser = [[SBJsonParser alloc]init];
         NSMutableDictionary *object = [imageParser objectWithData:[completedOperation responseData]];
-        self.goodsImagesArr = [NSArray arrayWithArray:[object objectForKey:@"data"]];
-        [self displayImages];
+        if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
+        {
+            self.goodsImagesArr = [NSArray arrayWithArray:[object objectForKey:@"data"]];
+            [self displayImages];
+        }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"%@",error);
     }];
@@ -178,6 +182,10 @@ NSInteger beforePressedParamBtnHeadNum =0;
             [self.goodsImageScrollView addSubview:goodsImageView];
             numb ++;
         }
+    }
+    if(self.goodsImageScrollView.contentSize.width >258)
+    {
+        self.rightMoveBtn.hidden = NO;
     }
 }
 
@@ -399,20 +407,22 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 [imageViewChangeScroll setImage:[UIImage imageNamed:@"ad_default"]];
                 [self.goodsImageScrollView addSubview:imageViewChangeScroll];
                 //给滚动图片左边加一个向左小箭头
-                UIButton *leftMoveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                [leftMoveBtn setFrame:CGRectMake(8, 79, 20, 24)];
-                [leftMoveBtn setBackgroundImage:[UIImage imageNamed:@"moveLeft.png"] forState:UIControlStateNormal];
+                self.leftMoveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [self.leftMoveBtn setFrame:CGRectMake(8, 79, 20, 24)];
+                [self.leftMoveBtn setBackgroundImage:[UIImage imageNamed:@"moveLeft.png"] forState:UIControlStateNormal];
                 //为这个箭头绑定一个事件
-                [leftMoveBtn addTarget:self action:@selector(leftMoveBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+                [self.leftMoveBtn addTarget:self action:@selector(leftMoveBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
                 //给滚动图片左边加一个向右小箭头
-                UIButton *rightMoveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                [rightMoveBtn setFrame:CGRectMake(293, 79, 20, 24)];
-                [rightMoveBtn setBackgroundImage:[UIImage imageNamed:@"moveRight.png"] forState:UIControlStateNormal];
+                self.rightMoveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [self.rightMoveBtn setFrame:CGRectMake(293, 79, 20, 24)];
+                [self.rightMoveBtn setBackgroundImage:[UIImage imageNamed:@"moveRight.png"] forState:UIControlStateNormal];
                 //为这个箭头绑定一个事件
-                [rightMoveBtn addTarget:self action:@selector(rightMoveBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+                [self.rightMoveBtn addTarget:self action:@selector(rightMoveBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
                 [cell addSubview:self.goodsImageScrollView];
-                [cell addSubview:rightMoveBtn];
-                [cell addSubview:leftMoveBtn];
+                [cell addSubview:self.rightMoveBtn];
+                [cell addSubview:self.leftMoveBtn];
+                self.rightMoveBtn.hidden = YES;
+                self.leftMoveBtn.hidden = YES;
             }
             return cell;
         }else if(indexPath.row ==1)
@@ -835,12 +845,15 @@ NSInteger beforePressedParamBtnHeadNum =0;
 //为向左移动小箭头绑定事件
 -(void)leftMoveBtnPressed:(id)sender
 {
+
     int offsetWidth = self.goodsImageScrollView.contentOffset.x;
-    if((offsetWidth == 258)||(offsetWidth < 258))
+    if(offsetWidth == 0)
     {
-        [self.goodsImageScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        self.leftMoveBtn.hidden = YES;
+        self.rightMoveBtn.hidden = NO;
     }else{
         [self.goodsImageScrollView setContentOffset:CGPointMake(offsetWidth-258, 0) animated:YES];
+         self.rightMoveBtn.hidden = NO;
     }
 }
 
@@ -849,12 +862,14 @@ NSInteger beforePressedParamBtnHeadNum =0;
 {
     int offsetWidth = self.goodsImageScrollView.contentOffset.x;
     int offsetRetain = self.goodsImageScrollView.contentSize.width-offsetWidth;
-    if((offsetRetain == 258)||(offsetRetain < 258))
+    if(offsetRetain == 258)
     {
-        [self.goodsImageScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+         self.rightMoveBtn.hidden = YES;
+        self.leftMoveBtn.hidden = NO;
     }else{
         [self.goodsImageScrollView setContentOffset:CGPointMake(offsetWidth+258, 0) animated:YES];
-    }   
+        self.leftMoveBtn.hidden = NO;
+    }
 }
 
 //拼接字符串
@@ -926,7 +941,6 @@ NSInteger beforePressedParamBtnHeadNum =0;
 {
     if([self.carBackToInfo count] >0)
     {
-        NSLog(@"%@",self.carBackToInfo);
         NSString *proid = [self.carBackToInfo objectForKey:@"pro_id"];
         self.selectedProduct = self.carBackToInfo;
         buyBtnIsUseful = YES;
@@ -945,7 +959,6 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 }
             }
         }
-        NSLog(@"%@",self.carBackSpecArr);
     }
 }
 

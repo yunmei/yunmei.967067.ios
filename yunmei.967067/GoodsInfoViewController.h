@@ -65,6 +65,8 @@
 @property(strong,nonatomic)NSMutableDictionary *carBackToInfo;
 //这个数组里面为由购物车传递回来的数据形成的属性按钮选择的标识，再页面加载的时候，根据这些标识表明选择了哪些属性
 @property(strong,nonatomic)NSMutableArray *carBackSpecArr;
+@property(strong,nonatomic)UIButton *leftMoveBtn;
+@property(strong,nonatomic)UIButton *rightMoveBtn;
 -(void)chiMaCliked:(id)sender;
 
 @end
