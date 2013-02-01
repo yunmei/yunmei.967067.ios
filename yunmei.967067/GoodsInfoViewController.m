@@ -133,6 +133,10 @@ NSInteger beforePressedParamBtnHeadNum =0;
             [self carBack];
            [self.goodsTableView reloadData];
            [self.goodsDetailTableView reloadData];
+       }else{
+           UIAlertView *alert1 = [[UIAlertView alloc]initWithTitle:@"提示" message:@"该商品已下架，请重新选择" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+           alert1.tag = 1;
+           [alert1 show];
        }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         NSLog(@"Error:%@",error);
@@ -636,6 +640,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
                 [cell addSubview:self.goodsDetailTableView];
             }else{
                  self.codeNumber.text = self.goodsModel.goodsCode;
+                NSLog(@"goodsModel.property%@",self.goodsModel.property);
             }
             return  cell;
         }
@@ -967,7 +972,7 @@ NSInteger beforePressedParamBtnHeadNum =0;
     if(![UserModel checkLogin])
     {
         UIActionSheet *actions = [[UIActionSheet alloc]initWithTitle:@"提醒:你需要先登陆" delegate:self cancelButtonTitle:@"确定" destructiveButtonTitle:@"取消" otherButtonTitles:nil,nil];
-        [actions showInView:self.view];
+        [actions showInView:self.tabBarController.tabBar];
     }else{
         MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.navigationController.view];
         UserModel *user = [UserModel getUserModel];
@@ -1004,5 +1009,13 @@ NSInteger beforePressedParamBtnHeadNum =0;
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(alertView.tag == 1)
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 @end

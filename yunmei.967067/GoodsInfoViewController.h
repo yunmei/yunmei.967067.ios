@@ -22,7 +22,8 @@
     UITextFieldDelegate,
     UIScrollViewDelegate,
     UIAlertViewDelegate,
-    UIActionSheetDelegate
+    UIActionSheetDelegate,
+    UIAlertViewDelegate
 >
 //在用户选择完产品的规格以后，将需要更改显示的产品的属性作为该视图的一种属性
 @property(strong,nonatomic)UILabel *nameLable;

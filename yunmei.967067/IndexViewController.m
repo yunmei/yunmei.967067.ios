@@ -323,6 +323,7 @@
     GoodsModel *goodsModel = [self.goodsList objectAtIndex:position];
     goodsInfoView.navigationItem.title = @"商品详情";
     goodsInfoView.goodsId = goodsModel.goodsId;//2572
+    NSLog(@"goodsId%@",goodsInfoView.goodsId);
     [self.navigationController pushViewController:goodsInfoView animated:YES];
 }
 
