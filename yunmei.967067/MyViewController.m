@@ -141,7 +141,10 @@
         [self.navigationController presentModalViewController:addressListNav animated:YES];
         
     }else if (indexPath.row ==3){
-        
+        getMessageListViewController *getMessageListView = [[getMessageListViewController alloc]init];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:nil];
+        self.navigationItem.backBarButtonItem = backItem;
+        [self.navigationController pushViewController:getMessageListView animated:YES];
     }
 }
 - (void)didReceiveMemoryWarning

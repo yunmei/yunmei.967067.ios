@@ -14,6 +14,7 @@
 #import "GetAddressListViewController.h"
 #import "GetOrderListViewController.h"
 #import "MyFavorViewController.h"
+#import "getMessageListViewController.h"
 @interface MyViewController : UIViewController <
 UIAlertViewDelegate,
 UITableViewDataSource,

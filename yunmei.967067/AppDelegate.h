@@ -24,4 +24,5 @@
 @property (strong, nonatomic) UITabBarController *tabBarController;
 @property (strong, nonatomic) UINavigationController *navigationController;
 @property (strong, nonatomic) MKNetworkEngine *appEngine;
++(BOOL)connectedToNetWork;
 @end

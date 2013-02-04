@@ -36,7 +36,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSLog(@"begin");
+    if(![AppDelegate connectedToNetWork])
+    {
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"Sorry!网络连接失败！请查看网络是否连接正常！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
     // 创建MKNetworkEngine
     self.appEngine= [[MKNetworkEngine alloc] initWithHostName:API_HOSTNAME customHeaderFields:nil];
     [self.appEngine useCache];
@@ -287,4 +291,32 @@
  {
  }
  */
+
+//测试网络连接
++(BOOL)connectedToNetWork
+{
+    //return NO;
+    // Create zero addy
+    struct sockaddr_in zeroAddress;
+    bzero(&zeroAddress, sizeof(zeroAddress));//bzero:设置zeroaddress为0。且包括‘\0’
+    zeroAddress.sin_len = sizeof(zeroAddress);
+    zeroAddress.sin_family = AF_INET;
+    
+    // Recover reachability flags
+    SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&zeroAddress);
+    SCNetworkReachabilityFlags flags;
+    
+    BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
+    CFRelease(defaultRouteReachability);
+    
+    if (!didRetrieveFlags)
+    {
+        printf("Error. Could not recover network reachability flags\n");
+        return NO;
+    }
+    
+    BOOL isReachable = ((flags & kSCNetworkFlagsReachable) != 0);
+    BOOL needsConnection = ((flags & kSCNetworkFlagsConnectionRequired) != 0);
+    return (isReachable && !needsConnection) ? YES : NO;
+}
 @end

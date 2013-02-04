@@ -182,6 +182,8 @@
 		AADE363416B36DA600EE8530 /* lightYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = AADE363316B36DA600EE8530 /* lightYellow.png */; };
 		AADE363816B37D5A00EE8530 /* TrackOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AADE363616B37D5A00EE8530 /* TrackOrderViewController.m */; };
 		AADE363916B37D5A00EE8530 /* TrackOrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AADE363716B37D5A00EE8530 /* TrackOrderViewController.xib */; };
+		AAE6B27E16BB8E2B009DBC34 /* getMessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6B27C16BB8E2B009DBC34 /* getMessageListViewController.m */; };
+		AAE6B27F16BB8E2B009DBC34 /* getMessageListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAE6B27D16BB8E2B009DBC34 /* getMessageListViewController.xib */; };
 		AAF3451016993EEF00B4AD24 /* empty_cart_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AAF3450F16993EEF00B4AD24 /* empty_cart_bg.png */; };
 /* End PBXBuildFile section */
 
@@ -466,6 +468,9 @@
 		AADE363616B37D5A00EE8530 /* TrackOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackOrderViewController.m; sourceTree = "<group>"; };
 		AADE363716B37D5A00EE8530 /* TrackOrderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackOrderViewController.xib; sourceTree = "<group>"; };
 		AAE68A6816A63F6C00C31F7F /* PassValueDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PassValueDelegate.h; sourceTree = "<group>"; };
+		AAE6B27B16BB8E2B009DBC34 /* getMessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getMessageListViewController.h; sourceTree = "<group>"; };
+		AAE6B27C16BB8E2B009DBC34 /* getMessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = getMessageListViewController.m; sourceTree = "<group>"; };
+		AAE6B27D16BB8E2B009DBC34 /* getMessageListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = getMessageListViewController.xib; sourceTree = "<group>"; };
 		AAF3450F16993EEF00B4AD24 /* empty_cart_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_cart_bg.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -912,6 +917,9 @@
 				AAD7F08B16AF6FA900869314 /* UserSurggestViewController.h */,
 				AAD7F08C16AF6FA900869314 /* UserSurggestViewController.m */,
 				AAD7F08D16AF6FA900869314 /* UserSurggestViewController.xib */,
+				AAE6B27B16BB8E2B009DBC34 /* getMessageListViewController.h */,
+				AAE6B27C16BB8E2B009DBC34 /* getMessageListViewController.m */,
+				AAE6B27D16BB8E2B009DBC34 /* getMessageListViewController.xib */,
 			);
 			name = MyCenter;
 			sourceTree = "<group>";
@@ -1184,6 +1192,7 @@
 				AADE363916B37D5A00EE8530 /* TrackOrderViewController.xib in Resources */,
 				AAD5E77616B8AF2500AD6F78 /* quickBuyBtn.png in Resources */,
 				AABB178B16B8E5F500633D0E /* define.png in Resources */,
+				AAE6B27F16BB8E2B009DBC34 /* getMessageListViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1283,6 +1292,7 @@
 				AAD7F08E16AF6FA900869314 /* UserSurggestViewController.m in Sources */,
 				AAC2C42916B225DC00C6D1F9 /* AlixPayViewController.m in Sources */,
 				AADE363816B37D5A00EE8530 /* TrackOrderViewController.m in Sources */,
+				AAE6B27E16BB8E2B009DBC34 /* getMessageListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
